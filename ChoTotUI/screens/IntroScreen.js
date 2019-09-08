@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
+import { StyleSheet, View, AsyncStorage } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
-
-import HomeScreen from '../screens/HomeScreen';
 
 const slides = [
   {
@@ -53,8 +51,36 @@ const slides = [
 
 export default class IntroScreen extends Component {
 
-  state = {
-    showRealApp: false
+  constructor(props) {
+    super(props);
+
+    this._checkFirstTimeOpenApp();
+    // this._resetFirstTimeOpenApp();
+  }
+
+  // Kiểm tra xem có phải lần đâu vào app không
+  _checkFirstTimeOpenApp = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@DaVaoApp');
+      console.log(value);
+
+      if (value !== null) {
+        this.props.navigation.navigate('Main');
+      } else {
+        await AsyncStorage.setItem('@DaVaoApp', 'true');
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  }
+
+  // Xoá bộ nhớ lưu biến DaVaoApp
+  _resetFirstTimeOpenApp = async () => {
+    try {
+      await AsyncStorage.removeItem('@DaVaoApp');
+    } catch (error) {
+
+    }
   }
 
   _renderNextButton = () => {
@@ -85,23 +111,21 @@ export default class IntroScreen extends Component {
   _onDone = () => {
     // User finished the introduction. Show real app through
     // navigation or simply by controlling state
-    this.setState({ showRealApp: true });
+    this.props.navigation.navigate('Main')
   }
 
   render() {
-    if (this.state.showRealApp) {
-      return <HomeScreen />;
-    } else {
-      return <AppIntroSlider
-        slides={slides}
-        showSkipButton={true}
-        onDone={this._onDone}
 
-        renderDoneButton={this._renderDoneButton}
-        renderNextButton={this._renderNextButton}
-      />;
-    }
+    return <AppIntroSlider
+      slides={slides}
+      showSkipButton={true}
+      onDone={this._onDone}
+
+      renderDoneButton={this._renderDoneButton}
+      renderNextButton={this._renderNextButton}
+    />;
   }
+
 }
 
 const styles = StyleSheet.create({
