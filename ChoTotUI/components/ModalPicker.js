@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView} from 'r
 
 import { Ionicons } from '@expo/vector-icons';
 
-import {Citys_VN, Citys} from '../utils/data';
+import {Cities_VN, Cities} from '../utils/data';
 
 import {change_alias} from '../utils/function';
 
@@ -25,7 +25,7 @@ export default class ModalPicker extends React.Component {
 
     render() {
         const input = change_alias(this.state.valueSearch.toLowerCase());
-        const option = Citys_VN.filter((city, index) => {return Citys[index].indexOf(input) != -1;}).map( (city) => {
+        const option = Cities_VN.filter((city, index) => {return Cities[index].indexOf(input) != -1;}).map( (city) => {
             return (
                 <TouchableOpacity onPress={() => this.props.choiceCity(city)} activeOpacity={0.5} style={styles.pickerItem} key={city}>
                     <Text style={{marginLeft: 30}}>{city}</Text>
