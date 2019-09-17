@@ -20,7 +20,7 @@ class CategoryButton extends Component {
           style={styles.img}
           source={imgSource}
         />
-        <LinearGradient colors={['#0007', 'transparent']} style={styles.gradientView}>
+        <LinearGradient colors={['#0005', 'transparent']} style={styles.gradientView}>
           <Text style={styles.text}>{text}</Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -39,8 +39,11 @@ const styles = StyleSheet.create({
   text: {
     padding: 5,
     color: 'white',
-    // fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
+
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 5
   },
   img: {
     width: '100%',
