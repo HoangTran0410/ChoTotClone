@@ -43,7 +43,7 @@ export default class SearchBar extends Component {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: Colors.choTotColor
+    backgroundColor: Colors.choTotColor2
   },
   input: {
     margin: 10,

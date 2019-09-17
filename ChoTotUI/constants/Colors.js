@@ -11,5 +11,6 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
-  choTotColor: '#febe29'
+  choTotColor: '#febe29',
+  choTotColor2: '#FFBF17'
 };
