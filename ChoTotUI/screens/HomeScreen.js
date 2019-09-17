@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Image, StyleSheet, View, TouchableHighlight, Text } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { Container, Content, Row } from 'native-base';
 import Swiper from 'react-native-swiper';
 
 import Colors from '../constants/Colors';
 import SearchBar from "../components/SearchBar";
 import CategoryButton from '../components/CategoryButton';
-import { danhMuc } from '../utils/data';
+import { danhMuc, ads } from '../utils/data';
 
 const centerImgData = Math.floor(danhMuc.small.length / 2);
 
@@ -21,9 +21,24 @@ export default class HomeScreen extends Component {
       <Container>
         <SearchBar></SearchBar>
         <Content>
-          <TouchableHighlight onPress={this.onPressAds}>
-            <Image style={styles.adsImg} source={require('../assets/images/banners/buyer_collection_y_homepage_banner_1564111461475.jpg')} />
-          </TouchableHighlight>
+
+          <Swiper
+            autoplay={true}
+            showsButtons={true}
+            loadMinimal={true}
+            containerStyle={styles.adsWrapper}
+          >
+            {
+              ads.map(ad => {
+                return (
+                  <TouchableOpacity key={ad} style={styles.adsButton} onPress={this.onPressAds}>
+                    <Image style={styles.adsImg} source={ad.image} />
+                  </TouchableOpacity>
+                )
+              })
+            }
+          </Swiper>
+
 
           <Text style={styles.title}>Khám phá danh mục</Text>
 
@@ -85,27 +100,43 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
-
 const styles = StyleSheet.create({
+  adsWrapper: {
+    height: 130,
+    backgroundColor: Colors.choTotColor2,
+    paddingHorizontal: 10,
+    paddingBottom: 5,
+  },
+  adsButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   adsImg: {
     height: 120,
-    width: '100%'
+    width: '100%',
+    borderRadius: 10,
   },
+
+
   btnDanhMuc: {
     flex: 1,
     margin: 5,
   },
   title: {
     padding: 5,
+    marginTop: 20,
     fontWeight: 'bold',
     fontSize: 16,
 
-    borderColor: Colors.choTotColor,
-    borderBottomWidth: 10,
-    borderRightWidth: 10,
+    borderBottomColor: Colors.choTotColor2,
+    borderBottomWidth: 7,
+    // borderRightWidth: 7,
 
-    borderBottomRightRadius: 30
+    // borderBottomRightRadius: 35
   },
+
+
   splitView: {
     flex: 1,
   },
