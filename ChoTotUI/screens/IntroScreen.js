@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, AsyncStorage } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
 
+// import { isLoggedIn, logIn, logOut } from "../utils/loginLocal";
+
 const slides = [
+  {
+    key: 'something-dos',
+
+    title: 'Chào mừng',
+    titleStyle: {},
+
+    text: 'Buôn bán xã giao',
+    textStyle: {},
+
+    image: require('../assets/images/logos/logo.jpg'),
+    imageStyle: {
+      width: 350,
+      height: 350
+    },
+
+    backgroundColor: '#febe29',
+  },
   {
     key: 'something',
 
@@ -14,24 +33,13 @@ const slides = [
     text: 'Description.\nSay something cool',
     textStyle: {},
 
-    image: require('../assets/images/robot-prod.png'),
-    imageStyle: {},
+    image: require('../assets/images/facebook-app-icon-vector-9.jpg'),
+    imageStyle: {
+      width: 350,
+      height: 350
+    },
 
     backgroundColor: '#59b2ab',
-  },
-  {
-    key: 'something-dos',
-
-    title: 'Title 2',
-    titleStyle: {},
-
-    text: 'Other cool stuff',
-    textStyle: {},
-
-    image: require('../assets/images/robot-dev.png'),
-    imageStyle: {},
-
-    backgroundColor: '#febe29',
   },
   {
     key: 'something1',
@@ -54,33 +62,9 @@ export default class IntroScreen extends Component {
   constructor(props) {
     super(props);
 
-    this._checkFirstTimeOpenApp();
-    // this._resetFirstTimeOpenApp();
-  }
-
-  // Kiểm tra xem có phải lần đâu vào app không
-  _checkFirstTimeOpenApp = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@DaVaoApp');
-      console.log(value);
-
-      if (value !== null) {
-        this.props.navigation.navigate('Main');
-      } else {
-        await AsyncStorage.setItem('@DaVaoApp', 'true');
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  }
-
-  // Xoá bộ nhớ lưu biến DaVaoApp
-  _resetFirstTimeOpenApp = async () => {
-    try {
-      await AsyncStorage.removeItem('@DaVaoApp');
-    } catch (error) {
-
-    }
+    // if (isLoggedIn()) this.props.navigation.navigate('Main');
+    // else logIn({ logged: true });
+    // logOut()
   }
 
   _renderNextButton = () => {
@@ -111,7 +95,7 @@ export default class IntroScreen extends Component {
   _onDone = () => {
     // User finished the introduction. Show real app through
     // navigation or simply by controlling state
-    this.props.navigation.navigate('Main')
+    this.props.navigation.navigate('ChoiceCity')
   }
 
   render() {

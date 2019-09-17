@@ -1,76 +1,102 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import TabBarIcon from '../components/TabBarIcon';
+import { TabBarIcon, TabBarLabel } from '../components/TabBarItems';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ChatScreen from '../screens/ChatScreen';
+import NotificationScreen from '../screens/NotificationScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import MoreScreen from '../screens/MoreScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
+// ============================== HOME ==================================
 const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen,
-  },
+  { Home: HomeScreen, },
   config
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: ({ focused }) => (
+    <TabBarLabel focused={focused} text="Đi chợ" />
+  ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
+    <TabBarIcon focused={focused} name="home" type="FontAwesome5" />
   ),
 };
 
 HomeStack.path = '';
 
-const LinksStack = createStackNavigator(
-  {
-    Links: LinksScreen,
-  },
+// ============================== Chat ==================================
+const ChatStack = createStackNavigator(
+  { Chat: ChatScreen },
   config
-);
+)
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+ChatStack.navigationOptions = {
+  tabBarLabel: ({ focused }) => (
+    <TabBarLabel focused={focused} text="Tin nhắn" />
+  ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name="ios-chatboxes" />
   ),
 };
 
-LinksStack.path = '';
-
-const SettingsStack = createStackNavigator(
-  {
-    Settings: SettingsScreen,
-  },
+// ============================== Thông báo ==================================
+const NotificationStack = createStackNavigator(
+  { Notification: NotificationScreen },
   config
-);
+)
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+NotificationStack.navigationOptions = {
+  tabBarLabel: ({ focused }) => (
+    <TabBarLabel focused={focused} text="Thông báo" />
+  ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name="bell" type="FontAwesome5" />
   ),
 };
 
-SettingsStack.path = '';
+// ============================== Profile ==================================
+const ProfileStack = createStackNavigator(
+  { Profile: ProfileScreen },
+  config
+)
+
+ProfileStack.navigationOptions = {
+  tabBarLabel: ({ focused }) => (
+    <TabBarLabel focused={focused} text="Tôi bán" />
+  ),
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name="user" type="FontAwesome5" />
+  ),
+};
+
+// ============================== Thêm ==================================
+const MoreStack = createStackNavigator(
+  { More: MoreScreen },
+  config
+)
+
+MoreStack.navigationOptions = {
+  tabBarLabel: ({ focused }) => (
+    <TabBarLabel focused={focused} text="Thêm" />
+  ),
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name="ios-more" />
+  ),
+};
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  LinksStack,
-  SettingsStack,
+  ChatStack,
+  NotificationStack,
+  ProfileStack,
+  MoreStack
 });
 
 tabNavigator.path = '';
