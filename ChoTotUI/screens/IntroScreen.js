@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, AsyncStorage } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -16,7 +16,7 @@ const slides = [
     text: 'Buôn bán xã giao',
     textStyle: {},
 
-    image: require('../assets/images/logo.jpg'),
+    image: require('../assets/images/logos/logo.jpg'),
     imageStyle: {
       width: 350,
       height: 350
