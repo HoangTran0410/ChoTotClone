@@ -50,4 +50,23 @@ const danhMuc = {
   },]
 }
 
-export { Cities_VN, Cities, danhMuc };
+const ads = [
+  {
+    link: "",
+    image: require('../assets/images/banners/buyer_collection_y_homepage_banner_1564111461475.jpg')
+  },
+  {
+    link: "",
+    image: require('../assets/images/banners/buyer_collection_y_homepage_banner_1565608864238.jpg')
+  },
+  {
+    link: "",
+    image: require('../assets/images/banners/buyer_collection_y_homepage_banner_1567656679842.jpg')
+  },
+  {
+    link: "",
+    image: require('../assets/images/banners/buyer_collection_y_homepage_banner_1568203049943.jpg')
+  },
+]
+
+export { Cities_VN, Cities, danhMuc, ads };
