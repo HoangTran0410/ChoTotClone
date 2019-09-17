@@ -1,81 +1,127 @@
-import * as WebBrowser from 'expo-web-browser';
-import React, { Component } from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { Component } from "react";
+import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { Container, Content, Row } from 'native-base';
 
-import { MonoText } from '../components/StyledText';
+import SearchBar from "../components/SearchBar";
+import CategoryButton from '../components/CategoryButton';
 
-import { loginUser } from "../utils/callAPI";
+const danhMuc = {
+
+  big: [{
+    name: 'Bất động sản',
+    image: require('../assets/images/categories/cho-tot-nha.png')
+  }, {
+    name: 'Xe cộ',
+    image: require('../assets/images/categories/cho-tot-xe.png')
+  }],
+
+  small: [{
+    name: 'Đồ điện tử',
+    image: require('../assets/images/categories/do-dien-tu.png')
+  }, {
+    name: 'Thú cưng',
+    image: require('../assets/images/categories/thu-cung.png')
+  }, {
+    name: 'Mẹ và bé',
+    image: require('../assets/images/categories/me-va-be.png')
+  }, {
+    name: 'Thời trang, đồ dùng cá nhân',
+    image: require('../assets/images/categories/thoi-trang-do-dung-ca-nhan.png')
+  }, {
+    name: 'Dịch vụ, Du lịch',
+    image: require('../assets/images/categories/dich-vu-du-lich.png')
+  }, {
+    name: 'Cho tặng miễn phí',
+    image: require('../assets/images/categories/cho-tang-mien-phi.png')
+  }, {
+    name: 'Việc làm',
+    image: require('../assets/images/categories/viec-lam.png')
+  }, {
+    name: 'Nội ngoại thất, Đồ gia dụng',
+    image: require('../assets/images/categories/noi-ngoai-that.png')
+  }, {
+    name: 'Giải trí, Thể thao, Sở thích',
+    image: require('../assets/images/categories/giai-tri-the-thao-so-thich.png')
+  }, {
+    name: 'Đồ văn phòng, Công nông nghiệp',
+    image: require('../assets/images/categories/do-van-phong.png')
+  }, {
+    name: 'Các loại khác',
+    image: require('../assets/images/categories/cac-loai-khac.png')
+  }, {
+    name: 'Tất cả danh mục',
+    image: require('../assets/images/categories/tat-ca-danh-muc.png')
+  },]
+}
+
+const centerImgData = Math.floor(danhMuc.small.length / 2);
 
 export default class HomeScreen extends Component {
+
+  onPressAds = () => {
+    alert('Quảng cáo');
+  }
+
   render() {
-
     return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
+      <Container>
+        <SearchBar></SearchBar>
+        <Content>
+          <TouchableHighlight onPress={this.onPressAds}>
+            <Image style={styles.adsImg} source={require('../assets/images/banners/buyer_collection_y_homepage_banner_1564111461475.jpg')} />
+          </TouchableHighlight>
 
-            <TouchableOpacity onPress={() => loginUser({ 'name': 'Hoang' })}>
-              <Text>Call API</Text>
-            </TouchableOpacity>
+          {
+            danhMuc.big.map(item => {
+              return (
+                <Row key={item.name}>
+                  <CategoryButton
+                    text={item.name}
+                    imgSource={item.image}
+                    onPress={() => { alert(item.name) }}
+                    buttonStyle={styles.btnDanhMuc}
+                  />
+                </Row>
+              )
+            })
+          }
 
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
+          <View style={styles.splitContainer}>
+            <View style={styles.splitView}>
+              {
+                danhMuc.small.slice(0, centerImgData).map(item => {
+                  return (
+                    <CategoryButton
+                      key={item.name}
+                      text={item.name}
+                      imgSource={item.image}
+                      onPress={() => { alert(item.name) }}
+                      buttonStyle={styles.btnDanhMuc}
+                    />
+                  )
+                })
               }
-              style={styles.welcomeImage}
-            />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            <DevelopmentModeNotice />
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View
-              style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText>screens/HomeScreen.js</MonoText>
             </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
+            <View style={styles.splitView}>
+              {
+                danhMuc.small.slice(centerImgData).map(item => {
+                  return (
+                    <CategoryButton
+                      key={item.name}
+                      text={item.name}
+                      imgSource={item.image}
+                      onPress={() => { alert(item.name) }}
+                      buttonStyle={styles.btnDanhMuc}
+                    />
+                  )
+                })
+              }
+            </View>
           </View>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            This is a tab bar. You can edit it in:
-          </Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>
-              navigation/MainTabNavigator.js
-            </MonoText>
-          </View>
-        </View>
-      </View>
-    );
+        </Content>
+      </Container >
+    )
   }
 }
 
@@ -83,126 +129,34 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-  );
-}
 
 const styles = StyleSheet.create({
-  container: {
+  adsImg: {
+    height: 120,
+    width: '100%'
+  },
+  btnDanhMuc: {
     flex: 1,
-    backgroundColor: '#fff',
+    margin: 5,
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
+  title: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+    top: 5,
+    left: 5
   },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+  bigImg: {
+    width: '100%',
+    height: 100,
   },
-  navigationFilename: {
-    marginTop: 5,
+  smallImg: {
+    width: '100%',
+    height: 100,
+    padding: 5
   },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
+  splitView: {
+    flex: 1,
   },
-  helpLink: {
-    paddingVertical: 15,
+  splitContainer: {
+    flexDirection: 'row',
   },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
-});
+})
