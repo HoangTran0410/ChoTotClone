@@ -21,7 +21,7 @@ const danhMuc = {
     name: 'Mẹ và bé',
     image: require('../assets/images/categories/me-va-be.png')
   }, {
-    name: 'Thời trang, đồ dùng cá nhân',
+    name: 'Thời trang, Đồ dùng cá nhân',
     image: require('../assets/images/categories/thoi-trang-do-dung-ca-nhan.png')
   }, {
     name: 'Dịch vụ, Du lịch',
