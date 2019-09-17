@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { Image, StyleSheet, View, TouchableHighlight, Text } from 'react-native';
 import { Container, Content, Row } from 'native-base';
 import Swiper from 'react-native-swiper';
 
@@ -24,16 +24,16 @@ export default class HomeScreen extends Component {
 
           <Swiper
             autoplay={true}
-            showsButtons={true}
+            showsButtons={false}
             loadMinimal={true}
             containerStyle={styles.adsWrapper}
           >
             {
               ads.map(ad => {
                 return (
-                  <TouchableOpacity key={ad} style={styles.adsButton} onPress={this.onPressAds}>
+                  <TouchableHighlight key={ad} style={styles.adsButton} onPress={this.onPressAds}>
                     <Image style={styles.adsImg} source={ad.image} />
-                  </TouchableOpacity>
+                  </TouchableHighlight>
                 )
               })
             }
@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   title: {
-    padding: 5,
+    paddingVertical: 5,
+    marginHorizontal: 5,
     marginTop: 20,
     fontWeight: 'bold',
     fontSize: 16,

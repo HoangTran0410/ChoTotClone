@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
   input: {
     margin: 10,
     fontSize: 15,
-    paddingLeft: 20,
+    paddingLeft: 10,
     color: '#888888',
-    letterSpacing: 1.5
+    letterSpacing: 1.25,
   }
 })
