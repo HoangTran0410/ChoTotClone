@@ -8,12 +8,77 @@ import SearchBar from "../components/SearchBar";
 import CategoryButton from '../components/CategoryButton';
 import { danhMuc, ads } from '../utils/data';
 
-const centerImgData = Math.floor(danhMuc.small.length / 2);
-
 export default class HomeScreen extends Component {
 
   onPressAds = () => {
     alert('Quảng cáo');
+  }
+
+  renderAdsSwiper = (adsList) => {
+    return (
+      <Swiper
+        autoplay={true}
+        showsButtons={false}
+        loadMinimal={true}
+        containerStyle={styles.adsWrapper}
+      >
+        {
+          adsList.map(ad => {
+            return (
+              <TouchableHighlight key={ad} style={styles.adsButton} onPress={this.onPressAds}>
+                <Image style={styles.adsImg} source={ad.image} />
+              </TouchableHighlight>
+            )
+          })
+        }
+      </Swiper>
+    )
+  }
+
+  renderCateButton = (item) => {
+    return <CategoryButton
+      key={item.name}
+      text={item.name}
+      imgSource={item.image}
+      onPress={() => { alert(item.name) }}
+      buttonStyle={styles.btnDanhMuc}
+    />
+  }
+
+  renderListCategories = (list) => {
+    const centerImgData = Math.floor(list.small.length / 2);
+    return (
+      <View>
+        <Text style={styles.title}>Khám phá danh mục</Text>
+
+        {
+          list.big.map(item => {
+            return (
+              <Row key={item.name}>
+                {this.renderCateButton(item)}
+              </Row>
+            )
+          })
+        }
+
+        <View style={styles.splitContainer}>
+          <View style={styles.splitView}>
+            {
+              list.small.slice(0, centerImgData).map(item => {
+                return this.renderCateButton(item)
+              })
+            }
+          </View>
+          <View style={styles.splitView}>
+            {
+              list.small.slice(centerImgData).map(item => {
+                return this.renderCateButton(item)
+              })
+            }
+          </View>
+        </View>
+      </View>
+    )
   }
 
   render() {
@@ -21,75 +86,8 @@ export default class HomeScreen extends Component {
       <Container>
         <SearchBar></SearchBar>
         <Content>
-
-          <Swiper
-            autoplay={true}
-            showsButtons={false}
-            loadMinimal={true}
-            containerStyle={styles.adsWrapper}
-          >
-            {
-              ads.map(ad => {
-                return (
-                  <TouchableHighlight key={ad} style={styles.adsButton} onPress={this.onPressAds}>
-                    <Image style={styles.adsImg} source={ad.image} />
-                  </TouchableHighlight>
-                )
-              })
-            }
-          </Swiper>
-
-
-          <Text style={styles.title}>Khám phá danh mục</Text>
-
-          {
-            danhMuc.big.map(item => {
-              return (
-                <Row key={item.name}>
-                  <CategoryButton
-                    text={item.name}
-                    imgSource={item.image}
-                    onPress={() => { alert(item.name) }}
-                    buttonStyle={styles.btnDanhMuc}
-                  />
-                </Row>
-              )
-            })
-          }
-
-          <View style={styles.splitContainer}>
-            <View style={styles.splitView}>
-              {
-                danhMuc.small.slice(0, centerImgData).map(item => {
-                  return (
-                    <CategoryButton
-                      key={item.name}
-                      text={item.name}
-                      imgSource={item.image}
-                      onPress={() => { alert(item.name) }}
-                      buttonStyle={styles.btnDanhMuc}
-                    />
-                  )
-                })
-              }
-            </View>
-            <View style={styles.splitView}>
-              {
-                danhMuc.small.slice(centerImgData).map(item => {
-                  return (
-                    <CategoryButton
-                      key={item.name}
-                      text={item.name}
-                      imgSource={item.image}
-                      onPress={() => { alert(item.name) }}
-                      buttonStyle={styles.btnDanhMuc}
-                    />
-                  )
-                })
-              }
-            </View>
-          </View>
-
+          {this.renderAdsSwiper(ads)}
+          {this.renderListCategories(danhMuc)}
         </Content>
       </Container >
     )
