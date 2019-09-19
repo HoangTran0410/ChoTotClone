@@ -14,6 +14,11 @@ export default class HomeScreen extends Component {
     alert('Quảng cáo');
   }
 
+  onSubmitEditingSearch = (text) => {
+    alert('Tìm kiếm ' + text);
+    console.log(text)
+  }
+
   renderAdsSwiper = (adsList) => {
     return (
       <Swiper
@@ -49,7 +54,9 @@ export default class HomeScreen extends Component {
     const centerImgData = Math.floor(list.small.length / 2);
     return (
       <View>
-        <Text style={styles.title}>Khám phá danh mục</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Khám Phá Các Danh Mục</Text>
+        </View>
 
         {
           list.big.map(item => {
@@ -84,7 +91,10 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <Container>
-        <SearchBar></SearchBar>
+        <SearchBar
+          placeholder="Tìm kiếm trên Chợ Tốt"
+          onSubmitEditing={this.onSubmitEditingSearch}
+        />
         <Content>
           {this.renderAdsSwiper(ads)}
           {this.renderListCategories(danhMuc)}
@@ -102,8 +112,10 @@ const styles = StyleSheet.create({
   adsWrapper: {
     height: 130,
     backgroundColor: Colors.choTotColor2,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     paddingBottom: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
   },
   adsButton: {
     flex: 1,
@@ -113,7 +125,7 @@ const styles = StyleSheet.create({
   adsImg: {
     height: 120,
     width: '100%',
-    borderRadius: 10,
+    borderRadius: 5
   },
 
 
@@ -121,18 +133,35 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 5,
   },
+
+  titleContainer: {
+    height: 36,
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 30,
+    backgroundColor: Colors.choTotColor2,
+  },
+
   title: {
-    paddingVertical: 5,
-    marginHorizontal: 5,
-    marginTop: 20,
+    position: 'absolute',
+    top: 10,
+    width: '95%',
+    paddingVertical: 10,
+    textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 16,
+    borderRadius: 5,
+    backgroundColor: '#fff',
 
-    borderBottomColor: Colors.choTotColor2,
-    borderBottomWidth: 7,
-    // borderRightWidth: 7,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 3,
 
-    // borderBottomRightRadius: 35
+    elevation: 4,
   },
 
 
