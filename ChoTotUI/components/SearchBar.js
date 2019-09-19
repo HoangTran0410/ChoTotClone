@@ -6,27 +6,33 @@ import Colors from "../constants/Colors";
 
 export default class SearchBar extends Component {
 
-  state = {
-    text: ''
+  constructor(props) {
+    super(props);
   }
 
-  onSubmitEditing = () => {
-    alert('Tìm kiếm ' + this.state.text)
+  state = {
+    text: ''
   }
 
   onChangeText = (text) => {
     this.setState({
       text: text
     })
+
+    this.props.onChangeText && this.props.onChangeText(text);
+  }
+
+  onSubmitEditing = () => {
+    this.props.onSubmitEditing && this.props.onSubmitEditing(this.state.text);
   }
 
   render() {
     return (
       <Header searchBar rounded style={styles.header}>
-        <Item>
+        <Item style={styles.shadow}>
           <Input
             style={styles.input}
-            placeholder="Tìm kiếm trên Chợ Tốt"
+            placeholder={this.props.placeholder}
             value={this.state.text}
             onChangeText={this.onChangeText}
             onSubmitEditing={this.onSubmitEditing}
@@ -43,7 +49,7 @@ export default class SearchBar extends Component {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: Colors.choTotColor2
+    backgroundColor: Colors.choTotColor2,
   },
   input: {
     margin: 10,
@@ -51,5 +57,16 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     color: '#888888',
     letterSpacing: 1.25,
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 4,
+
+    elevation: 4,
   }
 })
