@@ -1,8 +1,8 @@
 import React from 'react'
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Icon, Input } from 'native-base';
 
-import { Ionicons } from '@expo/vector-icons';
-import SearchBar from './SearchBar';
+// import SearchBar from './SearchBar';
 
 import { Cities_VN, Cities } from '../utils/data';
 import { change_alias } from '../utils/function';
@@ -47,19 +47,17 @@ export default class ModalPicker extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.searchContainer}>
-                    <TextInput
+                    <Input
                         style={styles.textSearch}
                         value={this.state.valueSearch}
                         placeholder={'Tìm vùng bạn ở'}
-                        placeholderTextColor={'#555555'}
+                        placeholderTextColor={'#222222'}
                         onChangeText={(city) => this.onChangeValueSearch(city)}
                     />
-                    <TouchableOpacity>
-                        <Ionicons name="md-search" size={32} color="black" />
-                    </TouchableOpacity>
+                    <Icon name="ios-search" style={styles.iconSearch} />
                 </View>
                 {/* <SearchBar
-                    placeholder="Tìm kiếm tỉnh thành"
+                    placeholder="Tìm vùng bạn ở"
                     onChangeText={(city) => this.onChangeValueSearch(city)}
                 /> */}
                 <ScrollView>
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
     },
 
     buttonCityText: {
-        marginHorizontal: 5,
+        marginHorizontal: 15,
         fontSize: 15
     },
 
@@ -93,7 +91,7 @@ const styles = StyleSheet.create({
 
     container: {
         width: '90%',
-        maxHeight: '95%',
+        maxHeight: '98%',
         backgroundColor: 'white',
         borderRadius: 10,
 
@@ -119,18 +117,17 @@ const styles = StyleSheet.create({
     },
 
     textSearch: {
-        marginLeft: 10,
+        marginLeft: 20,
         paddingLeft: 15,
         letterSpacing: 1.2,
         height: '70%',
-        width: '80%',
         borderColor: 'black',
         borderBottomWidth: 1,
         fontSize: 15,
     },
 
     iconSearch: {
-        margin: 7,
+        margin: 10,
         fontSize: 28
     },
 });
