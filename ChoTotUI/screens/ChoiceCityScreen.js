@@ -32,7 +32,7 @@ export default class ChoiceCityScreen extends React.Component {
     });
   };
 
-  choiceCity = (city) => {
+  onPressCity = (city) => {
     this.changeModalVisibility(false);
     this.setState({
       cityText: city,
@@ -70,7 +70,7 @@ export default class ChoiceCityScreen extends React.Component {
         >
           <View style={{ flex: 0.22 }}></View>
           <View style={{ alignItems: 'center', flex: 0.78 }}>
-            <ModalPicker choiceCity={this.choiceCity} />
+            <ModalPicker onPressCity={this.onPressCity} />
           </View>
         </Modal>
 
