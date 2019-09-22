@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Header, Item, Input, Icon, Button, Text } from 'native-base';
+import { Icon, Button, Header, Item, Input, Left, Right } from 'native-base';
 
 import Colors from "../constants/Colors";
 
-export default class SearchBar extends Component {
+export default class MySearchBar extends Component {
 
   constructor(props) {
     super(props);
@@ -29,6 +29,14 @@ export default class SearchBar extends Component {
   render() {
     return (
       <Header searchBar rounded style={styles.header}>
+        {
+          this.props.leftButton &&
+          <Left style={{ flex: 0.15 }}>
+            <Button transparent onPress={this.props.onPressLeftButton}>
+              <Icon name={this.props.leftButton} style={{ fontSize: 25 }} />
+            </Button>
+          </Left>
+        }
         <Item style={styles.shadow}>
           <Input
             style={styles.input}
@@ -37,11 +45,16 @@ export default class SearchBar extends Component {
             onChangeText={this.onChangeText}
             onSubmitEditing={this.onSubmitEditing}
           />
-          <Icon name="ios-search" />
+          <Icon name={'ios-search'} />
         </Item>
-        <Button transparent>
-          <Text>Tìm</Text>
-        </Button>
+        {
+          this.props.rightButton &&
+          <Right style={{ flex: 0.2 }}>
+            <Button transparent onPress={this.props.onPressRightButton}>
+              <Icon name={this.props.rightButton} style={{ fontSize: 25 }} />
+            </Button>
+          </Right>
+        }
       </Header>
     );
   }
@@ -52,7 +65,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.choTotColor2,
   },
   input: {
-    margin: 10,
     fontSize: 15,
     paddingLeft: 10,
     color: '#888888',
