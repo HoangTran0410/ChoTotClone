@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Container, Text } from 'native-base';
+import { View } from 'react-native';
+
+import DetailAd from './DetailAd'
 
 class MoreScreen extends Component {
   state = {}
   render() {
-    return <Container>
-      <Text>MoreScreen</Text>
-    </Container>;
+    return <DetailAd />
+    // <View>
+    {/* <Text>MoreScreen</Text> */ }
+    // </View>;
   }
 }
-
-MoreScreen.navigationOptions = {
-  header: null,
-};
 
 export default MoreScreen;

@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import { Container, Text } from 'native-base';
+import { View } from 'react-native';
+import { Button } from 'react-native-elements';
 
 class ProfileScreen extends Component {
   state = {}
   render() {
-    return <Container>
-      <Text>ProfileScreen</Text>
-    </Container>;
+    return <View style={{ flex: 1, justifyContent: 'center' }}>
+
+      <Button
+        title="LogIn"
+        onPress={() => this.props.navigation.navigate('LogIn')}
+      />
+
+    </View>;
   }
 }
-
-ProfileScreen.navigationOptions = {
-  header: null,
-};
 
 export default ProfileScreen;

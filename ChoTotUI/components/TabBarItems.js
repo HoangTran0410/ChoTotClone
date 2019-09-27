@@ -1,15 +1,16 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Icon } from 'native-base';
 
 import Colors from '../constants/Colors';
+import IconWithBadge from './IconWithBadge';
 
 function TabBarIcon(props) {
   const color = props.focused ? Colors.choTotColor : Colors.tabIconDefault
 
   return (
-    <Icon
+    <IconWithBadge
       {...props}
+      // badgeCount={0}
       size={26}
       style={{ color }}
     />

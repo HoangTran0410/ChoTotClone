@@ -1,5 +1,4 @@
 import React from 'react';
-import { Platform, Text } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import { TabBarIcon, TabBarLabel } from '../components/TabBarItems';
@@ -9,10 +8,11 @@ import NotificationScreen from '../screens/NotificationScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MoreScreen from '../screens/MoreScreen';
 
-const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
-});
+const config = {
+  defaultNavigationOptions: {
+    header: null
+  },
+};
 
 // ============================== HOME ==================================
 const HomeStack = createStackNavigator(
@@ -42,7 +42,7 @@ ChatStack.navigationOptions = {
     <TabBarLabel focused={focused} text="Tin nhắn" />
   ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name="ios-chatboxes" />
+    <TabBarIcon badgeCount={2} focused={focused} name="ios-chatboxes" />
   ),
 };
 
@@ -57,13 +57,15 @@ NotificationStack.navigationOptions = {
     <TabBarLabel focused={focused} text="Thông báo" />
   ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name="bell" type="FontAwesome5" />
+    <TabBarIcon badgeCount={101} focused={focused} name="bell" type="FontAwesome5" />
   ),
 };
 
 // ============================== Profile ==================================
 const ProfileStack = createStackNavigator(
-  { Profile: ProfileScreen },
+  {
+    Profile: ProfileScreen,
+  },
   config
 )
 
@@ -78,7 +80,9 @@ ProfileStack.navigationOptions = {
 
 // ============================== Thêm ==================================
 const MoreStack = createStackNavigator(
-  { More: MoreScreen },
+  {
+    More: MoreScreen,
+  },
   config
 )
 
