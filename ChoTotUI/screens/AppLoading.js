@@ -23,7 +23,7 @@ class AppLoading extends Component {
     return (
       <ImageBackground
         style={{ flex: 1 }}
-        source={require('../assets/images/AppLoading.png')}
+        source={require('../assets/images/screens/AppLoading.png')}
       />
     );
   }

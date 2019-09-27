@@ -47,7 +47,7 @@ export default class ChoiceCityScreen extends React.Component {
 
   render() {
     return (
-      <ImageBackground style={styles.container} source={require('../assets/images/2.png')}>
+      <ImageBackground style={styles.container} source={require('../assets/images/screens/2.png')}>
         <TouchableOpacity onPress={() => this.changeModalVisibility(true)} style={styles.pickerLabel}>
           <Text style={styles.textLabel}>{this.state.cityText}</Text>
           <TouchableOpacity onPress={() => this.changeModalVisibility(true)} style={styles.dropdownButton}>
