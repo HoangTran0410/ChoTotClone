@@ -69,4 +69,108 @@ const ads = [
   },
 ]
 
-export { Cities_VN, Cities, danhMuc, ads };
+const labelData = [
+  {
+      id: 1,
+      title: 'Dung lượng cao',
+  },
+  {
+      id: 2,
+      title: 'Game',
+  },
+  {
+      id: 3,
+      title: 'Trả góp',
+  },
+  {
+      id: 4,
+      title: 'Bảo hành',
+  },
+  {
+      id: 5,
+      title: 'Chưa dùng',
+  },
+  {
+      id: 6,
+      title: 'Cấu hình',
+  },
+];
+
+const categoryData = [
+  {
+      id: 1,
+      title: 'Máy tính bảng',
+      icon: 'ios-tablet-portrait'
+  },
+  {
+      id: 2,
+      title: 'Laptop',
+      icon: 'ios-laptop'
+  },
+  {
+      id: 3,
+      title: 'Điện thoại',
+      icon: 'ios-phone-portrait'
+  },
+  {
+      id: 4,
+      title: 'Máy tính để bàn',
+      icon: 'ios-desktop'
+  },
+  {
+      id: 5,
+      title: 'Máy ảnh',
+      icon: 'ios-camera'
+  },
+  {
+      id: 6,
+      title: 'Tivi, Âm thanh',
+      icon: 'ios-tv'
+  },
+  {
+      id: 7,
+      title: 'Thiết bị đeo',
+      icon: 'md-watch'
+  },
+];
+
+
+const lableProductData = [
+  {
+      id: 1,
+      title: 'Dung lượng cao',
+      color: '#ff630b',
+  },
+  {
+      id: 2,
+      title: 'Game',
+      color: '#68c0ff',
+  },
+  {
+      id: 3,
+      title: 'Bảo hành',
+      color: '#ffd428',
+  },
+  {
+      id: 4,
+      title: 'Trả góp',
+      color: '#5aed69',
+  },
+  {
+      id: 5,
+      title: 'Cấu hình',
+      color: '#73eedc',
+  },
+  {
+      id: 6,
+      title: 'Mới',
+      color: '#f1f2f6',
+  },
+  {
+      id: 7,
+      title: 'Selfie',
+      color: '#c1dbe3'
+  },
+];
+
+export { Cities_VN, Cities, danhMuc, ads, labelData, categoryData, lableProductData };
