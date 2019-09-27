@@ -8,6 +8,10 @@ import { Ionicons } from '@expo/vector-icons';
 import AppNavigator from './navigation/AppNavigator';
 import AppLoading from './screens/AppLoading';
 
+// https://reactnavigation.org/docs/en/react-native-screens.html
+import { useScreens } from 'react-native-screens';
+useScreens();
+
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
