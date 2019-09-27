@@ -8,11 +8,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logos/logo.png",
-    "splash": {
-      "image": "./assets/images/logos/logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

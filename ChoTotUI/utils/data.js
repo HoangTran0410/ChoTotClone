@@ -1,3 +1,10 @@
+/*
+"splash": {
+  "image": "./assets/images/logos/logo.png",
+  "resizeMode": "contain",
+  "backgroundColor": "#ffffff"
+},*/
+
 const Cities_VN = ["An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam", "Hà Tĩnh", "Hải Dương", "Hậu Giang", "Hòa Bình", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc", "Yên Bái", "Phú Yên", "Cần Thơ", "Đà Nẵng", "Hải Phòng", "Hà Nội", "TP HCM"];
 const Cities = ["an giang", "ba ria vung tau", "bac giang", "bac kan", "bac lieu", "bac ninh", "ben tre", "binh dinh", "binh duong", "binh phuoc", "binh thuan", "ca mau", "cao bang", "dak lak", "dak nong", "dien bien", "dong nai", "dong thap", "gia lai", "ha giang", "ha nam", "ha tinh", "hai duong", "hau giang", "hoa binh", "hung yen", "khanh hoa", "kien giang", "kon tum", "lai chau", "lam dong", "lang son", "lao cai", "long an", "nam dinh", "nghe an", "ninh binh", "ninh thuan", "phu tho", "quang binh", "quang nam", "quang ngai", "quang ninh", "quang tri", "soc trang", "son la", "tay ninh", "thai binh", "thai nguyen", "thanh hoa", "thua thien hue", "tien giang", "tra vinh", "tuyen quang", "vinh long", "vinh phuc", "yen bai", "phu yen", "can tho", "da nang", "hai phong", "ha noi", "tp hcm"];
 
@@ -71,106 +78,106 @@ const ads = [
 
 const labelData = [
   {
-      id: 1,
-      title: 'Dung lượng cao',
+    id: 1,
+    title: 'Dung lượng cao',
   },
   {
-      id: 2,
-      title: 'Game',
+    id: 2,
+    title: 'Game',
   },
   {
-      id: 3,
-      title: 'Trả góp',
+    id: 3,
+    title: 'Trả góp',
   },
   {
-      id: 4,
-      title: 'Bảo hành',
+    id: 4,
+    title: 'Bảo hành',
   },
   {
-      id: 5,
-      title: 'Chưa dùng',
+    id: 5,
+    title: 'Chưa dùng',
   },
   {
-      id: 6,
-      title: 'Cấu hình',
+    id: 6,
+    title: 'Cấu hình',
   },
 ];
 
 const categoryData = [
   {
-      id: 1,
-      title: 'Máy tính bảng',
-      icon: 'ios-tablet-portrait'
+    id: 1,
+    title: 'Máy tính bảng',
+    icon: 'ios-tablet-portrait'
   },
   {
-      id: 2,
-      title: 'Laptop',
-      icon: 'ios-laptop'
+    id: 2,
+    title: 'Laptop',
+    icon: 'ios-laptop'
   },
   {
-      id: 3,
-      title: 'Điện thoại',
-      icon: 'ios-phone-portrait'
+    id: 3,
+    title: 'Điện thoại',
+    icon: 'ios-phone-portrait'
   },
   {
-      id: 4,
-      title: 'Máy tính để bàn',
-      icon: 'ios-desktop'
+    id: 4,
+    title: 'Máy tính để bàn',
+    icon: 'ios-desktop'
   },
   {
-      id: 5,
-      title: 'Máy ảnh',
-      icon: 'ios-camera'
+    id: 5,
+    title: 'Máy ảnh',
+    icon: 'ios-camera'
   },
   {
-      id: 6,
-      title: 'Tivi, Âm thanh',
-      icon: 'ios-tv'
+    id: 6,
+    title: 'Tivi, Âm thanh',
+    icon: 'ios-tv'
   },
   {
-      id: 7,
-      title: 'Thiết bị đeo',
-      icon: 'md-watch'
+    id: 7,
+    title: 'Thiết bị đeo',
+    icon: 'md-watch'
   },
 ];
 
 
-const lableProductData = [
+const labelProductData = [
   {
-      id: 1,
-      title: 'Dung lượng cao',
-      color: '#ff630b',
+    id: 1,
+    title: 'Dung lượng cao',
+    color: '#ff630b',
   },
   {
-      id: 2,
-      title: 'Game',
-      color: '#68c0ff',
+    id: 2,
+    title: 'Game',
+    color: '#68c0ff',
   },
   {
-      id: 3,
-      title: 'Bảo hành',
-      color: '#ffd428',
+    id: 3,
+    title: 'Bảo hành',
+    color: '#ffd428',
   },
   {
-      id: 4,
-      title: 'Trả góp',
-      color: '#5aed69',
+    id: 4,
+    title: 'Trả góp',
+    color: '#5aed69',
   },
   {
-      id: 5,
-      title: 'Cấu hình',
-      color: '#73eedc',
+    id: 5,
+    title: 'Cấu hình',
+    color: '#73eedc',
   },
   {
-      id: 6,
-      title: 'Mới',
-      color: '#f1f2f6',
+    id: 6,
+    title: 'Mới',
+    color: '#f1f2f6',
   },
   {
-      id: 7,
-      title: 'Selfie',
-      color: '#c1dbe3'
+    id: 7,
+    title: 'Selfie',
+    color: '#c1dbe3'
   },
 ];
 
-export { Cities_VN, Cities, danhMuc, ads, labelData, categoryData, lableProductData };
+export { Cities_VN, Cities, danhMuc, ads, labelData, categoryData, labelProductData };
