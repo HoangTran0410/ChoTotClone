@@ -1,38 +1,51 @@
 import React, { Component } from "react";
-import { Image, StyleSheet, View, TouchableHighlight, Text } from 'react-native';
+import { Image, StyleSheet, View, TouchableHighlight, Text, TouchableOpacity } from 'react-native';
 import { Container, Content, Row } from 'native-base';
 import Swiper from 'react-native-swiper';
 
 import Colors from '../constants/Colors';
-import SearchBar from "../components/SearchBar";
+import MySearchBar from "../components/MySearchBar";
 import CategoryButton from '../components/CategoryButton';
 import { danhMuc, ads } from '../utils/data';
+import { getListBanners } from '../utils/callAPI';
 
 export default class HomeScreen extends Component {
 
-  onPressAds = () => {
+  state = {
+    banners: []
+  }
+
+  componentDidMount = async () => {
+    const listBanners = await getListBanners();
+    this.setState({
+      banners: listBanners.banners
+    })
+    console.log(listBanners)
+  }
+
+  onPressBanner = () => {
     alert('Quảng cáo');
   }
 
   onSubmitEditingSearch = (text) => {
     alert('Tìm kiếm ' + text);
-    console.log(text)
   }
 
-  renderAdsSwiper = (adsList) => {
+  renderAdsSwiper = () => {
     return (
       <Swiper
-        autoplay={true}
+        // autoplay={true}
+        loop={false}
         showsButtons={false}
         loadMinimal={true}
-        containerStyle={styles.adsWrapper}
+        containerStyle={styles.bannerWrapper}
       >
         {
-          adsList.map(ad => {
+          this.state.banners.map(banner => {
             return (
-              <TouchableHighlight key={ad} style={styles.adsButton} onPress={this.onPressAds}>
-                <Image style={styles.adsImg} source={ad.image} />
-              </TouchableHighlight>
+              <TouchableOpacity key={banner} style={styles.bannerButton} onPress={this.onPressBanner}>
+                <Image style={styles.bannerImg} source={banner.mobileImage} />
+              </TouchableOpacity>
             )
           })
         }
@@ -91,12 +104,16 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <Container>
-        <SearchBar
+        <MySearchBar
           placeholder="Tìm kiếm trên Chợ Tốt"
           onSubmitEditing={this.onSubmitEditingSearch}
+        // leftButton={'arrow-back'}
+        // onPressLeftButton={() => alert('back')}
+        // rightButton={'ios-log-out'}
+        // onPressRightButton={() => alert('login')}
         />
         <Content>
-          {this.renderAdsSwiper(ads)}
+          {this.renderAdsSwiper()}
           {this.renderListCategories(danhMuc)}
         </Content>
       </Container >
@@ -104,12 +121,8 @@ export default class HomeScreen extends Component {
   }
 }
 
-HomeScreen.navigationOptions = {
-  header: null,
-};
-
 const styles = StyleSheet.create({
-  adsWrapper: {
+  bannerWrapper: {
     height: 130,
     backgroundColor: Colors.choTotColor2,
     paddingHorizontal: 5,
@@ -117,12 +130,12 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
   },
-  adsButton: {
+  bannerButton: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  adsImg: {
+  bannerImg: {
     height: 120,
     width: '100%',
     borderRadius: 5
