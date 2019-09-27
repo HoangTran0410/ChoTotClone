@@ -12,15 +12,15 @@ import { getListBanners } from '../utils/callAPI';
 export default class HomeScreen extends Component {
 
   state = {
-    banners: []
+    banners: ads
   }
 
   componentDidMount = async () => {
-    const listBanners = await getListBanners();
-    this.setState({
-      banners: listBanners.banners
-    })
-    console.log(listBanners)
+    // const listBanners = await getListBanners();
+    // this.setState({
+    //   banners: listBanners.banners
+    // })
+    // console.log(listBanners)
   }
 
   onPressBanner = () => {
@@ -58,7 +58,7 @@ export default class HomeScreen extends Component {
       key={item.name}
       text={item.name}
       imgSource={item.image}
-      onPress={() => { alert(item.name) }}
+      onPress={() => { this.props.navigation.navigate('AdsList') }}
       buttonStyle={styles.btnDanhMuc}
     />
   }
