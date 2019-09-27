@@ -32,7 +32,7 @@ export default class ChoiceCityScreen extends React.Component {
     });
   };
 
-  choiceCity = (city) => {
+  onPressCity = (city) => {
     this.changeModalVisibility(false);
     this.setState({
       cityText: city,
@@ -47,7 +47,7 @@ export default class ChoiceCityScreen extends React.Component {
 
   render() {
     return (
-      <ImageBackground style={styles.container} source={require('../assets/images/2.png')}>
+      <ImageBackground style={styles.container} source={require('../assets/images/screens/2.png')}>
         <TouchableOpacity onPress={() => this.changeModalVisibility(true)} style={styles.pickerLabel}>
           <Text style={styles.textLabel}>{this.state.cityText}</Text>
           <TouchableOpacity onPress={() => this.changeModalVisibility(true)} style={styles.dropdownButton}>
@@ -70,7 +70,7 @@ export default class ChoiceCityScreen extends React.Component {
         >
           <View style={{ flex: 0.22 }}></View>
           <View style={{ alignItems: 'center', flex: 0.78 }}>
-            <ModalPicker choiceCity={this.choiceCity} />
+            <ModalPicker onPressCity={this.onPressCity} />
           </View>
         </Modal>
 

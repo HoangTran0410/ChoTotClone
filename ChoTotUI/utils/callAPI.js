@@ -20,6 +20,20 @@ const loginUser = async (data) => {
   // return response.json();
 }
 
+
+const getListAds = () => {
+
+}
+
+const getListBanners = async () => {
+  const response = await fetch('https://gateway.chotot.com/v1/public/buyer-collection/banners')
+  const data = await response.json();
+  // console.log('get', data);
+  return data;
+}
+
 export {
-  loginUser
+  loginUser,
+  getListAds,
+  getListBanners
 }

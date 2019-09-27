@@ -1,9 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Icon, Input } from 'native-base';
+
+// import SearchBar from './SearchBar';
 
 import { Cities_VN, Cities } from '../utils/data';
 import { change_alias } from '../utils/function';
+import Colors from '../constants/Colors';
 
 export default class ModalPicker extends React.Component {
     constructor(props) {
@@ -21,34 +24,44 @@ export default class ModalPicker extends React.Component {
 
     render() {
         const input = change_alias(this.state.valueSearch.toLowerCase());
-        const option = Cities_VN.filter((city, index) => { return Cities[index].indexOf(input) != -1; }).map((city) => {
-            return (
-                <TouchableOpacity
-                    onPress={() => this.props.choiceCity(city)}
-                    activeOpacity={0.5}
-                    style={styles.pickerItem} key={city}
-                >
-                    <Text style={{ marginLeft: 30 }}>{city}</Text>
-                </TouchableOpacity>
-            )
-        })
+        const filtered = Cities_VN.filter((city, index) => { return Cities[index].indexOf(input) != -1; });
+        let options;
+        if (filtered.length > 0) {
+            options = filtered.map((city) => {
+                return (
+                    <TouchableOpacity
+                        onPress={() => this.props.onPressCity(city)}
+                        activeOpacity={0.5}
+                        style={styles.buttonCity} key={city}
+                    >
+                        <Text style={styles.buttonCityText}>{city}</Text>
+                    </TouchableOpacity>
+                )
+            })
+        } else {
+            options = <TouchableOpacity style={styles.buttonCity} >
+                <Text style={styles.notFoundText}>- Không có kết quả phù hợp -</Text>
+            </TouchableOpacity>
+        }
 
         return (
             <View style={styles.container}>
                 <View style={styles.searchContainer}>
-                    <TextInput
+                    <Input
                         style={styles.textSearch}
                         value={this.state.valueSearch}
                         placeholder={'Tìm vùng bạn ở'}
-                        placeholderTextColor={'#555555'}
+                        placeholderTextColor={'#222222'}
                         onChangeText={(city) => this.onChangeValueSearch(city)}
                     />
-                    <TouchableOpacity>
-                        <Ionicons name="md-search" size={32} color="black" />
-                    </TouchableOpacity>
+                    <Icon name="ios-search" style={styles.iconSearch} />
                 </View>
-                <ScrollView style={{ width: '100%' }} >
-                    {option}
+                {/* <SearchBar
+                    placeholder="Tìm vùng bạn ở"
+                    onChangeText={(city) => this.onChangeValueSearch(city)}
+                /> */}
+                <ScrollView>
+                    {options}
                 </ScrollView>
             </View>
         );
@@ -56,24 +69,46 @@ export default class ModalPicker extends React.Component {
 };
 
 const styles = StyleSheet.create({
-    pickerItem: {
-        backgroundColor: 'white',
+    buttonCity: {
         justifyContent: 'center',
-        height: 60,
+        height: 55,
         borderBottomWidth: 0.5,
-        borderColor: 'gray'
+        borderColor: '#aaa',
+        marginHorizontal: 20
+    },
+
+    buttonCityText: {
+        marginHorizontal: 15,
+        fontSize: 15
+    },
+
+    notFoundText: {
+        width: '100%',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: 'red',
     },
 
     container: {
-        width: '80%',
-        height: 470,
+        width: '90%',
+        maxHeight: '98%',
         backgroundColor: 'white',
         borderRadius: 10,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+
+        elevation: 7,
     },
 
     searchContainer: {
-        height: 50,
-        backgroundColor: '#FFD02C',
+        height: 55,
+        backgroundColor: Colors.choTotColor2,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
@@ -82,9 +117,17 @@ const styles = StyleSheet.create({
     },
 
     textSearch: {
-        height: '80%',
-        width: '80%',
+        marginLeft: 20,
+        paddingLeft: 15,
+        letterSpacing: 1.2,
+        height: '70%',
         borderColor: 'black',
         borderBottomWidth: 1,
+        fontSize: 15,
+    },
+
+    iconSearch: {
+        margin: 10,
+        fontSize: 28
     },
 });
