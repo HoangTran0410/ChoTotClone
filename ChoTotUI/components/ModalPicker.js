@@ -5,7 +5,7 @@ import { Icon, Input } from 'native-base';
 // import SearchBar from './SearchBar';
 
 import { Cities_VN, Cities } from '../utils/data';
-import { change_alias } from '../utils/function';
+import { change_alias } from '../utils/functions';
 import Colors from '../constants/Colors';
 
 export default class ModalPicker extends React.Component {
