@@ -12,44 +12,57 @@ const danhMuc = {
 
   big: [{
     name: 'Bất động sản',
+    cg: 1000,
     image: require('../assets/images/categories/cho-tot-nha.png')
   }, {
     name: 'Xe cộ',
+    cg: 2000,
     image: require('../assets/images/categories/cho-tot-xe.png')
   }],
 
   small: [{
     name: 'Đồ điện tử',
+    cg: 5000,
     image: require('../assets/images/categories/do-dien-tu.png')
   }, {
     name: 'Thú cưng',
+    cg: 12000,
     image: require('../assets/images/categories/thu-cung.png')
   }, {
     name: 'Mẹ và bé',
+    cg: 11000,
     image: require('../assets/images/categories/me-va-be.png')
   }, {
     name: 'Thời trang, Đồ dùng cá nhân',
+    cg: 3000,
     image: require('../assets/images/categories/thoi-trang-do-dung-ca-nhan.png')
   }, {
     name: 'Dịch vụ, Du lịch',
+    cg: 6000,
     image: require('../assets/images/categories/dich-vu-du-lich.png')
   }, {
     name: 'Cho tặng miễn phí',
+    giveaway: true,
     image: require('../assets/images/categories/cho-tang-mien-phi.png')
   }, {
     name: 'Việc làm',
+    cg: 13000,
     image: require('../assets/images/categories/viec-lam.png')
   }, {
     name: 'Nội ngoại thất, Đồ gia dụng',
+    cg: 9000,
     image: require('../assets/images/categories/noi-ngoai-that.png')
   }, {
     name: 'Giải trí, Thể thao, Sở thích',
+    cg: 4000,
     image: require('../assets/images/categories/giai-tri-the-thao-so-thich.png')
   }, {
     name: 'Đồ văn phòng, Công nông nghiệp',
+    cg: 8000,
     image: require('../assets/images/categories/do-van-phong.png')
   }, {
     name: 'Các loại khác',
+    cg: 7000,
     image: require('../assets/images/categories/cac-loai-khac.png')
   }, {
     name: 'Tất cả danh mục',
