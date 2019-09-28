@@ -58,7 +58,7 @@ export default class HomeScreen extends Component {
       key={item.name}
       text={item.name}
       imgSource={item.image}
-      onPress={() => { this.props.navigation.navigate('AdsList') }}
+      onPress={() => { this.props.navigation.navigate('AdsList', { cg: item.cg, giveaway: item.giveaway }) }}
       buttonStyle={styles.btnDanhMuc}
     />
   }

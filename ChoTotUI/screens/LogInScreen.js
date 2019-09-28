@@ -3,9 +3,12 @@ import { View, StyleSheet, TextInput, ImageBackground } from 'react-native';
 import { Button, Image } from 'react-native-elements';
 
 class LogInScreen extends Component {
-  state = {
-    phone: '',
-    pass: ''
+  constructor(props) {
+    super(props)
+    this.state = {
+      phone: '',
+      pass: ''
+    }
   }
   render() {
     return (
@@ -70,7 +73,7 @@ class LogInScreen extends Component {
           containerStyle={{ position: 'absolute', top: 2, right: 0 }}
           buttonStyle={{ backgroundColor: 'transparent' }}
           titleStyle={{ color: '#999' }}
-          onPress={() => { this.props.navigation.navigate('Main') }}
+          onPress={() => { this.props.navigation.goBack(null) }}
         ></Button>
 
       </ImageBackground >

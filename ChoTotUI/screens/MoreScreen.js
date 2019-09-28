@@ -7,10 +7,9 @@ import DetailAd from './DetailAd'
 class MoreScreen extends Component {
   state = {}
   render() {
-    return <DetailAd />
-    // <View>
-    {/* <Text>MoreScreen</Text> */ }
-    // </View>;
+    return <View>
+      <Text>MoreScreen</Text>
+    </View>;
   }
 }
 
