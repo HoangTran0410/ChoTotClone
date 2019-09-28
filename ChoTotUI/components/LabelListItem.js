@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-export default function LableListItem(item) {
+export default function LabelListItem(item) {
     return (
-        <TouchableOpacity style={[styles.shadow, styles.lableItem]}>
-            <Text style={styles.textLableItem}>{item.title}</Text>
+        <TouchableOpacity style={[styles.shadow, styles.labelItem]}>
+            <Text style={styles.textLabelItem}>{item.title}</Text>
         </TouchableOpacity>
     );
 };
@@ -21,16 +21,17 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
 
-    lableItem: {
+    labelItem: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 10,
-        marginVertical: 10,
-        marginHorizontal: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+        margin: 5
     },
 
-    textLableItem: {
+    textLabelItem: {
         marginHorizontal: 5,
         fontSize: 12,
     },
