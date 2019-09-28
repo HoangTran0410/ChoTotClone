@@ -1,39 +1,69 @@
-const ApiUrl = 'http://10.0.3.2:5000/'
+import { Alert } from 'react-native';
+// const ApiUrl = 'http://10.0.3.2:5000/'
 
-const ApiRoute = {
-  'user-login': 'users/login',
+// const ApiRoute = {
+//   'user-login': 'users/login',
+// }
+
+// const loginUser = async (data) => {
+
+//   const response = await fetch(ApiUrl + ApiRoute['user-login'], {
+//     method: 'POST',
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(data),
+//   })
+
+//   console.log(response.json());
+
+//   // return response.json();
+// }
+
+const apiUrl = 'https://gateway.chotot.com/v1/public/'
+
+const getListAds = async ({ page, region_v2 = 13000, cg, giveaway }) => {
+  try {
+    let limit = 30;
+    let link = `${apiUrl}ad-listing?region_v2=${region_v2}&limit=${limit}&o=${(page - 1) * limit}&page=${page}&w=1&st=s,k`;
+    if (cg) link += ('&cg=' + cg);
+    if (giveaway) link += '&giveaway=true'
+
+    const response = await fetch(link)
+    const jsonData = await response.json();
+
+    return jsonData;
+
+  } catch (e) {
+    Alert.alert('Lỗi lấy danh sách tin đăng', e.message);
+    return null;
+  }
 }
 
-const loginUser = async (data) => {
+const getDetailAd = async (id) => {
+  try {
+    const response = await fetch(`${apiUrl}ad-listing/${id}`);
+    const jsonData = await response.json();
 
-  const response = await fetch(ApiUrl + ApiRoute['user-login'], {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
+    return jsonData;
 
-  console.log(response.json());
-
-  // return response.json();
-}
-
-
-const getListAds = () => {
-
+  } catch (e) {
+    Alert.alert('Lỗi lấy dữ liệu tin đăng', e.message);
+    return null;
+  }
 }
 
 const getListBanners = async () => {
-  const response = await fetch('https://gateway.chotot.com/v1/public/buyer-collection/banners')
+  const response = await fetch(`${apiUrl}/buyer-collection/banners`)
   const data = await response.json();
   // console.log('get', data);
   return data;
 }
 
 export {
-  loginUser,
+  // loginUser,
   getListAds,
+  getDetailAd,
   getListBanners
 }
