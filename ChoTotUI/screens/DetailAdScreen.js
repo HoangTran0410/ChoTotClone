@@ -13,7 +13,7 @@ import { labelProductData, fakeAdsInfo } from '../utils/data';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-class DetailAd extends Component {
+class DetailAdScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -337,4 +337,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DetailAd;
+export default DetailAdScreen;
