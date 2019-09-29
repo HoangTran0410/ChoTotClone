@@ -6,13 +6,13 @@ import Swiper from 'react-native-swiper';
 import Colors from '../constants/Colors';
 import MySearchBar from "../components/MySearchBar";
 import CategoryButton from '../components/CategoryButton';
-import { danhMuc, ads } from '../utils/data';
+import { danhMuc, banners } from '../utils/data';
 import { getListBanners } from '../utils/callAPI';
 
 export default class HomeScreen extends Component {
 
   state = {
-    banners: ads
+    banners: banners
   }
 
   componentDidMount = async () => {
