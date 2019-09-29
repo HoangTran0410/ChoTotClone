@@ -7,7 +7,7 @@ import MainTabNavigator from './MainTabNavigator';
 import LoginScreen from '../screens/LogInScreen';
 import SignupScreen from '../screens/SignUpScreen';
 import AdsListScreen from '../screens/AdsListScreen';
-import DetailAd from '../screens/DetailAd';
+import DetailAdScreen from '../screens/DetailAdScreen';
 
 const AuthStack = createStackNavigator(
   {
@@ -25,7 +25,7 @@ const MainStack = createStackNavigator(
   {
     Main: MainTabNavigator,
     AdsList: AdsListScreen,
-    DetailAd: DetailAd,
+    DetailAd: DetailAdScreen,
     AuthStack: AuthStack,
   },
   {
@@ -36,7 +36,7 @@ const MainStack = createStackNavigator(
 
 const screens = {
   // Intro: IntroScreen,
-  ChoiceCity: ChoiceCityScreen,
+  // ChoiceCity: ChoiceCityScreen,
   MainStack: MainStack,
 }
 
