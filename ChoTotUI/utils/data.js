@@ -70,7 +70,7 @@ const danhMuc = {
   },]
 }
 
-const ads = [
+const banners = [
   {
     link: "",
     mobileImage: require('../assets/images/banners/buyer_collection_y_homepage_banner_1564111461475.jpg')
@@ -154,7 +154,6 @@ const categoryData = [
   },
 ];
 
-
 const labelProductData = [
   {
     id: 1,
@@ -193,4 +192,135 @@ const labelProductData = [
   },
 ];
 
-export { Cities_VN, Cities, danhMuc, ads, labelData, categoryData, labelProductData };
+const fakeAdsInfo = {
+  "ad": {
+    "ad_id": 91613594,
+    "list_id": 63282145,
+    "list_time": 1569383744000,
+    "date": "50 giây trước",
+    "account_id": 10371590,
+    "account_oid": "9001c8756d2539dbcedef8f952a78636",
+    "account_name": "Hoàng Trần",
+    "subject": "Samsung Galaxy Note 9 128GB đen",
+    "body": "Máy đẹp zin keng\nFull áp suất\nMàn đẹp, bản 2 sim\nCấu hình khủng",
+    "area": 50,
+    "area_name": "Thành phố Vinh",
+    "region": 8,
+    "region_name": "Nghệ An",
+    "category": 5010,
+    "category_name": "Điện thoại",
+    "company_ad": true,
+    "phone": "0853563567",
+    "condition_ad": 1,
+    "type": "s",
+    "type_name": "Cần bán",
+    "price": 9690000,
+    "price_string": "9.690.000 đ",
+    "reviewer_image": "https://static.chotot.com.vn/thumbs/admin/9999999793.png",
+    "reviewer_nickname": "Hoài Linh",
+    "images": [
+      "https://cdn.chotot.com/OARzjmKZbfxfKzngsEbQngKLE_4bVRApCLYKOejvG7M/preset:view/plain/9bc53e6e87007765cf3f5027a043e846-2632986672840578995.jpg",
+      "https://cdn.chotot.com/bcgFfO72BCiTu0W7UKWbL4plMeQ9nGqeQ6qV2N0ZH1s/preset:view/plain/b2659141784737e2f6a4b84619b2fcfd-2632986674131900869.jpg",
+      "https://cdn.chotot.com/Z9k5Q0GBq0PD3s7Vq6tdPCvbz13asBa6Mwyfyay1UEk/preset:view/plain/9b7adc87649ad454e529558d680c82cb-2632986673930508741.jpg",
+      "https://cdn.chotot.com/JgREd-PWeMxHh6CmMhgi1GHFC8xy9Xlpw0edrRPVwVY/preset:view/plain/8cadd0efc6b28fb39780a74cf85c1e89-2632986673092302771.jpg"
+    ],
+    "thumbnail_image": "https://cdn.chotot.com/lblhjOpVsJNrFn30-rP0damylW0prQD7D8v2ZeFYpCU/preset:listing/plain/9bc53e6e87007765cf3f5027a043e846-2632986672840578995.jpg",
+    "owner": false,
+    "avatar": "https://st.chotot.com/imaginary/978098b1c99410ea2b7f22842b0b620a15d87e8a/profile_avatar/0a5945b2de1bf133058d8744feb66b3e9bc5c8ab/thumbnail?width=32",
+    "mobile_brand": 2,
+    "mobile_model": 353,
+    "mobile_type": 1,
+    "mobile_capacity": 6,
+    "mobile_color": 1,
+    "elt_condition": 1,
+    "elt_warranty": 2,
+    "region_v2": 8050,
+    "area_v2": 805001
+  },
+  "parameters": [
+    {
+      "id": "mobile_brand",
+      "value": "Samsung",
+      "label": "Hãng"
+    },
+    {
+      "id": "mobile_model",
+      "value": "Galaxy Note 9",
+      "label": "Dòng máy"
+    },
+    {
+      "id": "elt_condition",
+      "value": "Mới",
+      "label": "Tình trạng"
+    },
+    {
+      "id": "elt_warranty",
+      "value": "Còn bảo hành",
+      "label": "Tình trạng bảo hành"
+    },
+    {
+      "id": "mobile_color",
+      "value": "Đen",
+      "label": "Màu sắc"
+    },
+    {
+      "id": "mobile_capacity",
+      "value": "128 GB",
+      "label": "Dung lượng"
+    },
+    {
+      "id": "area",
+      "value": "Thành phố Vinh",
+      "label": "Quận, Huyện"
+    },
+    {
+      "id": "region",
+      "value": "Nghệ An",
+      "label": "Tỉnh, thành phố"
+    }
+  ],
+  "ad_params": {
+    "area": {
+      "id": "area",
+      "value": "Thành phố Vinh",
+      "label": "Quận, Huyện"
+    },
+    "elt_condition": {
+      "id": "elt_condition",
+      "value": "Mới",
+      "label": "Tình trạng"
+    },
+    "elt_warranty": {
+      "id": "elt_warranty",
+      "value": "Còn bảo hành",
+      "label": "Tình trạng bảo hành"
+    },
+    "mobile_brand": {
+      "id": "mobile_brand",
+      "value": "Samsung",
+      "label": "Hãng"
+    },
+    "mobile_capacity": {
+      "id": "mobile_capacity",
+      "value": "128 GB",
+      "label": "Dung lượng"
+    },
+    "mobile_color": {
+      "id": "mobile_color",
+      "value": "Đen",
+      "label": "Màu sắc"
+    },
+    "mobile_model": {
+      "id": "mobile_model",
+      "value": "Galaxy Note 9",
+      "label": "Dòng máy"
+    },
+    "region": {
+      "id": "region",
+      "value": "Nghệ An",
+      "label": "Tỉnh, thành phố"
+    }
+  }
+}
+
+export { Cities_VN, Cities, danhMuc, banners, labelData, categoryData, labelProductData, fakeAdsInfo };
