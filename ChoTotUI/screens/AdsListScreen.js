@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
-import { SimpleLineIcons, Ionicons, } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { Container } from 'native-base';
 
 import MySearchBar from '../components/MySearchBar';
 import CategoryItem from '../components/CategoryItem';
-import LableListItem from '../components/LableListItem';
+import LabelListItem from '../components/LabelListItem';
 import ProductListItem from '../components/ProductListItem';
+import EmptyPage from '../components/EmptyPage';
 
 import { labelData, categoryData } from '../utils/data';
-
+import { getListAds } from '../utils/callAPI';
 
 export default class AdsListScreen extends React.Component {
     constructor(props) {
@@ -20,99 +21,54 @@ export default class AdsListScreen extends React.Component {
             filter: 'Lọc',
             productData: [],
             pageNumber: 1,
+            cg: this.props.navigation.getParam('cg', 5000),
+            giveaway: this.props.navigation.getParam('giveaway', false),
 
-            isFetching: false
+            isFetching: false,
         }
-    };
-
-    filterForUnique = (arr) => {
-        let res = this.state.productData;
-        arr.forEach((item) => {
-            let unique = true;
-            res.forEach((item2) => {
-                if (item.list_id === item2.list_id)
-                    unique = false;
-            });
-            if (unique) res.push(item)
-        });
-        return res;
-    };
-
-    // getData2 = async () => {
-    //     const response = await fetch(`https://gateway.chotot.com/v1/public/ad-listing?app_id=android&cg=5010&limit=20&o=${this.state.pageNumber}`);
-    //     const jsonData = await response.json();
-    //     //const newProductData = filterForUniqueProduct(this.state.productData.concat(jsonData.ads.filter((item) => {return item.region_name === this.state.city;})));
-    //     const newProductData = this.filterForUnique(jsonData.ads);
-    //     this.setState({
-    //         productData: newProductData,
-    //         pageNumber: this.state.pageNumber + 10,
-    //     });
-    //     console.log(this.state.productData.length);
-    // };
-
-    getData = async (page, isRefresh) => {
-        const response = await fetch(`https://gateway.chotot.com/v1/public/ad-listing?region_v2=13000&cg=5010&w=1&limit=30&st=s,k&page=${page}`)
-        const jsonData = await response.json();
-        const newProductData = jsonData.ads;//this.filterForUnique(jsonData.ads);
-        await this.setState({
-            productData: (isRefresh ? newProductData : [...this.state.productData, ...newProductData]),
-            pageNumber: page,
-            isFetching: false
-        });
-        console.log(this.state.productData.length)
     }
 
     componentDidMount() {
         this.getData(1, true);
-    };
+    }
+
+    getData = async (page, isRefresh) => {
+        const { cg, giveaway } = this.state;
+        const jsonData = await getListAds({ page, cg, giveaway });
+
+        if (jsonData) {
+            const newProductData = jsonData.ads;
+            this.setState({
+                productData: (isRefresh ? newProductData : [...this.state.productData, ...newProductData]),
+                pageNumber: page,
+                isFetching: false
+            });
+        }
+    }
 
     onRefresh() {
         this.setState({ isFetching: true }, () => { this.getData(1, true) });
     }
 
-    scrollToTop() {
-        this.listRef.getNode().scrollToOffset({ offset: 0, animated: true });
+    scrollToTop = () => {
+        this.flatListRef.scrollToOffset({ animated: true, offset: 0 });
     }
 
-    render() {
-        const listAds = (this.state.isFetching ?
-            <ActivityIndicator size='large' loading={this.state.loading} color='#ffbf17' /> :
-            <FlatList
-                ref={(ref) => { this.listRef = ref; }}
-                data={this.state.productData}
-                renderItem={({ item }) => <ProductListItem item={item} />}
-                keyExtractor={item => item.list_id}
-                numColumns={2}
-                onRefresh={() => this.onRefresh()}
-                refreshing={this.state.isFetching}
-                onEndReached={() => this.getData(this.state.pageNumber + 1)}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={<ActivityIndicator size='large' loading={this.state.loading} color='#ffbf17' />}
-            />
-        )
-
+    renderFilters = () => {
+        const { city, type, filter } = this.state;
         return (
-            <Container>
-                <MySearchBar
-                    placeholder="Tìm kiếm trên Chợ Tốt"
-                    onSubmitEditing={() => { alert('search') }}
-                    leftButton={'arrow-back'}
-                    onPressLeftButton={() => this.props.navigation.goBack()}
-                    rightButton={'ios-log-out'}
-                    onPressRightButton={() => alert('login')}
-                />
-
+            <View style={styles.filterContainer}>
                 <View style={styles.pickerContainer}>
                     <TouchableOpacity style={[styles.shadow, styles.pickerItem]}>
-                        <Text style={{ fontSize: 13 }}>{this.state.city}</Text>
+                        <Text style={{ fontSize: 13 }}>{city}</Text>
                         <Ionicons name="md-arrow-dropdown" size={20} color="black" />
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.shadow, styles.pickerItem]}>
-                        <Text style={{ fontSize: 13 }}>{this.state.type}</Text>
+                        <Text style={{ fontSize: 13 }}>{type}</Text>
                         <Ionicons name="md-arrow-dropdown" size={20} color="black" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.shadow, styles.pickerItem, { width: 60 }]}>
-                        <Text style={{ fontSize: 13 }}>{this.state.filter}</Text>
+                    <TouchableOpacity style={[styles.shadow, styles.pickerItem, { flex: 20 }]}>
+                        <Text style={{ fontSize: 13 }}>{filter}</Text>
                         <Ionicons name="md-arrow-dropdown" size={20} color="black" />
                     </TouchableOpacity>
 
@@ -123,47 +79,65 @@ export default class AdsListScreen extends React.Component {
                         renderItem={({ item }) => CategoryItem(item)}
                         keyExtractor={item => item.title}
                         horizontal={true}
-
                     />
                 </View>
-                <View style={[styles.shadow, styles.lableContainer]}>
+                <View style={[styles.shadow, styles.labelContainer]}>
                     <FlatList
                         data={labelData}
-                        renderItem={({ item }) => LableListItem(item)}
+                        renderItem={({ item }) => LabelListItem(item)}
                         keyExtractor={item => item.title}
                         horizontal={true}
                     />
                 </View>
-                <View style={styles.productContainer}>
-                    {listAds}
-                </View>
-                <TouchableOpacity style={{ position: 'absolute', bottom: 10, right: 10, width: 50, height: 50}} onPress={this.scrollToTop}>
-                    <Ionicons name="arrow-up-circle" type="Feather" color="black" />
+            </View>
+        )
+    }
+
+    render() {
+
+        return (
+            <Container>
+                <MySearchBar
+                    placeholder="Tìm kiếm trên Chợ Tốt"
+                    onSubmitEditing={() => { alert('search') }}
+                    leftButton={'arrow-back'}
+                    onPressLeftButton={() => this.props.navigation.goBack()}
+                    rightButton={'ios-log-out'}
+                    onPressRightButton={() => this.props.navigation.navigate('AuthStack')}
+                />
+
+                {this.state.isFetching ?
+                    <ActivityIndicator size='large' color='#ffbf17'
+                    /> :
+                    <FlatList
+                        ref={ref => this.flatListRef = ref}
+                        data={this.state.productData}
+                        renderItem={({ item }) => <ProductListItem item={item} {...this.props} />}
+                        keyExtractor={(item, index) => (index + '')}
+                        ListEmptyComponent={<Text style={{ alignSelf: 'center' }}>Đang tải...</Text>}
+                        ListHeaderComponent={this.renderFilters}
+                        numColumns={2}
+                        onRefresh={() => this.onRefresh()}
+                        refreshing={this.state.isFetching}
+                        onEndReached={() => this.getData(this.state.pageNumber + 1)}
+                        onEndReachedThreshold={0.5}
+                        ListFooterComponent={<ActivityIndicator size='large' color='#ffbf17' />}
+                    />
+                }
+
+                <TouchableOpacity style={styles.buttonUp} onPress={this.scrollToTop}>
+                    <AntDesign name="upcircleo" color="black" size={36} />
                 </TouchableOpacity>
             </Container>
         );
     };
 }
 
-AdsListScreen.navigationOptions = {
-    headerTitle: (
-        <TouchableOpacity style={{ backgroundColor: 'white', height: 32, width: 260, borderRadius: 5 }}>
-        </TouchableOpacity>
-    ),
-    headerRight: (
-        <TouchableOpacity style={{ marginRight: 5 }}>
-            <SimpleLineIcons name="login" size={27} color="black" />
-        </TouchableOpacity>
-    ),
-    headerStyle: {
-        backgroundColor: '#ffbf17',
-    },
-
-};
-
 const styles = StyleSheet.create({
+    filterContainer: {
+
+    },
     pickerContainer: {
-        flex: 0.08,
         backgroundColor: '#ffeb4d',
         justifyContent: 'space-around',
         alignItems: 'center',
@@ -172,8 +146,9 @@ const styles = StyleSheet.create({
 
     pickerItem: {
         backgroundColor: 'white',
-        width: 135,
-        height: '60%',
+        flex: 40,
+        margin: 5,
+        paddingVertical: 5,
         borderRadius: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -181,12 +156,10 @@ const styles = StyleSheet.create({
     },
 
     categoryContainer: {
-        flex: 0.11,
         backgroundColor: 'white',
     },
 
-    lableContainer: {
-        flex: 0.075,
+    labelContainer: {
         backgroundColor: '#f1f2f6',
     },
 
@@ -202,8 +175,17 @@ const styles = StyleSheet.create({
     },
 
     productContainer: {
-        flex: 0.735,
         backgroundColor: '#f1f2f6',
     },
-
+    buttonUp: {
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bottom: 10,
+        right: 10,
+        width: 50,
+        height: 50,
+        backgroundColor: '#eeee',
+        borderRadius: 25,
+    }
 });
