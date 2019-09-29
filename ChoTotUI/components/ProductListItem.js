@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 import { labelProductData } from '../utils/data';
-import ListLabels from '../components/ListLabels';
+import ListTags from './ListTags';
 import { number } from 'prop-types';
 
 export default class ProductListItem extends PureComponent {
@@ -49,7 +49,7 @@ export default class ProductListItem extends PureComponent {
                             <Text style={{ color: 'grey', fontSize: 11 }}>{area_name}</Text>
                         </View>
                     </View>
-                    <ListLabels listLabels={labelProductData} limit={2} />
+                    <ListTags tags={labelProductData} limit={2} />
                 </View>
             </TouchableOpacity>
         );
