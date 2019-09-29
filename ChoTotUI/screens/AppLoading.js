@@ -11,7 +11,7 @@ class AppLoading extends Component {
 
     try {
       startAsync().then(() => {
-        setTimeout(onFinish, 2000)
+        setTimeout(onFinish, 500)
         // onFinish() 
       });
     } catch (err) {
