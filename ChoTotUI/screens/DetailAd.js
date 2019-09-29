@@ -1,158 +1,38 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableHighlight, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { Container, Content, Footer, FooterTab, Button, Icon, Text } from 'native-base';
+import { View, StyleSheet, TouchableOpacity, TouchableHighlight, ActivityIndicator, Image, Dimensions, ScrollView, FlatList } from 'react-native';
+import { Button, Icon, Text } from 'native-base';
 import Swiper from 'react-native-swiper';
 import ImageView from 'react-native-image-view';
 
-const screenHeight = Dimensions.get('window').height;
+import ListTags from '../components/ListTags';
+import ProductListItem from '../components/ProductListItem';
 
-const data = {
-  title: 'SAMSUNG GALAXY S6 EDGE',
-  price_string: '9.690.000 đ',
-  date: '57 phút trước',
-  images: [
-    'https://cdn.chotot.com/YCOIUPtlzk7WhqsVZs0GKQPzaRQ4TbhHcJ6Q0BEy0x4/preset:view/plain/6813825566.jpg',
-    'https://cdn.chotot.com/5AahUg48NkhlvE7gjg8whJgf5fhT93Ahnj1AQodZFhY/preset:view/plain/6856442161.jpg',
-    'https://cdn.chotot.com/NJFdVYGsjWdyjHlyl_XVyd4QCdrWe2A6TK56QtU5gDQ/preset:view/plain/6888255609.jpg',
-    'https://cdn.chotot.com/s28XinZDPkAmPI3TPcty-nu-gd2TwsU0FJznf89cLiM/preset:view/plain/6803022419.jpg'
-  ]
-}
+import { dialCall } from '../utils/functions';
+import { getDetailAd } from '../utils/callAPI';
+import { labelProductData, fakeAdsInfo } from '../utils/data';
 
-const data2 = {
-  "ad": {
-    "ad_id": 91613594,
-    "list_id": 63282145,
-    "list_time": 1569383744000,
-    "date": "50 giây trước",
-    "account_id": 10371590,
-    "account_oid": "9001c8756d2539dbcedef8f952a78636",
-    "account_name": "Trung",
-    "subject": "Samsung Galaxy Note 9 128 GB đen",
-    "body": "Máy đẹp zin keng\nFull áp suất\nMàn đẹp, bản 2 sim\nCấu hình khủng",
-    "area": 50,
-    "area_name": "Thành phố Vinh",
-    "region": 8,
-    "region_name": "Nghệ An",
-    "category": 5010,
-    "category_name": "Điện thoại",
-    "company_ad": true,
-    "phone": "0853563567",
-    "condition_ad": 1,
-    "type": "s",
-    "type_name": "Cần bán",
-    "price": 9690000,
-    "price_string": "9.690.000 đ",
-    "reviewer_image": "https://static.chotot.com.vn/thumbs/admin/9999999793.png",
-    "reviewer_nickname": "Hoài Linh",
-    "images": [
-      "https://cdn.chotot.com/OARzjmKZbfxfKzngsEbQngKLE_4bVRApCLYKOejvG7M/preset:view/plain/9bc53e6e87007765cf3f5027a043e846-2632986672840578995.jpg",
-      "https://cdn.chotot.com/bcgFfO72BCiTu0W7UKWbL4plMeQ9nGqeQ6qV2N0ZH1s/preset:view/plain/b2659141784737e2f6a4b84619b2fcfd-2632986674131900869.jpg",
-      "https://cdn.chotot.com/Z9k5Q0GBq0PD3s7Vq6tdPCvbz13asBa6Mwyfyay1UEk/preset:view/plain/9b7adc87649ad454e529558d680c82cb-2632986673930508741.jpg",
-      "https://cdn.chotot.com/JgREd-PWeMxHh6CmMhgi1GHFC8xy9Xlpw0edrRPVwVY/preset:view/plain/8cadd0efc6b28fb39780a74cf85c1e89-2632986673092302771.jpg"
-    ],
-    "thumbnail_image": "https://cdn.chotot.com/lblhjOpVsJNrFn30-rP0damylW0prQD7D8v2ZeFYpCU/preset:listing/plain/9bc53e6e87007765cf3f5027a043e846-2632986672840578995.jpg",
-    "owner": false,
-    "avatar": "https://st.chotot.com/imaginary/978098b1c99410ea2b7f22842b0b620a15d87e8a/profile_avatar/0a5945b2de1bf133058d8744feb66b3e9bc5c8ab/thumbnail?width=32",
-    "mobile_brand": 2,
-    "mobile_model": 353,
-    "mobile_type": 1,
-    "mobile_capacity": 6,
-    "mobile_color": 1,
-    "elt_condition": 1,
-    "elt_warranty": 2,
-    "region_v2": 8050,
-    "area_v2": 805001
-  },
-  "parameters": [
-    {
-      "id": "mobile_brand",
-      "value": "Samsung",
-      "label": "Hãng"
-    },
-    {
-      "id": "mobile_model",
-      "value": "Galaxy Note 9",
-      "label": "Dòng máy"
-    },
-    {
-      "id": "elt_condition",
-      "value": "Mới",
-      "label": "Tình trạng"
-    },
-    {
-      "id": "elt_warranty",
-      "value": "Còn bảo hành",
-      "label": "Tình trạng bảo hành"
-    },
-    {
-      "id": "mobile_color",
-      "value": "Đen",
-      "label": "Màu sắc"
-    },
-    {
-      "id": "mobile_capacity",
-      "value": "128 GB",
-      "label": "Dung lượng"
-    },
-    {
-      "id": "area",
-      "value": "Thành phố Vinh",
-      "label": "Quận, Huyện"
-    },
-    {
-      "id": "region",
-      "value": "Nghệ An",
-      "label": "Tỉnh, thành phố"
-    }
-  ],
-  "ad_params": {
-    "area": {
-      "id": "area",
-      "value": "Thành phố Vinh",
-      "label": "Quận, Huyện"
-    },
-    "elt_condition": {
-      "id": "elt_condition",
-      "value": "Mới",
-      "label": "Tình trạng"
-    },
-    "elt_warranty": {
-      "id": "elt_warranty",
-      "value": "Còn bảo hành",
-      "label": "Tình trạng bảo hành"
-    },
-    "mobile_brand": {
-      "id": "mobile_brand",
-      "value": "Samsung",
-      "label": "Hãng"
-    },
-    "mobile_capacity": {
-      "id": "mobile_capacity",
-      "value": "128 GB",
-      "label": "Dung lượng"
-    },
-    "mobile_color": {
-      "id": "mobile_color",
-      "value": "Đen",
-      "label": "Màu sắc"
-    },
-    "mobile_model": {
-      "id": "mobile_model",
-      "value": "Galaxy Note 9",
-      "label": "Dòng máy"
-    },
-    "region": {
-      "id": "region",
-      "value": "Nghệ An",
-      "label": "Tỉnh, thành phố"
-    }
-  }
-}
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 class DetailAd extends Component {
-  state = {
-    isImageViewVisible: false,
-    imageViewIndex: 0
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isImageViewVisible: false,
+      imageViewIndex: 0,
+      detail: this.props.navigation.getParam('item') || fakeAdsInfo,
+      recommends: [{ ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }]
+    }
+  }
+
+  componentDidMount_disable = async () => {
+    const id = this.props.navigation.getParam('item').list_id
+    const data = await getDetailAd(id);
+
+    if (data)
+      this.setState({
+        detail: data
+      })
   }
 
   showImageView = (index) => {
@@ -169,8 +49,10 @@ class DetailAd extends Component {
   }
 
   render() {
+    const detail = this.state.detail.ad || this.state.detail;
+    const images = detail.images || []
 
-    const listImages = data2.ad.images.map((uri, index) => {
+    const listImages = images.map((uri, index) => {
       return {
         source: { uri },
         width: 500,
@@ -179,9 +61,10 @@ class DetailAd extends Component {
     })
 
     return (
-      <Container>
+      <View style={{ flex: 1 }}>
 
-        <Button style={[styles.fixedBtn, { left: 10 }]} onPress={() => alert('oke')}>
+        {/* ====== Top Fixed Buttons ========  */}
+        <Button style={[styles.fixedBtn, { left: 10 }]} onPress={() => this.props.navigation.goBack()}>
           <Icon name='arrow-back' style={{ color: 'black' }} />
         </Button>
         <Button style={[styles.fixedBtn, { right: 10, left: null }]} onPress={() => alert('oke')}>
@@ -191,47 +74,133 @@ class DetailAd extends Component {
           <Icon name='share-2' type='Feather' style={{ color: 'black' }} />
         </Button>
 
-        <Content>
+        {/* ======= Images Zoom View ========= */}
+        <ImageView
+          images={listImages}
+          imageIndex={this.state.imageViewIndex}
+          isVisible={this.state.isImageViewVisible}
+          onClose={this.closeImageView}
+          renderFooter={(currentImage) => (
+            <View>
+              <Text style={{ color: 'white', textAlign: 'center' }}>Nhấp 2 lần liên tiếp để phóng to</Text>
+            </View>)
+          }
+        />
 
-          <ImageView
-            images={listImages}
-            imageIndex={this.state.imageViewIndex}
-            isVisible={this.state.isImageViewVisible}
-            onClose={this.closeImageView}
-            renderFooter={(currentImage) => (
-              <View>
-                <Text style={{ color: 'white', textAlign: 'center' }}>
-                  Nhấp 2 lần liên tiếp để phóng to
-                </Text>
-              </View>)}
-          />
-
-          <Swiper
-            // autoplay={true}
-            loop={false}
-            showsButtons={true}
-            loadMinimal={true}
-            containerStyle={styles.swiperContainer}
-          >
-            {
-              data2.ad.images.map((item, index) => {
+        {/* ========== Body Screen ========== */}
+        <ScrollView>
+          {detail.images ?
+            <Swiper
+              loop={false}
+              showsButtons={true}
+              containerStyle={styles.swiperContainer}
+            >
+              {listImages.map((item, index) => {
                 return (
                   <TouchableHighlight key={index} onPress={() => this.showImageView(index)}>
-                    <Image style={styles.img} source={{ uri: item }} />
+                    <Image style={styles.img} source={{ uri: item.source.uri }} />
                   </TouchableHighlight>
                 )
-              })
-            }
-          </Swiper>
+              })}
+            </Swiper> :
+            <View style={{ height: screenHeight / 2, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size='large' loading={this.state.loading} color='#ffbf17' />
+            </View>
+          }
 
-          <View>
-            <Text style={styles.title}>{data.title}</Text>
+          {/* Title subject */}
+          <Text style={styles.title}>{detail.subject}</Text>
+
+          {/* Basic Info */}
+          <View style={styles.basicInfoContainer}>
+            <View style={styles.split}>
+              <View>
+                <Text style={styles.price}>{detail.price_string}</Text>
+                <Text style={styles.date}>{detail.date}</Text>
+                <Text style={styles.region}>{detail.area_name + ', ' + detail.region_name}</Text>
+              </View>
+              <View>
+                <TouchableOpacity style={styles.saveBtn} >
+                  <Icon name='heart' type='Feather' style={{ color: '#FF5E5E', fontSize: 19, margin: 3 }} />
+                  <Text style={{ color: '#FF5E5E', }}>Lưu tin</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <ListTags tags={labelProductData} limit={5} />
+
+            <View style={styles.userInfoContainer}>
+              {/* user */}
+              <View style={styles.row}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Image source={{ uri: detail.avatar }} style={styles.avatar} />
+                  <View style={{ marginHorizontal: 15, marginVertical: 5 }}>
+                    <Text>{detail.account_name}</Text>
+                    <Text style={{ fontSize: 11, color: '#555' }}>Hoạt động 5 giờ trước</Text>
+                  </View>
+                </View>
+                <TouchableOpacity style={{ borderRadius: 20, borderColor: '#FFBF17', borderWidth: 2 }}>
+                  <Text style={{ color: '#FFBF17', paddingHorizontal: 10, paddingVertical: 5, fontSize: 12 }}>Xem trang</Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* info detail */}
+              <View style={[styles.row, { margin: 10 }]}>
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                  <Text style={styles.size14}>Bán chuyên</Text>
+                  <Image source={require('../assets/images/ban_chuyen.png')} />
+                </View>
+                <View style={[styles.borderHorizontal, { flex: 1, alignItems: 'center' }]}>
+                  <Text style={styles.size14}>Đánh giá</Text>
+                  <Text style={{ fontSize: 12 }}>- - -</Text>
+                </View>
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                  <Text style={styles.size14}>Phản hồi</Text>
+                  <Text style={{ fontSize: 12 }}>Thỉnh thoảng</Text>
+                </View>
+              </View>
+            </View>
           </View>
 
-        </Content>
 
-        <Footer>
-          <Button vertical style={{ flex: 1, backgroundColor: '#4CB944' }}>
+          <View style={[styles.shadow, styles.infoArea]}>
+            <Text style={[styles.titleOfInfoArea, styles.shadow]}>Mô tả</Text>
+            <Text>{detail.body}</Text>
+          </View>
+          <View style={[styles.shadow, styles.infoArea]}>
+            <Text style={[styles.titleOfInfoArea, styles.shadow]}>Thông tin sản phẩm</Text>
+            {
+              this.state.detail.parameters &&
+              this.state.detail.parameters.map((para, index) => (
+                <View key={index} style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, fontWeight: 'bold' }}>{para.label + ': '}</Text>
+                  <Text style={{ fontStyle: 'italic', flex: 1 }}>{para.value}</Text>
+                </View>
+              ))
+            }
+          </View>
+          <View>
+            <Text style={[styles.titleOfInfoArea, styles.shadow, { marginLeft: 0, backgroundColor: '#F1F2F6' }]}>BẠN SẼ THÍCH</Text>
+            <FlatList
+              style={{ height: 340 }}
+              data={this.state.recommends}
+              renderItem={({ item }) => <ProductListItem item={item} customWidth={screenWidth / 2 + 10} {...this.props} />}
+              keyExtractor={(item, index) => (index + '')}
+              horizontal={true}
+            />
+          </View>
+
+          <TouchableOpacity onPress={() => alert('Xem thêm')}>
+            <Text style={{ margin: 15, fontSize: 14 }}>
+              Tin đăng này đã được kiểm duyệt. Nếu gặp vấn đề, vui lòng báo các tin đăng hoặc liên hệ CSKH để được trợ giúp.
+              <Text style={{ color: '#FFCE5E' }}> Xem thêm >></Text>
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+
+        {/* ========== Contact Buttons ========== */}
+        <View style={{ flexDirection: 'row', width: '100%' }}>
+          <Button vertical style={[styles.footerBtn, { backgroundColor: '#4CB944' }]} onPress={() => { dialCall(detail.phone) }}>
             <Icon name='phone-call' type='Feather' color='white' />
             <Text style={{ fontSize: 10 }}>Gọi Điện</Text>
           </Button>
@@ -243,8 +212,8 @@ class DetailAd extends Component {
             <Icon name='sms' type='FontAwesome5' style={{ color: '#4CB944' }} />
             <Text style={styles.footerBtnText}>Gửi SMS</Text>
           </Button>
-        </Footer>
-      </Container >
+        </View>
+      </View >
     );
   }
 }
@@ -277,8 +246,6 @@ const styles = StyleSheet.create({
   fixedBtn: {
     position: 'absolute',
     top: 10,
-    // left: 10,
-    // padding: 0,
     justifyContent: 'center',
     alignItems: 'center',
     width: 56,
@@ -286,7 +253,88 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: '#fffd',
     zIndex: 1
-  }
+  },
+  saveBtn: {
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#FF5E5E',
+    padding: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+
+  split: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 10
+  },
+  basicInfoContainer: {
+    margin: 10,
+  },
+  price: {
+    color: '#FF2525',
+    fontSize: 21,
+    fontWeight: 'bold',
+  },
+  date: {
+    fontSize: 13,
+  },
+  region: {
+    fontSize: 12,
+    marginTop: 5,
+    fontStyle: 'italic'
+  },
+
+  userInfoContainer: {
+    marginVertical: 10,
+    paddingVertical: 5,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderTopColor: '#d1d2d3',
+    borderBottomColor: '#d1d2d3',
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#ddd'
+  },
+  size14: { fontSize: 14, marginBottom: 10 },
+  borderHorizontal: {
+    borderLeftColor: '#C1C3C7',
+    borderRightColor: '#C1C3C7',
+    borderLeftWidth: 1,
+    borderRightWidth: 1
+  },
+
+  titleOfInfoArea: {
+    backgroundColor: '#FFEB4D',
+    fontSize: 17,
+    alignSelf: 'flex-start',
+    marginLeft: -20,
+    marginBottom: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+  },
+  infoArea: {
+    marginBottom: 15,
+    marginHorizontal: 15,
+    padding: 5,
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+
+    elevation: 7,
+  },
 })
 
 export default DetailAd;
