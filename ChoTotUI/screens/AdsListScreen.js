@@ -110,8 +110,9 @@ export default class AdsListScreen extends React.Component {
                 />
 
                 {this.state.isFetching ?
-                    <ActivityIndicator size='large' color='#ffbf17'
-                    /> :
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <ActivityIndicator size='large' color='#ffbf17' />
+                    </View> :
                     <FlatList
                         ref={ref => this.flatListRef = ref}
                         data={this.state.productData}
