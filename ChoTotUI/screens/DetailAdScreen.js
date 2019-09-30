@@ -8,7 +8,7 @@ import ListTags from '../components/ListTags';
 import ProductItem from '../components/ProductItem';
 
 import { dialCall } from '../utils/functions';
-import { getDetailAd } from '../utils/callAPI';
+import { getDetailAd, getAccountInfo } from '../utils/callAPI';
 import { labelProductData, fakeAdsInfo } from '../utils/data';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -20,24 +20,34 @@ class DetailAdScreen extends Component {
     this.state = {
       isImageViewVisible: false,
       imageViewIndex: 0,
-      detail: this.props.navigation.getParam('item') || fakeAdsInfo,
+
+      accountDetail: { info: {}, chat: {}, rating: {} },
+      adDetail: this.props.navigation.getParam('item'),
       recommends: [{ ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }]
     }
   }
 
-  componentDidMount_disabled = async () => {
-    const id = this.props.navigation.getParam('item').list_id
-    const data = await getDetailAd(id);
+  componentDidMount = async () => {
+    const { list_id, account_oid } = this.state.adDetail
+    const adData = await getDetailAd(list_id);
+    const accountData = await getAccountInfo(account_oid);
 
-    if (data)
+    if (adData) {
       this.setState({
-        detail: data
+        adDetail: adData,
       })
+    }
+
+    if (accountData) {
+      this.setState({
+        accountDetail: accountData
+      })
+    }
   }
 
   onPressRecommend = (item) => {
     this.setState({
-      detail: item
+      adDetail: item
     })
   }
 
@@ -55,8 +65,10 @@ class DetailAdScreen extends Component {
   }
 
   render() {
-    const detail = this.state.detail.ad || this.state.detail;
-    const images = detail.images || []
+    const adDetail = this.state.adDetail.ad || this.state.adDetail;
+    const adParameters = this.state.adDetail.parameters || [];
+    const accountDetail = this.state.accountDetail;
+    const images = adDetail.images || []
 
     const listImages = images.map((uri, index) => {
       return {
@@ -87,24 +99,24 @@ class DetailAdScreen extends Component {
           isVisible={this.state.isImageViewVisible}
           onClose={this.closeImageView}
           renderFooter={(currentImage) => (
-            <View>
-              <Text style={{ color: 'white', textAlign: 'center' }}>Nhấp 2 lần liên tiếp để phóng to</Text>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ color: 'white', fontSize: 13 }}>Nhấp 2 lần liên tiếp để phóng to, thu nhỏ</Text>
             </View>)
           }
         />
 
         {/* ========== Body Screen ========== */}
         <ScrollView>
-          {detail.images ?
+          {adDetail.images ?
             <Swiper
               loop={false}
               showsButtons={true}
               containerStyle={styles.swiperContainer}
             >
-              {listImages.map((item, index) => {
+              {adDetail.images.map((url, index) => {
                 return (
                   <TouchableHighlight key={index} onPress={() => this.showImageView(index)}>
-                    <Image style={styles.img} source={{ uri: item.source.uri }} />
+                    <Image style={styles.img} source={{ uri: url }} />
                   </TouchableHighlight>
                 )
               })}
@@ -115,15 +127,15 @@ class DetailAdScreen extends Component {
           }
 
           {/* Title subject */}
-          <Text style={styles.title}>{detail.subject}</Text>
+          <Text style={styles.title}>{adDetail.subject}</Text>
 
           {/* Basic Info */}
           <View style={styles.basicInfoContainer}>
             <View style={styles.split}>
               <View>
-                <Text style={styles.price}>{detail.price_string}</Text>
-                <Text style={styles.date}>{detail.date}</Text>
-                {/* <Text style={styles.region}>{detail.area_name + ', ' + detail.region_name}</Text> */}
+                <Text style={styles.price}>{adDetail.price_string}</Text>
+                <Text style={styles.date}>{adDetail.date}</Text>
+                {/* <Text style={styles.region}>{adDetail.area_name + ', ' + adDetail.region_name}</Text> */}
               </View>
               <View>
                 <TouchableOpacity style={styles.saveBtn} >
@@ -139,10 +151,17 @@ class DetailAdScreen extends Component {
               {/* user */}
               <View style={styles.row}>
                 <View style={{ flexDirection: 'row' }}>
-                  <Image source={{ uri: detail.avatar }} style={styles.avatar} />
+                  <Image source={{ uri: (accountDetail.info.avatar || adDetail.avatar) }} style={styles.avatar} />
                   <View style={{ marginHorizontal: 15, marginVertical: 5 }}>
-                    <Text>{detail.account_name}</Text>
-                    <Text style={{ fontSize: 11, color: '#555' }}>Hoạt động 5 giờ trước</Text>
+                    <Text>{adDetail.account_name}</Text>
+                    {
+                      accountDetail.is_active ?
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'green' }}></View>
+                          <Text style={{ fontSize: 11, color: '#555' }}> Đang hoạt động</Text>
+                        </View> :
+                        <Text style={{ fontSize: 11, color: '#555' }}>Tạm vắng</Text>
+                    }
                   </View>
                 </View>
                 <TouchableOpacity style={{ borderRadius: 20, borderColor: '#FFBF17', borderWidth: 2 }}>
@@ -171,13 +190,12 @@ class DetailAdScreen extends Component {
 
           <View style={[styles.shadow, styles.infoArea]}>
             <Text style={[styles.titleOfInfoArea, styles.shadow]}>Mô tả</Text>
-            <Text>{detail.body}</Text>
+            <Text>{adDetail.body}</Text>
           </View>
           <View style={[styles.shadow, styles.infoArea]}>
             <Text style={[styles.titleOfInfoArea, styles.shadow]}>Thông tin sản phẩm</Text>
             {
-              this.state.detail.parameters &&
-              this.state.detail.parameters.map((para, index) => (
+              adParameters.map((para, index) => (
                 <View key={index} style={{ flexDirection: 'row' }}>
                   <Text style={{ flex: 1, fontWeight: 'bold' }}>{para.label + ': '}</Text>
                   <Text style={{ fontStyle: 'italic', flex: 1 }}>{para.value}</Text>
@@ -196,15 +214,15 @@ class DetailAdScreen extends Component {
             />
           </View>
 
-          <Text style={{ margin: 15, fontSize: 14 }}>
+          <Text style={{ margin: 15, fontSize: 14, fontStyle: 'italic' }}>
             Tin đăng này đã được kiểm duyệt. Nếu gặp vấn đề, vui lòng báo các tin đăng hoặc liên hệ CSKH để được trợ giúp.
-            <Text onPress={() => alert('Xem thêm')} style={{ color: '#FFCE5E' }}> Xem thêm >></Text>
+            <Text onPress={() => alert('Xem thêm')} style={{ color: '#5ECEFF' }}> Xem thêm >></Text>
           </Text>
         </ScrollView>
 
         {/* ========== Contact Buttons ========== */}
         <View style={{ flexDirection: 'row', width: '100%' }}>
-          <Button vertical style={[styles.footerBtn, { backgroundColor: '#4CB944' }]} onPress={() => { dialCall(detail.phone) }}>
+          <Button vertical style={[styles.footerBtn, { backgroundColor: '#4CB944' }]} onPress={() => { dialCall(adDetail.phone) }}>
             <Icon name='phone-call' type='Feather' color='white' />
             <Text style={{ fontSize: 10 }}>Gọi Điện</Text>
           </Button>
@@ -325,7 +343,7 @@ const styles = StyleSheet.create({
   },
   infoArea: {
     marginBottom: 15,
-    marginHorizontal: 15,
+    marginHorizontal: 10,
     padding: 5,
   },
   shadow: {
