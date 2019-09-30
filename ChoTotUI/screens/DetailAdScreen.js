@@ -17,8 +17,6 @@ class DetailAdScreen extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.navigation.getParam('love'))
-
     this.state = {
       isImageViewVisible: false,
       imageViewIndex: 0,
@@ -198,12 +196,10 @@ class DetailAdScreen extends Component {
             />
           </View>
 
-          <TouchableOpacity onPress={() => alert('Xem thêm')}>
-            <Text style={{ margin: 15, fontSize: 14 }}>
-              Tin đăng này đã được kiểm duyệt. Nếu gặp vấn đề, vui lòng báo các tin đăng hoặc liên hệ CSKH để được trợ giúp.
-              <Text style={{ color: '#FFCE5E' }}> Xem thêm >></Text>
-            </Text>
-          </TouchableOpacity>
+          <Text style={{ margin: 15, fontSize: 14 }}>
+            Tin đăng này đã được kiểm duyệt. Nếu gặp vấn đề, vui lòng báo các tin đăng hoặc liên hệ CSKH để được trợ giúp.
+            <Text onPress={() => alert('Xem thêm')} style={{ color: '#FFCE5E' }}> Xem thêm >></Text>
+          </Text>
         </ScrollView>
 
         {/* ========== Contact Buttons ========== */}
