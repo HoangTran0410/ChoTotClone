@@ -70,7 +70,7 @@ function responseTimeText(duration) {
     let minutes = Math.floor((duration / 60) % 60);
     let seconds = Math.floor(duration % 60);
 
-    if (hours > 0) return `Trong ${hours + (minutes > 30 ? 1 : 0)} giờ`
+    if (hours > 0) return `Trong ${hours + (minutes > 30 ? 1 : 0)} tiếng`
     if (minutes > 0) return `Trong ${minutes + (seconds > 30 ? 1 : 0)} phút`
     return 'Dưới 1 phút'
 }
