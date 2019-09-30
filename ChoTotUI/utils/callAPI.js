@@ -54,6 +54,28 @@ const getDetailAd = async (id) => {
   }
 }
 
+const getAccountInfo = async (id) => {
+  try {
+    const info = await fetch(`${apiUrl}profile/${id}`);
+    const infoData = await info.json();
+
+    const chat = await fetch(`${apiUrl}chat/user/get/${id}`);
+    const chatData = await chat.json();
+
+    const rating = await fetch(`${apiUrl}ratings/${id}?post_type=all`);
+    const ratingData = await rating.json();
+
+    return {
+      info: infoData,
+      chat: chatData,
+      rating: ratingData
+    };
+  } catch (e) {
+    Alert.alert('Lỗi lấy dữ liệu người đăng', e.message);
+    return null;
+  }
+}
+
 const getListBanners = async () => {
   const response = await fetch(`${apiUrl}/buyer-collection/banners`)
   const data = await response.json();
@@ -65,5 +87,6 @@ export {
   // loginUser,
   getListAds,
   getDetailAd,
-  getListBanners
+  getListBanners,
+  getAccountInfo
 }
