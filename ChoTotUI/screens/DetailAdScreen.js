@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, TouchableHighlight, ActivityIndicator, Image, Dimensions, ScrollView, FlatList } from 'react-native';
+import {
+  View,
+  Image,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableHighlight,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
+
+import { AntDesign } from '@expo/vector-icons';
+
 import { Button, Icon, Text } from 'native-base';
 import Swiper from 'react-native-swiper';
 import ImageView from 'react-native-image-view';
 
+import Rating from '../components/Rating';
 import ListTags from '../components/ListTags';
 import ProductItem from '../components/ProductItem';
 
-import { dialCall } from '../utils/functions';
+import { dialCall, calculateOnlineTime, responseTimeText } from '../utils/functions';
 import { getDetailAd, getAccountInfo } from '../utils/callAPI';
-import { labelProductData, fakeAdsInfo } from '../utils/data';
+import { labelProductData, fakeAdsInfo, fakeAdsInfo2, fakeAccountInfo } from '../utils/data';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -21,33 +35,36 @@ class DetailAdScreen extends Component {
       isImageViewVisible: false,
       imageViewIndex: 0,
 
-      accountDetail: { info: {}, chat: {}, rating: {} },
-      adDetail: this.props.navigation.getParam('item'),
-      recommends: [{ ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }, { ...fakeAdsInfo }]
+      accountDetail: fakeAccountInfo,// { info: {}, chat: {}, rating: {} },
+      adDetail: this.props.navigation.getParam('item') || fakeAdsInfo,
+      recommends: [{ ...fakeAdsInfo2 }, { ...fakeAdsInfo }, { ...fakeAdsInfo2 }, { ...fakeAdsInfo }, { ...fakeAdsInfo2 }]
     }
   }
 
   componentDidMount = async () => {
-    const { list_id, account_oid } = this.state.adDetail
-    const adData = await getDetailAd(list_id);
-    const accountData = await getAccountInfo(account_oid);
+    // const { list_id, account_oid } = this.state.adDetail;
 
-    if (adData) {
-      this.setState({
-        adDetail: adData,
-      })
-    }
+    // const adData = await getDetailAd(list_id);
+    // if (adData) {
+    //   this.setState({
+    //     adDetail: adData,
+    //   })
+    // }
 
-    if (accountData) {
-      this.setState({
-        accountDetail: accountData
-      })
-    }
+    // const accountData = await getAccountInfo(account_oid);
+    // if (accountData) {
+    //   this.setState({
+    //     accountDetail: accountData
+    //   })
+    // }
   }
 
   onPressRecommend = (item) => {
     this.setState({
-      adDetail: item
+      adDetail: item,
+      imageViewIndex: 0,
+    }, () => {
+      this.scrollView.scrollResponderScrollTo({ x: 0, y: 0, animated: true })
     })
   }
 
@@ -67,6 +84,7 @@ class DetailAdScreen extends Component {
   render() {
     const adDetail = this.state.adDetail.ad || this.state.adDetail;
     const adParameters = this.state.adDetail.parameters || [];
+    const adParams = this.state.adDetail.ad_params;
     const accountDetail = this.state.accountDetail;
     const images = adDetail.images || []
 
@@ -106,9 +124,10 @@ class DetailAdScreen extends Component {
         />
 
         {/* ========== Body Screen ========== */}
-        <ScrollView>
+        <ScrollView ref={ref => this.scrollView = ref}>
           {adDetail.images ?
             <Swiper
+              showsPagination={false}
               loop={false}
               showsButtons={true}
               containerStyle={styles.swiperContainer}
@@ -134,7 +153,7 @@ class DetailAdScreen extends Component {
             <View style={styles.split}>
               <View>
                 <Text style={styles.price}>{adDetail.price_string}</Text>
-                <Text style={styles.date}>{adDetail.date}</Text>
+                <Text style={styles.date}>Đăng {adDetail.date}</Text>
                 {/* <Text style={styles.region}>{adDetail.area_name + ', ' + adDetail.region_name}</Text> */}
               </View>
               <View>
@@ -151,16 +170,19 @@ class DetailAdScreen extends Component {
               {/* user */}
               <View style={styles.row}>
                 <View style={{ flexDirection: 'row' }}>
-                  <Image source={{ uri: (accountDetail.info.avatar || adDetail.avatar) }} style={styles.avatar} />
+                  <Image
+                    source={{ uri: (accountDetail.info.avatar || adDetail.avatar) }}
+                    style={accountDetail.chat.result.online_status ? styles.online_avatar : styles.avatar}
+                  />
                   <View style={{ marginHorizontal: 15, marginVertical: 5 }}>
                     <Text>{adDetail.account_name}</Text>
                     {
-                      accountDetail.is_active ?
+                      accountDetail.chat.result.online_status ?
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'green' }}></View>
                           <Text style={{ fontSize: 11, color: '#555' }}> Đang hoạt động</Text>
                         </View> :
-                        <Text style={{ fontSize: 11, color: '#555' }}>Tạm vắng</Text>
+                        <Text style={{ fontSize: 11, color: '#555' }}>Hoạt động {calculateOnlineTime(accountDetail.chat.result.online_time)}</Text>
                     }
                   </View>
                 </View>
@@ -177,11 +199,17 @@ class DetailAdScreen extends Component {
                 </View>
                 <View style={[styles.borderHorizontal, { flex: 1, alignItems: 'center' }]}>
                   <Text style={styles.size14}>Đánh giá</Text>
-                  <Text style={{ fontSize: 12 }}>- - -</Text>
+                  <Rating
+                    star={accountDetail.rating.average_rating}
+                    totalRating={accountDetail.rating.total_rating}
+                  />
                 </View>
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <Text style={styles.size14}>Phản hồi</Text>
-                  <Text style={{ fontSize: 12 }}>Thỉnh thoảng</Text>
+                  <View>
+                    <Text style={{ fontSize: 12 }}>{accountDetail.chat.result.response_rate_text}</Text>
+                    <Text style={{ fontSize: 12 }}>{responseTimeText(accountDetail.chat.result.response_time)}</Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -197,11 +225,20 @@ class DetailAdScreen extends Component {
             {
               adParameters.map((para, index) => (
                 <View key={index} style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, fontWeight: 'bold' }}>{para.label + ': '}</Text>
-                  <Text style={{ fontStyle: 'italic', flex: 1 }}>{para.value}</Text>
+                  <Text style={{ flex: 1 }}>{para.label + ': '}</Text>
+                  <Text style={{ fontWeight: 'bold', flex: 1 }}>{para.value}</Text>
                 </View>
               ))
             }
+          </View>
+          <View style={[styles.shadow, styles.infoArea]}>
+            <Text style={[styles.titleOfInfoArea, styles.shadow]}>Địa chỉ</Text>
+            <Text style={{ justifyContent: 'center' }}>
+              <AntDesign name='home' style={{ fontSize: 25 }} />
+              {
+                adParams && (' ' + adParams.area.value + ', ' + adParams.region.value)
+              }
+            </Text>
           </View>
           <View>
             <Text style={[styles.titleOfInfoArea, styles.shadow, { marginLeft: 0, backgroundColor: '#F1F2F6' }]}>BẠN SẼ THÍCH</Text>
@@ -322,9 +359,19 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#ddd'
+    backgroundColor: '#ddd',
+    borderWidth: 3,
+    borderColor: '#ddd',
   },
-  size14: { fontSize: 14, marginBottom: 10 },
+  online_avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#ddd',
+    borderWidth: 3,
+    borderColor: '#4CB944',
+  },
+  size14: { fontSize: 14, marginBottom: 10, flex: 1 },
   borderHorizontal: {
     borderLeftColor: '#C1C3C7',
     borderRightColor: '#C1C3C7',
