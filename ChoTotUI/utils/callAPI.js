@@ -26,7 +26,7 @@ const apiUrl = 'https://gateway.chotot.com/v1/public/'
 const getListAds = async ({ page, region_v2 = 13000, cg, giveaway }) => {
   try {
     let limit = 30;
-    let link = `${apiUrl}ad-listing?region_v2=${region_v2}&limit=${limit}&o=${(page - 1) * limit}&page=${page}&w=1&st=s,k`;
+    let link = `${apiUrl}ad-listing?region_v2=${region_v2}&limit=${limit}&o=${(page - 1) * limit}&page=${page}`;
     if (cg) link += ('&cg=' + cg);
     if (giveaway) link += '&giveaway=true'
 
