@@ -7,7 +7,6 @@ import MySearchBar from '../components/MySearchBar';
 import CategoryItem from '../components/CategoryItem';
 import LabelListItem from '../components/LabelListItem';
 import ProductItem from '../components/ProductItem';
-import EmptyPage from '../components/EmptyPage';
 
 import { labelData, categoryData } from '../utils/data';
 import { getListAds } from '../utils/callAPI';
