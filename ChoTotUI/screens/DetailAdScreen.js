@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper';
 import ImageView from 'react-native-image-view';
 
 import ListTags from '../components/ListTags';
-import ProductListItem from '../components/ProductListItem';
+import ProductItem from '../components/ProductItem';
 
 import { dialCall } from '../utils/functions';
 import { getDetailAd } from '../utils/callAPI';
@@ -17,6 +17,8 @@ class DetailAdScreen extends Component {
   constructor(props) {
     super(props);
 
+    console.log(this.props.navigation.getParam('love'))
+
     this.state = {
       isImageViewVisible: false,
       imageViewIndex: 0,
@@ -25,7 +27,7 @@ class DetailAdScreen extends Component {
     }
   }
 
-  componentDidMount_disable = async () => {
+  componentDidMount_disabled = async () => {
     const id = this.props.navigation.getParam('item').list_id
     const data = await getDetailAd(id);
 
@@ -33,6 +35,12 @@ class DetailAdScreen extends Component {
       this.setState({
         detail: data
       })
+  }
+
+  onPressRecommend = (item) => {
+    this.setState({
+      detail: item
+    })
   }
 
   showImageView = (index) => {
@@ -117,7 +125,7 @@ class DetailAdScreen extends Component {
               <View>
                 <Text style={styles.price}>{detail.price_string}</Text>
                 <Text style={styles.date}>{detail.date}</Text>
-                <Text style={styles.region}>{detail.area_name + ', ' + detail.region_name}</Text>
+                {/* <Text style={styles.region}>{detail.area_name + ', ' + detail.region_name}</Text> */}
               </View>
               <View>
                 <TouchableOpacity style={styles.saveBtn} >
@@ -127,7 +135,7 @@ class DetailAdScreen extends Component {
               </View>
             </View>
 
-            <ListTags tags={labelProductData} limit={5} />
+            <ListTags tags={labelProductData} />
 
             <View style={styles.userInfoContainer}>
               {/* user */}
@@ -184,7 +192,7 @@ class DetailAdScreen extends Component {
             <FlatList
               style={{ height: 340 }}
               data={this.state.recommends}
-              renderItem={({ item }) => <ProductListItem item={item} customWidth={screenWidth / 2 + 10} {...this.props} />}
+              renderItem={({ item }) => <ProductItem item={item} customWidth={screenWidth / 2 + 10} onPress={this.onPressRecommend} />}
               keyExtractor={(item, index) => (index + '')}
               horizontal={true}
             />

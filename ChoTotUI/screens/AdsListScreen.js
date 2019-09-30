@@ -6,7 +6,7 @@ import { Container } from 'native-base';
 import MySearchBar from '../components/MySearchBar';
 import CategoryItem from '../components/CategoryItem';
 import LabelListItem from '../components/LabelListItem';
-import ProductListItem from '../components/ProductListItem';
+import ProductItem from '../components/ProductItem';
 import EmptyPage from '../components/EmptyPage';
 
 import { labelData, categoryData } from '../utils/data';
@@ -44,6 +44,10 @@ export default class AdsListScreen extends React.Component {
                 isFetching: false
             });
         }
+    }
+
+    onPressItem = (item) => {
+        this.props.navigation.navigate('DetailAd', { 'item': item })
     }
 
     onRefresh() {
@@ -112,7 +116,7 @@ export default class AdsListScreen extends React.Component {
                     <FlatList
                         ref={ref => this.flatListRef = ref}
                         data={this.state.productData}
-                        renderItem={({ item }) => <ProductListItem item={item} {...this.props} />}
+                        renderItem={({ item }) => <ProductItem item={item} onPress={this.onPressItem} />}
                         keyExtractor={(item, index) => (index + '')}
                         ListEmptyComponent={<Text style={{ alignSelf: 'center' }}>Đang tải...</Text>}
                         ListHeaderComponent={this.renderFilters}

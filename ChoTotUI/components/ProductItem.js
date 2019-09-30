@@ -4,15 +4,14 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import { labelProductData } from '../utils/data';
 import ListTags from './ListTags';
-import { number } from 'prop-types';
 
-export default class ProductListItem extends PureComponent {
+export default class ProductItem extends PureComponent {
     constructor(props) {
         super(props)
     }
 
     openDetail = () => {
-        this.props.navigation.navigate('DetailAd', { 'item': this.props.item })
+        this.props.onPress(this.props.item);
     }
 
     render() {
