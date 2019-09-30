@@ -16,12 +16,10 @@ export default class ProductItem extends PureComponent {
 
     render() {
         const { item, customWidth } = this.props;
-        const image = item.image || item.ad.thumbnail_image;
-        const subject = item.subject || item.ad.subject;
-        const number_of_images = item.number_of_images || item.ad.images.length;
-        const price_string = item.price_string || item.ad.price_string;
-        const date = item.date || item.ad.date;
-        const area_name = item.area_name || item.ad.area_name;
+
+        const { subject, price_string, date, area_name } = (item.ad || item)
+        const number_of_images = (item.ad ? item.ad.images.length : item.number_of_images)
+        const image = (item.ad ? item.ad.thumbnail_image : item.image)
 
         return (
             <TouchableOpacity
