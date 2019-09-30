@@ -323,4 +323,140 @@ const fakeAdsInfo = {
   }
 }
 
-export { Cities_VN, Cities, danhMuc, banners, labelData, categoryData, labelProductData, fakeAdsInfo };
+const fakeAdsInfo2 = {
+  "ad": {
+    "ad_id": 91700077,
+    "list_id": 63350538,
+    "list_time": 1569491254000,
+    "date": "4 ngày trước",
+    "account_id": 11549028,
+    "account_oid": "d6732e34d317d0cfea552347cfecd1a0",
+    "account_name": "thiennguyen",
+    "subject": "Điều hòa mitsubishi nội địa",
+    "body": "Máy lạnh nội địa nhật mitsubishi đầu 22 hàng bãi zin đẹp chất lượng. Ae có nhu cầu alo.",
+    "area": 13,
+    "area_name": "Thành phố Biên Hòa",
+    "region": 2,
+    "region_name": "Đồng Nai",
+    "category": 9030,
+    "category_name": "Tủ lạnh, Máy lạnh, Máy giặt",
+    "company_ad": true,
+    "phone": "0918889282",
+    "condition_ad": 1,
+    "type": "s",
+    "type_name": "Cần bán",
+    "price": 3100000,
+    "price_string": "3.100.000 đ",
+    "reviewer_image": "https://static.chotot.com.vn/thumbs/admin/9999999856.png",
+    "reviewer_nickname": "Thanh Long",
+    "images": [
+      "https://cdn.chotot.com/NadyjZodZNDb4G6D8FGW3IIg2i-xwHsteQXTHvvdLlc/preset:view/plain/036bf03cb7d39324588fd0dd3b4de3f5-2633169113481746355.jpg",
+      "https://cdn.chotot.com/gPcmxFu-MWaMYSg1dWpqeGnwMM_nu_E3LH7ctfgUN58/preset:view/plain/478de4507421f71c62ff4f83366f723c-2633169113111796165.jpg",
+      "https://cdn.chotot.com/MnxCliSHloDbdotvclyDassmJ77_AtZHKi13ysk_qVU/preset:view/plain/47dfa900cf637461cf0e5740ea04287d-2633169119101786565.jpg"
+    ],
+    "thumbnail_image": "https://cdn.chotot.com/62pRToAqFoZHPFCY_ixH9u0PEIFVVBzENDhQv5Jwzpo/preset:listing/plain/036bf03cb7d39324588fd0dd3b4de3f5-2633169113481746355.jpg",
+    "owner": false,
+    "avatar": "https://st.chotot.com/imaginary/8720ca9fa2dbd54f01a860ac6fb30bfbf242451a/profile_avatar/e141d6f7292d963ffdf4bde7e299931c73685560/thumbnail?width=32",
+    "region_v2": 2013,
+    "area_v2": 201301,
+    "ward": 8964,
+    "ward_name": "Phường Trảng Dài"
+  },
+  "parameters": [
+    {
+      "id": "ward",
+      "value": "Phường Trảng Dài",
+      "label": " Phường, thị xã, thị trấn"
+    },
+    {
+      "id": "condition_ad",
+      "value": "Đã sử dụng",
+      "label": "Tình trạng"
+    },
+    {
+      "id": "area",
+      "value": "Thành phố Biên Hòa",
+      "label": "Quận, Huyện"
+    },
+    {
+      "id": "region",
+      "value": "Đồng Nai",
+      "label": "Tỉnh, thành phố"
+    }
+  ],
+  "ad_params": {
+    "area": {
+      "id": "area",
+      "value": "Thành phố Biên Hòa",
+      "label": "Quận, Huyện"
+    },
+    "condition_ad": {
+      "id": "condition_ad",
+      "value": "Đã sử dụng",
+      "label": "Tình trạng"
+    },
+    "region": {
+      "id": "region",
+      "value": "Đồng Nai",
+      "label": "Tỉnh, thành phố"
+    },
+    "ward": {
+      "id": "ward",
+      "value": "Phường Trảng Dài",
+      "label": " Phường, thị xã, thị trấn"
+    }
+  }
+}
+
+const fakeAccountInfo = {
+  info: {
+    "account_id": 4863117,
+    "account_oid": "9a4b897ab7a6bc3d3364b501e125299f",
+    "address": "21/39 bình lợi , phường 13, quận bình thạnh, tp.hcm",
+    "avatar": "https://static.chotot.com.vn/imaginary/3e2c6dd1050ad9bd05cc77160d90a08e9b5eb41b/profile_avatar/7d68dfa4404a38321064f40a79488d638c51f62c/thumbnail?width=160",
+    "create_time": 1500008889,
+    "email_verified": "f",
+    "facebook_id": "387430521728682",
+    "full_name": "Nguyễn hoài nam",
+    "is_active": true,
+    "location": [
+      -1,
+      -1
+    ],
+    "old_phone": "",
+    "phone": "0938825797",
+    "phone_verified": "t",
+    "start_time": 1500008889,
+    "update_time": 1535006183
+  },
+  chat: {
+    "status": "success",
+    "result": {
+      "user_id": "2284208",
+      "response_time": 41192,
+      "response_rate": 0.78,
+      "account_oid": "f4d48fb7644dd555c1fa739eb1ca49cb",
+      "deviation": "0",
+      "email_verified": "f",
+      "phone_verified": "t",
+      "start_time": 1459397902,
+      "member_id": "2284208",
+      "member_displayname": "DG Mobile ..Lấy Tâm Làm Tín..",
+      "display_image": "https://st.chotot.com/imaginary/b06eeec57cd91bfbd1743af0184f072900d73082/profile_avatar/5c9fb32431ffa4a295e7804bd9c88be671fe4b05/thumbnail?width=160",
+      "online_status": false,
+      "online_time": 1569820399,
+      "response_rate_text": "Thỉnh thoảng",
+      "response_time_text": "Phản hồi chậm"
+    }
+  },
+  rating: {
+    "average_rating": 3,
+    "total_rating": 354
+  }
+}
+
+export {
+  Cities_VN, Cities, danhMuc, banners, labelData, categoryData, labelProductData,
+  fakeAdsInfo, fakeAdsInfo2,
+  fakeAccountInfo
+};
