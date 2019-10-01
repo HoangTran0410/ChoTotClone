@@ -38,6 +38,7 @@ const screens = {
   // Intro: IntroScreen,
   // ChoiceCity: ChoiceCityScreen,
   MainStack: MainStack,
+  // DetailAd: DetailAdScreen
 }
 
 export default createAppContainer(

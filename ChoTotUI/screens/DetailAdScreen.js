@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
+import { SocialIcon } from 'react-native-elements'
 import { Button, Icon, Text } from 'native-base';
 import Swiper from 'react-native-swiper';
 import ImageView from 'react-native-image-view';
@@ -135,6 +136,7 @@ class DetailAdScreen extends Component {
                 return (
                   <TouchableHighlight key={index} onPress={() => this.showImageView(index)}>
                     <ImageProgress
+                      // onLoad={}
                       style={styles.img}
                       source={{ uri: url }}
                       indicator={Progress.Bar}
@@ -274,11 +276,18 @@ class DetailAdScreen extends Component {
             />
           </View>
 
+          <View style={{ flexDirection: 'row' }}>
+            <SocialIcon type='facebook' />
+            <SocialIcon type='twitter' />
+            <SocialIcon type='google-plus-official' />
+          </View>
+
           <Text style={{ margin: 15, fontSize: 14, fontStyle: 'italic' }}>
             Tin đăng này đã được kiểm duyệt. Nếu gặp vấn đề, vui lòng báo các tin đăng hoặc liên hệ CSKH để được trợ giúp.
             <Text onPress={() => alert('Xem thêm')} style={{ color: '#5ECEFF' }}> Xem thêm >></Text>
           </Text>
         </ScrollView>
+
 
         {/* ========== Contact Buttons ========== */}
         <View style={{ flexDirection: 'row', width: '100%' }}>
