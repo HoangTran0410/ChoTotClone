@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Image, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 import { labelProductData } from '../utils/data';
@@ -8,10 +8,14 @@ import ListTags from './ListTags';
 export default class ProductItem extends PureComponent {
     constructor(props) {
         super(props)
+
+        this.state = {
+            loading: false
+        }
     }
 
-    openDetail = () => {
-        this.props.onPress(this.props.item);
+    openDetail = async () => {
+        this.props.onPress(this.props.item, this)
     }
 
     render() {
@@ -46,8 +50,14 @@ export default class ProductItem extends PureComponent {
                             <Text style={{ color: 'grey', fontSize: 11 }}>{area_name}</Text>
                         </View>
                     </View>
-                    <ListTags tags={labelProductData} limit={2} />
+                    <ListTags tags={labelProductData} limit={this.props.limitTags || 4} />
                 </View>
+                {
+                    this.state.loading &&
+                    <View style={styles.loadingContainer}>
+                        <ActivityIndicator size='large' color='#ffbf17' />
+                    </View>
+                }
             </TouchableOpacity>
         );
     };
@@ -103,6 +113,14 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold'
     },
+    loadingContainer: {
+        backgroundColor: '#2229',
+        position: 'absolute',
+        top: 0, left: 0,
+        right: 0, bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
 
 
