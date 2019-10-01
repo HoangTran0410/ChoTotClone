@@ -22,6 +22,7 @@ import { Alert } from 'react-native';
 // }
 
 const apiUrl = 'https://gateway.chotot.com/v1/public/'
+const apiUrl_v2 = 'https://gateway.chotot.com/v2/public/'
 
 const getListAds = async ({ page, region_v2 = 13000, cg, giveaway }) => {
   try {
@@ -54,15 +55,15 @@ const getDetailAd = async (id) => {
   }
 }
 
-const getAccountInfo = async (id) => {
+const getAccountInfo = async (oid) => {
   try {
-    const info = await fetch(`${apiUrl}profile/${id}`);
+    const info = await fetch(`${apiUrl}profile/${oid}`);
     const infoData = await info.json();
 
-    const chat = await fetch(`${apiUrl}chat/user/get/${id}`);
+    const chat = await fetch(`${apiUrl_v2}chat/user/get/${oid}`);
     const chatData = await chat.json();
 
-    const rating = await fetch(`${apiUrl}ratings/${id}?post_type=all`);
+    const rating = await fetch(`${apiUrl}ratings/${oid}?post_type=all`);
     const ratingData = await rating.json();
 
     return {
