@@ -42,20 +42,28 @@ const getListAds = async ({ page, region_v2 = 13000, cg, giveaway }) => {
   }
 }
 
-const getDetailAd = async (id) => {
+const getDetailAd = async (id, callBack) => {
+  let jsonData;
+
   try {
     const response = await fetch(`${apiUrl}ad-listing/${id}`);
-    const jsonData = await response.json();
-
-    return jsonData;
+    jsonData = await response.json();
 
   } catch (e) {
     Alert.alert('Lỗi lấy dữ liệu tin đăng', e.message);
     return null;
   }
+
+  if (callBack) {
+    callBack(jsonData)
+  }
+
+  return jsonData;
 }
 
-const getAccountInfo = async (oid) => {
+const getAccountInfo = async (oid, callBack) => {
+  let result;
+
   try {
     const info = await fetch(`${apiUrl}profile/${oid}`);
     const infoData = await info.json();
@@ -66,15 +74,48 @@ const getAccountInfo = async (oid) => {
     const rating = await fetch(`${apiUrl}ratings/${oid}?post_type=all`);
     const ratingData = await rating.json();
 
-    return {
+    result = {
       info: infoData,
       chat: chatData,
       rating: ratingData
-    };
+    }
+
   } catch (e) {
     Alert.alert('Lỗi lấy dữ liệu người đăng', e.message);
     return null;
   }
+
+  // if (callBack) {
+  //   callBack(result)
+  // }
+
+  return result;
+}
+
+const getRecommends = async (item, callBack) => {
+
+  let jsonData;
+
+  try {
+    const response = await fetch('http://192.168.1.156:5000/recommendation-system', {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(item)
+    })
+
+    jsonData = await response.json();
+  } catch (e) {
+    Alert.alert('Lỗi lấy dữ liệu recommends', e.message);
+    return null;
+  }
+
+  // if (callBack) {
+  //   callBack(jsonData)
+  // }
+
+  return jsonData;
 }
 
 const getListBanners = async () => {
@@ -84,10 +125,15 @@ const getListBanners = async () => {
   return data;
 }
 
+const beautifi_itemData = () => {
+
+}
+
 export {
   // loginUser,
   getListAds,
   getDetailAd,
   getListBanners,
-  getAccountInfo
+  getAccountInfo,
+  getRecommends
 }

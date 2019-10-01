@@ -23,7 +23,7 @@ import Rating from '../components/Rating';
 import ListTags from '../components/ListTags';
 import ProductItem from '../components/ProductItem';
 
-import { getDetailAd, getAccountInfo } from '../utils/callAPI';
+import { getDetailAd, getAccountInfo, getRecommends } from '../utils/callAPI';
 import { dialCall, calculateOnlineTime, responseTimeText } from '../utils/functions';
 import { labelProductData, fakeAdsInfo, fakeAdsInfo2, defaultAccountInfo, defaultAdInfo } from '../utils/data';
 
@@ -40,12 +40,13 @@ class DetailAdScreen extends Component {
 
       accountDetail: defaultAccountInfo,
       adDetail: this.props.navigation.getParam('item', defaultAdInfo),
-      recommends: this.props.navigation.getParam('recommends', [])
+      recommends: []//this.props.navigation.getParam('recommends', [])
     }
   }
 
   componentDidMount = async () => {
     await this.getDetail(this.state.adDetail)
+    await this.getRecommendsForThisProduct()
   }
 
   getDetail = async (ad) => {
@@ -60,11 +61,30 @@ class DetailAdScreen extends Component {
     })
   }
 
+  getRecommendsForThisProduct = async () => {
+    const recommendsData = await getRecommends(this.state.adDetail);
+    console.log(recommendsData)
+
+    await this.setState({ recommends: [] })
+
+    if (recommendsData.data) {
+      for (let id of recommendsData.data)
+        getDetailAd(id, (fullItem) => {
+          // console.log(fullItem)
+          this.setState({
+            recommends: [...this.state.recommends, fullItem]
+          })
+        })
+    }
+  }
+
   onPressRecommend = async (item, product_item) => {
-    await product_item.setState({ loading: true })
-    await this.getDetail(item);
-    await product_item.setState({ loading: false })
+    product_item.setState({ loading: true })
+    await this.getDetail(item.ad);
+    product_item.setState({ loading: false })
     this.scrollView.scrollResponderScrollTo({ x: 0, y: 0, animated: true })
+    this.recommendsFlatList.scrollToIndex({ index: 0 })
+    this.getRecommendsForThisProduct()
   }
 
   showImageView = (index) => {
@@ -261,6 +281,7 @@ class DetailAdScreen extends Component {
           <View>
             <Text style={[styles.titleOfInfoArea, styles.shadow, { marginLeft: 0, backgroundColor: '#F1F2F6' }]}>BẠN SẼ THÍCH</Text>
             <FlatList
+              ref={ref => this.recommendsFlatList = ref}
               style={{ height: 340 }}
               data={this.state.recommends}
               renderItem={({ item }) => (
