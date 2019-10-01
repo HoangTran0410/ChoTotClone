@@ -46,7 +46,9 @@ export default class AdsListScreen extends React.Component {
     }
 
     onPressItem = (item) => {
-        this.props.navigation.navigate('DetailAd', { 'item': item })
+        let len = 10;
+        let from = ~~(Math.random() * (this.state.productData.length - len));
+        this.props.navigation.navigate('DetailAd', { 'item': item, 'recommends': this.state.productData.slice(from, from + len) })
     }
 
     onRefresh() {
