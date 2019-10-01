@@ -76,6 +76,8 @@ function responseTimeText(duration) {
 }
 
 function calculateOnlineTime(online_time) {
+    if (online_time == 0) return 'Chưa hoạt động';
+
     let online = secsToDateTime(online_time);
     let diff = new Date() - online;
 
@@ -83,12 +85,12 @@ function calculateOnlineTime(online_time) {
     const { hours, minutes, seconds } = diffStr;
 
     if (hours > 0) {
-        return hours + ' giờ trước';
+        return `Hoạt động ${hours} giờ trước`;
     }
     if (minutes > 0) {
-        return minutes + ' phút trước';
+        return `Hoạt động ${minutes} phút trước`;
     }
-    return 'Vài giây trước';
+    return 'Hoạt động vài giây trước';
 }
 
 export { change_alias, dialCall, responseTimeText, calculateOnlineTime };
