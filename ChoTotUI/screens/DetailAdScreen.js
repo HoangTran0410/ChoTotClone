@@ -12,18 +12,19 @@ import {
 } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
-
 import { Button, Icon, Text } from 'native-base';
 import Swiper from 'react-native-swiper';
 import ImageView from 'react-native-image-view';
+import ImageProgress from 'react-native-image-progress';
+import * as Progress from 'react-native-progress';
 
 import Rating from '../components/Rating';
 import ListTags from '../components/ListTags';
 import ProductItem from '../components/ProductItem';
 
-import { dialCall, calculateOnlineTime, responseTimeText } from '../utils/functions';
 import { getDetailAd, getAccountInfo } from '../utils/callAPI';
-import { labelProductData, fakeAdsInfo, fakeAdsInfo2, fakeAccountInfo } from '../utils/data';
+import { dialCall, calculateOnlineTime, responseTimeText } from '../utils/functions';
+import { labelProductData, fakeAdsInfo, fakeAdsInfo2, defaultAccountInfo, defaultAdInfo } from '../utils/data';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -32,40 +33,37 @@ class DetailAdScreen extends Component {
     super(props);
 
     this.state = {
+      isLoading: false,
       isImageViewVisible: false,
       imageViewIndex: 0,
 
-      accountDetail: fakeAccountInfo,// { info: {}, chat: {}, rating: {} },
-      adDetail: this.props.navigation.getParam('item') || fakeAdsInfo,
-      recommends: [{ ...fakeAdsInfo2 }, { ...fakeAdsInfo }, { ...fakeAdsInfo2 }, { ...fakeAdsInfo }, { ...fakeAdsInfo2 }]
+      accountDetail: defaultAccountInfo,
+      adDetail: this.props.navigation.getParam('item', defaultAdInfo),
+      recommends: this.props.navigation.getParam('recommends', [])
     }
   }
 
   componentDidMount = async () => {
-    // const { list_id, account_oid } = this.state.adDetail;
-
-    // const adData = await getDetailAd(list_id);
-    // if (adData) {
-    //   this.setState({
-    //     adDetail: adData,
-    //   })
-    // }
-
-    // const accountData = await getAccountInfo(account_oid);
-    // if (accountData) {
-    //   this.setState({
-    //     accountDetail: accountData
-    //   })
-    // }
+    await this.getDetail(this.state.adDetail)
   }
 
-  onPressRecommend = (item) => {
+  getDetail = async (ad) => {
+    const { list_id, account_oid } = ad;
+
+    const adData = await getDetailAd(list_id);
+    const accountData = await getAccountInfo(account_oid);
+
     this.setState({
-      adDetail: item,
-      imageViewIndex: 0,
-    }, () => {
-      this.scrollView.scrollResponderScrollTo({ x: 0, y: 0, animated: true })
+      adDetail: adData || ad,
+      accountDetail: accountData || this.state.accountDetail
     })
+  }
+
+  onPressRecommend = async (item, product_item) => {
+    await product_item.setState({ loading: true })
+    await this.getDetail(item);
+    await product_item.setState({ loading: false })
+    this.scrollView.scrollResponderScrollTo({ x: 0, y: 0, animated: true })
   }
 
   showImageView = (index) => {
@@ -87,6 +85,8 @@ class DetailAdScreen extends Component {
     const adParams = this.state.adDetail.ad_params;
     const accountDetail = this.state.accountDetail;
     const images = adDetail.images || []
+
+    // console.log(accountDetail.info.avatar, adDetail.avatar)
 
     const listImages = images.map((uri, index) => {
       return {
@@ -127,7 +127,6 @@ class DetailAdScreen extends Component {
         <ScrollView ref={ref => this.scrollView = ref}>
           {adDetail.images ?
             <Swiper
-              showsPagination={false}
               loop={false}
               showsButtons={true}
               containerStyle={styles.swiperContainer}
@@ -135,7 +134,17 @@ class DetailAdScreen extends Component {
               {adDetail.images.map((url, index) => {
                 return (
                   <TouchableHighlight key={index} onPress={() => this.showImageView(index)}>
-                    <Image style={styles.img} source={{ uri: url }} />
+                    <ImageProgress
+                      style={styles.img}
+                      source={{ uri: url }}
+                      indicator={Progress.Bar}
+                      indicatorProps={{
+                        size: 80,
+                        borderWidth: 0,
+                        color: '#ffbf17',
+                        unfilledColor: '#efefef'
+                      }}
+                    />
                   </TouchableHighlight>
                 )
               })}
@@ -182,7 +191,7 @@ class DetailAdScreen extends Component {
                           <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'green' }}></View>
                           <Text style={{ fontSize: 11, color: '#555' }}> Đang hoạt động</Text>
                         </View> :
-                        <Text style={{ fontSize: 11, color: '#555' }}>Hoạt động {calculateOnlineTime(accountDetail.chat.result.online_time)}</Text>
+                        <Text style={{ fontSize: 11, color: '#555' }}>{calculateOnlineTime(accountDetail.chat.result.online_time)}</Text>
                     }
                   </View>
                 </View>
@@ -193,10 +202,17 @@ class DetailAdScreen extends Component {
 
               {/* info detail */}
               <View style={[styles.row, { margin: 10 }]}>
-                <View style={{ flex: 1, alignItems: 'center' }}>
-                  <Text style={styles.size14}>Bán chuyên</Text>
-                  <Image source={require('../assets/images/ban_chuyen.png')} />
-                </View>
+                {
+                  adDetail.company_ad ?
+                    <View style={{ flex: 1, alignItems: 'center' }}>
+                      <Text style={styles.size14}>Bán chuyên</Text>
+                      <AntDesign name='isv' style={{ fontSize: 20 }} />
+                    </View> :
+                    <View style={{ flex: 1, alignItems: 'center' }}>
+                      <Text style={styles.size14}>Cá nhân</Text>
+                      <AntDesign name='user' style={{ fontSize: 20 }} />
+                    </View>
+                }
                 <View style={[styles.borderHorizontal, { flex: 1, alignItems: 'center' }]}>
                   <Text style={styles.size14}>Đánh giá</Text>
                   <Rating
@@ -234,7 +250,7 @@ class DetailAdScreen extends Component {
           <View style={[styles.shadow, styles.infoArea]}>
             <Text style={[styles.titleOfInfoArea, styles.shadow]}>Địa chỉ</Text>
             <Text style={{ justifyContent: 'center' }}>
-              <AntDesign name='home' style={{ fontSize: 25 }} />
+              <AntDesign name='enviromento' style={{ fontSize: 25 }} />
               {
                 adParams && (' ' + adParams.area.value + ', ' + adParams.region.value)
               }
@@ -245,7 +261,14 @@ class DetailAdScreen extends Component {
             <FlatList
               style={{ height: 340 }}
               data={this.state.recommends}
-              renderItem={({ item }) => <ProductItem item={item} customWidth={screenWidth / 2 + 10} onPress={this.onPressRecommend} />}
+              renderItem={({ item }) => (
+                <ProductItem
+                  item={item}
+                  limitTags={1}
+                  onPress={this.onPressRecommend}
+                  customWidth={screenWidth / 2 + 10}
+                />
+              )}
               keyExtractor={(item, index) => (index + '')}
               horizontal={true}
             />
