@@ -408,23 +408,81 @@ const fakeAdsInfo2 = {
   }
 }
 
-const fakeAccountInfo = {
+const defaultAdInfo = {
+  "ad": {
+    "ad_id": 91613594,
+    "list_id": 63282145,
+    "list_time": 1569383744000,
+    "date": "0 giây trước",
+    "account_id": 10371590,
+    "account_oid": "9001c8756d2539dbcedef8f952a78636",
+    "account_name": "",
+    "subject": "",
+    "body": "",
+    "area": 50,
+    "area_name": "",
+    "region": 8,
+    "region_name": "",
+    "category": 5010,
+    "category_name": "Điện thoại",
+    "company_ad": true,
+    "phone": "",
+    "condition_ad": 1,
+    "type": "s",
+    "type_name": "Cần bán",
+    "price": 9690000,
+    "price_string": "0 đ",
+    "reviewer_image": "https://static.chotot.com.vn/thumbs/admin/9999999793.png",
+    "reviewer_nickname": "Hoài Linh",
+    "images": [
+    ],
+    "thumbnail_image": "https://cdn.chotot.com/lblhjOpVsJNrFn30-rP0damylW0prQD7D8v2ZeFYpCU/preset:listing/plain/9bc53e6e87007765cf3f5027a043e846-2632986672840578995.jpg",
+    "owner": false,
+    "avatar": "https://st.chotot.com/imaginary/978098b1c99410ea2b7f22842b0b620a15d87e8a/profile_avatar/0a5945b2de1bf133058d8744feb66b3e9bc5c8ab/thumbnail?width=32",
+    "mobile_brand": 2,
+    "mobile_model": 353,
+    "mobile_type": 1,
+    "mobile_capacity": 6,
+    "mobile_color": 1,
+    "elt_condition": 1,
+    "elt_warranty": 2,
+    "region_v2": 8050,
+    "area_v2": 805001
+  },
+  "parameters": [
+
+  ],
+  "ad_params": {
+    "area": {
+      "id": "area",
+      "value": "",
+      "label": "Quận, Huyện"
+    },
+    "region": {
+      "id": "region",
+      "value": "",
+      "label": "Tỉnh, thành phố"
+    }
+  }
+}
+
+const defaultAccountInfo = {
   info: {
     "account_id": 4863117,
     "account_oid": "9a4b897ab7a6bc3d3364b501e125299f",
-    "address": "21/39 bình lợi , phường 13, quận bình thạnh, tp.hcm",
-    "avatar": "https://static.chotot.com.vn/imaginary/3e2c6dd1050ad9bd05cc77160d90a08e9b5eb41b/profile_avatar/7d68dfa4404a38321064f40a79488d638c51f62c/thumbnail?width=160",
+    "address": "",
+    "avatar": "https://st.chotot.com/imaginary/978098b1c99410ea2b7f22842b0b620a15d87e8a/profile_avatar/0a5945b2de1bf133058d8744feb66b3e9bc5c8ab/thumbnail?width=32",
     "create_time": 1500008889,
     "email_verified": "f",
     "facebook_id": "387430521728682",
-    "full_name": "Nguyễn hoài nam",
+    "full_name": "...",
     "is_active": true,
     "location": [
       -1,
       -1
     ],
     "old_phone": "",
-    "phone": "0938825797",
+    "phone": "",
     "phone_verified": "t",
     "start_time": 1500008889,
     "update_time": 1535006183
@@ -433,7 +491,7 @@ const fakeAccountInfo = {
     "status": "success",
     "result": {
       "user_id": "2284208",
-      "response_time": 41192,
+      "response_time": 0,
       "response_rate": 0.78,
       "account_oid": "f4d48fb7644dd555c1fa739eb1ca49cb",
       "deviation": "0",
@@ -441,22 +499,22 @@ const fakeAccountInfo = {
       "phone_verified": "t",
       "start_time": 1459397902,
       "member_id": "2284208",
-      "member_displayname": "DG Mobile ..Lấy Tâm Làm Tín..",
+      "member_displayname": "",
       "display_image": "https://st.chotot.com/imaginary/b06eeec57cd91bfbd1743af0184f072900d73082/profile_avatar/5c9fb32431ffa4a295e7804bd9c88be671fe4b05/thumbnail?width=160",
       "online_status": false,
-      "online_time": 1569820399,
-      "response_rate_text": "Thỉnh thoảng",
-      "response_time_text": "Phản hồi chậm"
+      "online_time": 0,
+      "response_rate_text": "",
+      "response_time_text": ""
     }
   },
   rating: {
-    "average_rating": 3,
-    "total_rating": 354
+    "average_rating": 0,
+    "total_rating": 0
   }
 }
 
 export {
   Cities_VN, Cities, danhMuc, banners, labelData, categoryData, labelProductData,
   fakeAdsInfo, fakeAdsInfo2,
-  fakeAccountInfo
+  defaultAccountInfo, defaultAdInfo
 };
