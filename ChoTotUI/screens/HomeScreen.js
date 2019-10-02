@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Image, StyleSheet, View, TouchableHighlight, Text, TouchableOpacity } from 'react-native';
+import React, { PureComponent } from "react";
+import { Image, StyleSheet, View, TouchableWithoutFeedback, Text, TouchableOpacity } from 'react-native';
 import { Container, Content, Row } from 'native-base';
 import Swiper from 'react-native-swiper';
 
@@ -9,7 +9,7 @@ import CategoryButton from '../components/CategoryButton';
 import { danhMuc, banners } from '../utils/data';
 import { getListBanners } from '../utils/callAPI';
 
-export default class HomeScreen extends Component {
+export default class HomeScreen extends PureComponent {
 
   state = {
     banners: banners
@@ -43,9 +43,9 @@ export default class HomeScreen extends Component {
         {
           this.state.banners.map(banner => {
             return (
-              <TouchableOpacity key={banner} style={styles.bannerButton} onPress={this.onPressBanner}>
+              <TouchableWithoutFeedback key={banner} style={styles.bannerButton} onPress={this.onPressBanner}>
                 <Image style={styles.bannerImg} source={banner.mobileImage} />
-              </TouchableOpacity>
+              </TouchableWithoutFeedback>
             )
           })
         }
