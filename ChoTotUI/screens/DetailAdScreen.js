@@ -21,7 +21,7 @@ import AccountInfo from '../components/AccountInfo';
 import ProductItem from '../components/ProductItem';
 
 import { dialCall } from '../utils/functions';
-import { labelProductData, defaultAdInfo } from '../utils/data';
+import { labelProductData } from '../utils/data';
 import { getDetailAd, getRecommends } from '../utils/callAPI'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -34,7 +34,7 @@ class DetailAdScreen extends Component {
 			isImageViewVisible: false,
 			imageViewIndex: 0,
 
-			adDetail: this.props.navigation.getParam('item', defaultAdInfo),
+			adDetail: this.props.navigation.getParam('item'),
 			recommends: [],
 		}
 	}
