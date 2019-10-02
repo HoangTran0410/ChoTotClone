@@ -10,8 +10,9 @@ import ProductItem from '../components/ProductItem';
 
 import { labelData, categoryData } from '../utils/data';
 import { getListAds } from '../utils/callAPI';
+import { getDetailAd } from '../utils/callAPI';
 
-export default class AdsListScreen extends React.Component {
+export default class AdsListScreen extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -32,26 +33,30 @@ export default class AdsListScreen extends React.Component {
     }
 
     getData = async (page, isRefresh) => {
+        page = page || this.state.pageNumber + 1
         const { cg, giveaway } = this.state;
-        const jsonData = await getListAds({ page, cg, giveaway });
+        getListAds({ page, cg, giveaway }, (jsonData) => {
+            if (jsonData) {
+                const newProductData = jsonData.ads;
+                this.setState({
+                    productData: (isRefresh ? newProductData : [...this.state.productData, ...newProductData]),
+                    pageNumber: page,
+                    isFetching: false
+                });
+            }
+        });
 
-        if (jsonData) {
-            const newProductData = jsonData.ads;
-            this.setState({
-                productData: (isRefresh ? newProductData : [...this.state.productData, ...newProductData]),
-                pageNumber: page,
-                isFetching: false
-            });
-        }
     }
 
-    onPressItem = (item) => {
-        let len = 10;
-        let from = ~~(Math.random() * (this.state.productData.length - len));
-        this.props.navigation.navigate('DetailAd', { 'item': item, 'recommends': this.state.productData.slice(from, from + len) })
+    onPressItem = async (item, product_item) => {
+        product_item.setState({ loading: true })
+        const fullItem = await getDetailAd(item.list_id)
+        product_item.setState({ loading: false })
+
+        this.props.navigation.navigate('DetailAd', { 'item': fullItem })
     }
 
-    onRefresh() {
+    onRefresh = () => {
         this.setState({ isFetching: true }, () => { this.getData(1, true) });
     }
 
@@ -123,9 +128,9 @@ export default class AdsListScreen extends React.Component {
                         ListEmptyComponent={<Text style={{ alignSelf: 'center' }}>Đang tải...</Text>}
                         ListHeaderComponent={this.renderFilters}
                         numColumns={2}
-                        onRefresh={() => this.onRefresh()}
+                        onRefresh={this.onRefresh}
                         refreshing={this.state.isFetching}
-                        onEndReached={() => this.getData(this.state.pageNumber + 1)}
+                        onEndReached={() => this.getData()}
                         onEndReachedThreshold={0.5}
                         ListFooterComponent={<ActivityIndicator size='large' color='#ffbf17' />}
                     />
