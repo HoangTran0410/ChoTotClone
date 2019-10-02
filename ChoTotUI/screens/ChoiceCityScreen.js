@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import ModalPicker from '../components/ModalPicker'
 
-export default class ChoiceCityScreen extends React.Component {
+export default class ChoiceCityScreen extends React.PureComponent {
 
   constructor(props) {
     super(props);

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ImageBackground } from 'react-native';
 
-class AppLoading extends Component {
+class AppLoading extends PureComponent {
   constructor(props) {
     super(props);
   }

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-class CategoryButton extends Component {
+class CategoryButton extends PureComponent {
 
   constructor(props) {
     super(props);

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet, TextInput, ImageBackground } from 'react-native';
 import { Button, Image } from 'react-native-elements';
 
-class LogInScreen extends Component {
+class LogInScreen extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

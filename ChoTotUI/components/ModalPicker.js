@@ -8,7 +8,7 @@ import { Cities_VN, Cities } from '../utils/data';
 import { change_alias } from '../utils/functions';
 import Colors from '../constants/Colors';
 
-export default class ModalPicker extends React.Component {
+export default class ModalPicker extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {

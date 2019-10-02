@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default class ListTags extends Component {
+export default class ListTags extends PureComponent {
 
   constructor(props) {
     super(props)

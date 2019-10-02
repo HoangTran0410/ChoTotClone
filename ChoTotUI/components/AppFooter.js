@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Footer, FooterTab, Button, Icon, Text, Badge } from 'native-base';
 
 function SmallText(props) {
@@ -30,7 +30,7 @@ const buttons = [
   },
 ]
 
-export default class AppFooter extends Component {
+export default class AppFooter extends PureComponent {
   render() {
     return (
       <Footer>

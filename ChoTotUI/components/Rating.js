@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { View, Text } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 
-export default class Rating extends Component {
+export default class Rating extends PureComponent {
   render() {
     if (this.props.totalRating)
       return (

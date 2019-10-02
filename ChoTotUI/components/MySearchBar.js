@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import { Icon, Button, Header, Item, Input, Left, Right } from 'native-base';
 
 import Colors from "../constants/Colors";
 
-export default class MySearchBar extends Component {
+export default class MySearchBar extends PureComponent {
 
   constructor(props) {
     super(props);
