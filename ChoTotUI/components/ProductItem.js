@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Image, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-import { labelProductData } from '../utils/data';
-import ListTags from './ListTags';
+// import { labelProductData } from '../utils/data';
+// import ListTags from './ListTags';
+import { readableItem } from '../utils/callAPI'
 
 export default class ProductItem extends PureComponent {
     constructor(props) {
@@ -20,15 +21,12 @@ export default class ProductItem extends PureComponent {
 
     render() {
         const { item, customWidth } = this.props;
-
-        const { subject, price_string, date, area_name } = (item.ad || item)
-        const number_of_images = (item.ad ? item.ad.images.length : item.number_of_images)
-        const image = (item.ad ? item.ad.thumbnail_image : item.image)
+        const { subject, price_string, date, area_name, number_of_images, image, company_ad } = readableItem(item);
 
         return (
             <TouchableOpacity
                 onPress={this.openDetail}
-                style={[styles.shadow, styles.container, customWidth ? { width: customWidth } : {}]}
+                style={[styles.shadow, styles.container, { width: customWidth }]}
             >
                 <View style={styles.headerContainer}>
                     <Image style={styles.image} source={{ uri: image }} resizeMode={'cover'} />
@@ -41,16 +39,18 @@ export default class ProductItem extends PureComponent {
                     <View style={styles.bodyContainer}>
                         <Text style={{ color: 'red', fontSize: 14, fontWeight: '500' }}>{price_string}</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 3 }}>
-                            <FontAwesome name="home" size={12} color='#ffbf17' />
+                            {
+                                company_ad ?
+                                    <FontAwesome name="home" size={12} color='#ffbf17' /> :
+                                    <FontAwesome name="user" size={12} color='#333' />
+                            }
                             <Text style={{ fontSize: 12 }}>|</Text>
                             <Text style={{ color: 'grey', fontSize: 11 }}>{date}</Text>
-                            {/* <Feather name='award' size={15} color='#ffbf17' />
-                        <Text style={{color: 'grey', fontSize: 13}}>Tin uu tien</Text> */}
                             <Text style={{ fontSize: 12 }}>|</Text>
                             <Text style={{ color: 'grey', fontSize: 11 }}>{area_name}</Text>
                         </View>
                     </View>
-                    <ListTags tags={labelProductData} limit={this.props.limitTags || 4} />
+                    {/* <ListTags tags={labelProductData} limit={this.props.limitTags || 4} /> */}
                 </View>
                 {
                     this.state.loading &&
@@ -70,21 +70,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'space-around',
     },
-
     headerContainer: {
 
     },
-
     bodyContainer: {
         marginLeft: 5,
         justifyContent: 'center',
     },
-
     image: {
         height: 150,
         width: '100%',
     },
-
     shadow: {
         shadowColor: "#000",
         shadowOffset: {
