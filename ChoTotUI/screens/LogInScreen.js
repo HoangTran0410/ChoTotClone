@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TextInput, ImageBackground } from 'react-native';
+import { View, StyleSheet, TextInput, ImageBackground, AsyncStorage } from 'react-native';
 import { Button, Image } from 'react-native-elements';
+
+import * as Facebook from 'expo-facebook';
 
 class LogInScreen extends PureComponent {
   constructor(props) {
@@ -10,6 +12,30 @@ class LogInScreen extends PureComponent {
       pass: ''
     }
   }
+
+  logInFB = async () => {
+    try {
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync('3748133955278035', {
+        permissions: ['public_profile']
+      });
+      if (type === 'success') {
+        await AsyncStorage.setItem('@token', token)
+        this.props.navigation.reset('Profile')
+
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  };
+
   render() {
     return (
       <ImageBackground style={styles.container} source={require('../assets/images/screens/waveScreen2.png')}>
@@ -49,6 +75,7 @@ class LogInScreen extends PureComponent {
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Button
+              onPress={this.logInFB}
               title="Facebook"
               containerStyle={{ flex: 0.5 }}
               buttonStyle={{ backgroundColor: "#3B5998" }}

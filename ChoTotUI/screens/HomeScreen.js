@@ -159,12 +159,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     width: '95%',
-    paddingVertical: 10,
+    paddingVertical: 7,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 13.5,
     borderRadius: 5,
     backgroundColor: '#fff',
+    color: '#242A37',
 
     shadowColor: "#000",
     shadowOffset: {

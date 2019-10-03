@@ -6,7 +6,7 @@ export default class IconWithBadge extends PureComponent {
   render() {
     const { badgeCount } = this.props;
 
-    let badgeCountConverted = badgeCount <= 99 ? badgeCount : '99+'
+    let badgeCountConverted = badgeCount <= 10 ? badgeCount : '9+'
 
     return (
       <View>
@@ -23,13 +23,13 @@ export default class IconWithBadge extends PureComponent {
               top: -3,
               backgroundColor: '#f22f',
               borderRadius: 6,
-              width: 20,
-              height: 20,
+              width: 15,
+              height: 15,
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
-            <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>
+            <Text style={{ color: 'white', fontSize: 9, fontWeight: 'bold' }}>
               {badgeCountConverted}
             </Text>
           </View>

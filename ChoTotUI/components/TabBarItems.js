@@ -11,8 +11,8 @@ function TabBarIcon(props) {
     <IconWithBadge
       {...props}
       // badgeCount={0}
-      size={26}
-      style={{ color }}
+      // size={10}
+      style={{ color, fontSize: 24 }}
     />
   );
 }
@@ -22,7 +22,7 @@ function TabBarLabel(props) {
   const fontWeight = (props.focused ? 'bold' : 'normal');
 
   return (
-    <Text style={{ alignSelf: 'center', fontSize: 12, color, fontWeight }}>{props.text}</Text>
+    <Text style={{ alignSelf: 'center', fontSize: 10, color, fontWeight }}>{props.text}</Text>
   );
 }
 

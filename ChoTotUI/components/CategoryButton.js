@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   text: {
     padding: 5,
     color: 'white',
-    fontSize: 16,
+    fontSize: 14,
 
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 2, height: 2 },

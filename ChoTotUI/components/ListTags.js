@@ -3,28 +3,33 @@ import { View, Text, StyleSheet } from 'react-native';
 
 export default class ListTags extends PureComponent {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      limitIndex: (props.limit ? props.limit - 1 : props.tags.length - 1)
-    }
-  }
-
   render() {
+
+    const { tags, big, limit } = this.props
+    const limitIndex = (limit ? limit - 1 : tags.length - 1)
+
+    const labelItemStyle = (big ? styles.labelItemBig : styles.labelItem)
+    const labelTextStyle = (big ? styles.labelTextBig : styles.labelText)
+
     return (
       <View style={styles.labelContainer}>
-        {this.props.tags.map((label, index) => {
-          if (index <= this.state.limitIndex) {
+        {tags.map((label, index) => {
+          if (index <= limitIndex) {
             return (
-              <View key={label.id} style={[styles.labelItem, { backgroundColor: label.color }]}>
-                <Text style={styles.labelText}>{label.title}</Text>
+              <View
+                key={label.id}
+                style={[labelItemStyle, { backgroundColor: label.color }]}
+              >
+                <Text style={labelTextStyle}>{label.title}</Text>
               </View>
             )
-          } else if (index == this.state.limitIndex + 1) {
+          } else if (index == limitIndex + 1) {
             return (
-              <View key={label.id} style={[styles.labelItem, { backgroundColor: '#F1F2F3', borderRadius: 5 }]}>
-                <Text style={styles.labelText}>{`+ ${this.props.tags.length - index} đặc tính`}</Text>
+              <View
+                key={label.id}
+                style={[labelItemStyle, { backgroundColor: '#F1F2F3', borderRadius: 5 }]}
+              >
+                <Text style={labelTextStyle}>{`+ ${tags.length - index} đặc tính`}</Text>
               </View>
             )
           }
@@ -36,20 +41,32 @@ export default class ListTags extends PureComponent {
 
 const styles = StyleSheet.create({
   labelContainer: {
-    alignItems: 'center',
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
 
   labelItem: {
-    padding: 3,
-    margin: 2.5,
+    padding: 1,
+    marginRight: 2,
+    marginTop: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   labelText: {
     marginHorizontal: 5,
-    fontSize: 12,
+    fontSize: 11,
   },
+
+  labelItemBig: {
+    padding: 3,
+    margin: 2.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  labelTextBig: {
+    marginHorizontal: 5,
+    fontSize: 12,
+  }
 })

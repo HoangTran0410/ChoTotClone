@@ -32,9 +32,11 @@ export default class MySearchBar extends PureComponent {
         {
           this.props.leftButton &&
           <Left style={{ flex: 0.15 }}>
-            <Button transparent onPress={this.props.onPressLeftButton}>
-              <Icon name={this.props.leftButton} style={{ fontSize: 25 }} />
-            </Button>
+            <Icon
+              name={this.props.leftButton}
+              onPress={this.props.onPressLeftButton}
+              style={{ fontSize: 25, padding: 5, color: 'white' }}
+            />
           </Left>
         }
         <Item style={styles.shadow}>
@@ -49,10 +51,12 @@ export default class MySearchBar extends PureComponent {
         </Item>
         {
           this.props.rightButton &&
-          <Right style={{ flex: 0.2 }}>
-            <Button transparent onPress={this.props.onPressRightButton}>
-              <Icon name={this.props.rightButton} style={{ fontSize: 25 }} />
-            </Button>
+          <Right style={{ flex: 0.15 }}>
+            <Icon
+              name={this.props.rightButton}
+              onPress={this.props.onPressRightButton}
+              style={{ fontSize: 25, padding: 5, color: 'white' }}
+            />
           </Right>
         }
       </Header>
@@ -63,9 +67,11 @@ export default class MySearchBar extends PureComponent {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: Colors.choTotColor2,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   input: {
-    fontSize: 15,
+    fontSize: 13,
     paddingLeft: 10,
     color: '#888888',
     letterSpacing: 1.25,

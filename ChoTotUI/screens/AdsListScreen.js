@@ -9,8 +9,7 @@ import LabelListItem from '../components/LabelListItem';
 import ProductItem from '../components/ProductItem';
 
 import { labelData, categoryData } from '../utils/data';
-import { getListAds } from '../utils/callAPI';
-import { getDetailAd } from '../utils/callAPI';
+import { getListAds, getDetailAd, getAccountInfo, sendEvent } from '../utils/callAPI';
 
 export default class AdsListScreen extends React.PureComponent {
     constructor(props) {
@@ -49,11 +48,14 @@ export default class AdsListScreen extends React.PureComponent {
     }
 
     onPressItem = async (item, product_item) => {
+        sendEvent('click', item, (jsonData) => console.log(jsonData));
+
         product_item.setState({ loading: true })
-        const fullItem = await getDetailAd(item.list_id)
+        const adDetail = await getDetailAd(item.list_id)
+        const accountDetail = await getAccountInfo(item.account_oid)
         product_item.setState({ loading: false })
 
-        this.props.navigation.navigate('DetailAd', { 'item': fullItem })
+        this.props.navigation.navigate('DetailAd', { 'adDetail': adDetail, 'accountDetail': accountDetail })
     }
 
     onRefresh = () => {
@@ -70,15 +72,15 @@ export default class AdsListScreen extends React.PureComponent {
             <View style={styles.filterContainer}>
                 <View style={styles.pickerContainer}>
                     <TouchableOpacity style={[styles.shadow, styles.pickerItem]}>
-                        <Text style={{ fontSize: 13 }}>{city}</Text>
+                        <Text style={{ fontSize: 12 }}>{city}</Text>
                         <Ionicons name="md-arrow-dropdown" size={20} color="black" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.shadow, styles.pickerItem]}>
-                        <Text style={{ fontSize: 13 }}>{type}</Text>
+                    <TouchableOpacity style={[styles.shadow, styles.pickerItem, { flex: 30 }]}>
+                        <Text style={{ fontSize: 12 }}>{type}</Text>
                         <Ionicons name="md-arrow-dropdown" size={20} color="black" />
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.shadow, styles.pickerItem, { flex: 20 }]}>
-                        <Text style={{ fontSize: 13 }}>{filter}</Text>
+                        <Text style={{ fontSize: 12 }}>{filter}</Text>
                         <Ionicons name="md-arrow-dropdown" size={20} color="black" />
                     </TouchableOpacity>
 
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
         flex: 40,
         margin: 5,
         paddingVertical: 5,
-        borderRadius: 10,
+        borderRadius: 3,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',

@@ -26,9 +26,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 5,
-        margin: 5
+        paddingVertical: 7,
+        paddingHorizontal: 3,
+        marginVertical: 10,
+        marginHorizontal: 5
     },
 
     textLabelItem: {
