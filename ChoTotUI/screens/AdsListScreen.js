@@ -14,6 +14,7 @@ import { getListAds, getDetailAd, getAccountInfo, sendEvent } from '../utils/cal
 export default class AdsListScreen extends React.PureComponent {
     constructor(props) {
         super(props);
+
         this.state = {
             city: 'Tp Hồ Chí Minh',
             type: 'Điện thoại',
@@ -133,7 +134,7 @@ export default class AdsListScreen extends React.PureComponent {
                         onRefresh={this.onRefresh}
                         refreshing={this.state.isFetching}
                         onEndReached={() => this.getData()}
-                        onEndReachedThreshold={0.5}
+                        onEndReachedThreshold={1}
                         ListFooterComponent={<ActivityIndicator size='large' color='#ffbf17' />}
                     />
                 }
