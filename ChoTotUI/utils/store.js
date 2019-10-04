@@ -15,6 +15,15 @@ function counter(state, action) {
   }
 }
 
+function filters(state, action) {
+  if (typeof state === 'undefined') return {}
+
+  switch (action.type) {
+    default: return state;
+  }
+}
+
 export default createStore(combineReducers({
-  count: counter
+  count: counter,
+  filters: filters
 }))
