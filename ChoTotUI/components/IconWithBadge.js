@@ -22,16 +22,16 @@ export default class IconWithBadge extends PureComponent {
               right: -6,
               top: -3,
               backgroundColor: '#f22f',
-              borderRadius: 6,
-              width: 15,
-              height: 15,
+              borderRadius: 8,
+              width: 10,
+              height: 10,
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
-            <Text style={{ color: 'white', fontSize: 9, fontWeight: 'bold' }}>
+            {/* <Text style={{ color: 'white', fontSize: 9, fontWeight: 'bold' }}>
               {badgeCountConverted}
-            </Text>
+            </Text> */}
           </View>
         )}
       </View>

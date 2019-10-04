@@ -42,7 +42,7 @@ ChatStack.navigationOptions = {
     <TabBarLabel focused={focused} text="Tin nhắn" />
   ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon badgeCount={2} focused={focused} name="ios-chatboxes" />
+    <TabBarIcon focused={focused} name="ios-chatboxes" />
   ),
 };
 
@@ -57,7 +57,7 @@ NotificationStack.navigationOptions = {
     <TabBarLabel focused={focused} text="Thông báo" />
   ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon badgeCount={101} focused={focused} name="bell" type="FontAwesome5" />
+    <TabBarIcon focused={focused} name="bell" type="FontAwesome5" />
   ),
 };
 
@@ -74,7 +74,7 @@ ProfileStack.navigationOptions = {
     <TabBarLabel focused={focused} text="Tôi bán" />
   ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name="user" type="FontAwesome5" />
+    <TabBarIcon badgeCount={2} focused={focused} name="user" type="FontAwesome5" />
   ),
 };
 
@@ -91,7 +91,7 @@ MoreStack.navigationOptions = {
     <TabBarLabel focused={focused} text="Thêm" />
   ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name="ios-more" />
+    <TabBarIcon badgeCount={2} focused={focused} name="ios-more" />
   ),
 };
 
