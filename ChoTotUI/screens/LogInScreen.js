@@ -24,9 +24,9 @@ class LogInScreen extends PureComponent {
       } = await Facebook.logInWithReadPermissionsAsync('3748133955278035', {
         permissions: ['public_profile']
       });
+      
       if (type === 'success') {
         await AsyncStorage.setItem('@token', token)
-        this.props.navigation.reset('Profile')
 
       } else {
         // type === 'cancel'
