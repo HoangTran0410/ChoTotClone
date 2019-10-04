@@ -180,7 +180,10 @@ class DetailAdScreen extends Component {
 										<View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'green' }}></View>
 										<Text style={{ fontSize: 11, color: '#555' }}> Đang hoạt động</Text>
 									</View> :
-									<Text style={{ fontSize: 11, color: '#555' }}>{calculateOnlineTime(accountDetail.chat.result.online_time)}</Text>
+									<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+										<View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'gray' }}></View>
+										<Text style={{ fontSize: 11, color: '#555' }}> {calculateOnlineTime(accountDetail.chat.result.online_time)}</Text>
+									</View>
 							}
 						</View>
 					</View>
@@ -288,7 +291,7 @@ class DetailAdScreen extends Component {
 							<Text style={[styles.titleOfInfoArea, styles.shadow, { marginLeft: 0, backgroundColor: '#F1F2F6' }]}>BẠN SẼ THÍCH</Text>
 							<FlatList
 								ref={ref => this.recommendsFlatlist = ref}
-								style={{ height: 340 }}
+								style={{ height: 300 }}
 								data={this.state.recommends}
 								initialNumToRender={1}
 								keyExtractor={(item, index) => (index + '')}

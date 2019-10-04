@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Image, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Text, Image, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 import { readableItem } from '../utils/callAPI'
@@ -24,38 +24,40 @@ export default class ProductItem extends PureComponent {
         const { subject, price_string, date, area_name, number_of_images, image, company_ad } = readableItem(item);
 
         return (
-            <TouchableOpacity
+            <TouchableWithoutFeedback
                 onPress={this.openDetail}
-                style={[styles.shadow, styles.container, { width: customWidth }]}
+            // style={}
             >
-                <View style={styles.headerContainer}>
-                    <Image style={styles.image} source={{ uri: image }} />
-                    <Text style={{ fontSize: 13, margin: 5 }}>{subject}</Text>
-                </View>
-                <View style={styles.imageCountContainer}>
-                    <Text style={styles.imageCount}>{number_of_images}</Text>
-                </View>
-                <View style={{ padding: 5 }}>
-                    <View style={styles.bodyContainer}>
-                        <Text style={{ color: 'red', fontSize: 14 }}>{price_string}</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
-                            {
-                                company_ad ?
-                                    <FontAwesome name="home" size={13} color='#ffbf17' /> :
-                                    <FontAwesome name="user" size={13} color='#333' />
-                            }
-                            <Text style={styles.small}>{` | ${date} | ${area_name}`}</Text>
+                <View style={[styles.shadow, styles.container, { width: customWidth }]}>
+                    <View style={styles.headerContainer}>
+                        <Image style={styles.image} source={{ uri: image }} />
+                        <Text style={{ fontSize: 13, margin: 5 }}>{subject}</Text>
+                    </View>
+                    <View style={styles.imageCountContainer}>
+                        <Text style={styles.imageCount}>{number_of_images}</Text>
+                    </View>
+                    <View style={{ padding: 5 }}>
+                        <View style={styles.bodyContainer}>
+                            <Text style={{ color: 'red', fontSize: 14 }}>{price_string}</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
+                                {
+                                    company_ad ?
+                                        <FontAwesome name="home" size={13} color='#ffbf17' /> :
+                                        <FontAwesome name="user" size={13} color='#333' />
+                                }
+                                <Text style={styles.small}>{` | ${date} | ${area_name}`}</Text>
+                            </View>
+                            {/* <ListTags tags={labelProductData} limit={this.props.limitTags || 4} /> */}
                         </View>
-                        <ListTags tags={labelProductData} limit={this.props.limitTags || 4} />
                     </View>
+                    {
+                        this.state.loading &&
+                        <View style={styles.loadingContainer}>
+                            <ActivityIndicator size='large' color='#ffbf17' />
+                        </View>
+                    }
                 </View>
-                {
-                    this.state.loading &&
-                    <View style={styles.loadingContainer}>
-                        <ActivityIndicator size='large' color='#ffbf17' />
-                    </View>
-                }
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
         );
     };
 };
