@@ -104,7 +104,7 @@ const getListBanners = async () => {
 }
 
 // =========================== API Backend =================================
-const host = 'http://192.168.1.151:5000'
+const host = 'http://192.168.1.97:5000'
 
 const getRecommends = async (item, callBack) => {
 

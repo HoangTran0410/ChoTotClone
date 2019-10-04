@@ -1,7 +1,7 @@
+import React from 'react';
+import { AppState, StyleSheet, View } from 'react-native';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import React, { useState } from 'react';
-import { AppState, StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
@@ -11,8 +11,8 @@ import AppLoading from './screens/AppLoading';
 import store from './utils/store';
 
 // https://reactnavigation.org/docs/en/react-native-screens.html
-import { useScreens } from 'react-native-screens';
-useScreens();
+// import { useScreens } from 'react-native-screens';
+// useScreens();
 
 export default class App extends React.Component {
   // const[isLoadingComplete, setLoadingComplete] = useState(false);

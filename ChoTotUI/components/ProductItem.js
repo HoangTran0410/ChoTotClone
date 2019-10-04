@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Text, Image, ActivityIndicator } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { View, StyleSheet, TouchableWithoutFeedback, Text, Image, ActivityIndicator } from 'react-native';
+import { MaterialIcons, FontAwesome, AntDesign } from '@expo/vector-icons';
 
 import { readableItem } from '../utils/callAPI'
 import { labelProductData } from '../utils/data';
@@ -21,7 +21,7 @@ export default class ProductItem extends PureComponent {
 
     render() {
         const { item, customWidth } = this.props;
-        const { subject, price_string, date, area_name, number_of_images, image, company_ad } = readableItem(item);
+        const { subject, price_string, date, area_name, number_of_images, image, company_ad, giveaway } = readableItem(item);
 
         return (
             <TouchableWithoutFeedback
@@ -38,11 +38,18 @@ export default class ProductItem extends PureComponent {
                     </View>
                     <View style={{ padding: 5 }}>
                         <View style={styles.bodyContainer}>
-                            <Text style={{ color: 'red', fontSize: 14 }}>{price_string}</Text>
+                            {
+                                giveaway ?
+                                    <Text style={{ fontSize: 14, color: '#49A2A1' }}>
+                                        <AntDesign name="gift" style={{ fontSize: 17 }} />
+                                        {' Cho tặng'}
+                                    </Text> :
+                                    <Text style={{ color: 'red', fontSize: 14 }}>{price_string}</Text>
+                            }
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
                                 {
                                     company_ad ?
-                                        <FontAwesome name="home" size={13} color='#ffbf17' /> :
+                                        <MaterialIcons name="store" size={13} color='#ffbf17' /> :
                                         <FontAwesome name="user" size={13} color='#333' />
                                 }
                                 <Text style={styles.small}>{` | ${date} | ${area_name}`}</Text>

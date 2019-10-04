@@ -142,14 +142,21 @@ class DetailAdScreen extends Component {
 			<View style={styles.basicInfoContainer}>
 				<View style={styles.split}>
 					<View>
-						<Text style={styles.price}>{adDetail.ad.price_string}</Text>
+						{
+							adDetail.ad.giveaway ?
+								<Text style={styles.priceFree}>
+									<AntDesign name="gift" style={{ fontSize: 20, color: '#49A2A1' }} />
+									{' Cho tặng miễn phí'}
+								</Text> :
+								<Text style={styles.price}>{adDetail.ad.price_string}</Text>
+						}
 						<Text style={styles.date}>Đăng {adDetail.ad.date}</Text>
 						{/* <Text style={styles.region}>{adDetail.area_name + ', ' + adDetail.region_name}</Text> */}
 					</View>
 					<View>
 						<TouchableOpacity style={styles.saveBtn} >
-							<Icon name='heart' type='Feather' style={{ color: '#FF5E5E', fontSize: 19, margin: 3 }} />
-							<Text style={{ color: '#FF5E5E', }}>Lưu tin</Text>
+							<Text style={{ color: '#FF5E5E', fontSize: 13 }}>Lưu tin </Text>
+							<Icon name='heart' type='Feather' style={{ color: '#FF5E5E', fontSize: 15 }} />
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -169,7 +176,7 @@ class DetailAdScreen extends Component {
 				<View style={styles.row}>
 					<View style={{ flexDirection: 'row' }}>
 						<Image
-							source={{ uri: accountDetail.info.avatar }}
+							source={{ uri: accountDetail.info.avatar || 'https://st.chotot.com/imaginary/7a093027fc8667dd7eb33afd6539316567d89422/profile_avatar/a5dfa54718bc3c2d72e135c408a6d1c6b3bf38bf/thumbnail?width=32' }}
 							style={accountDetail.chat.result.online_status ? [styles.avatar, styles.active] : styles.avatar}
 						/>
 						<View style={{ marginHorizontal: 15, marginVertical: 5 }}>
@@ -215,9 +222,9 @@ class DetailAdScreen extends Component {
 					<View style={{ flex: 1, alignItems: 'center' }}>
 						<Text style={styles.small}>Phản hồi</Text>
 						<View>
-							{/* <Text style={{ fontSize: 12 }}>{accountDetail.chat.result.response_rate_text}</Text> */}
 							<Text style={{ fontSize: 12, textAlign: 'center' }}>{accountDetail.chat.result.response_rate * 100}%</Text>
-							<Text style={{ fontSize: 12, textAlign: 'center' }}>{responseTimeText(accountDetail.chat.result.response_time)}</Text>
+							{/* <Text style={{ fontSize: 12 }}>{accountDetail.chat.result.response_rate_text}</Text> */}
+							{/* <Text style={{ fontSize: 12, textAlign: 'center' }}>{responseTimeText(accountDetail.chat.result.response_time)}</Text> */}
 						</View>
 					</View>
 				</View>
@@ -324,18 +331,18 @@ class DetailAdScreen extends Component {
 
 				{/* ========== Contact Buttons ========== */}
 				<View style={{ flexDirection: 'row', width: '100%' }}>
-					<Button vertical style={[styles.footerBtn, { backgroundColor: '#4CB944' }]} onPress={this.onPressCallBtn}>
-						<Icon name='phone-call' type='Feather' color='white' />
-						<Text style={{ fontSize: 10 }}>Gọi Điện</Text>
-					</Button>
-					<Button vertical style={styles.footerBtn}>
+					<TouchableOpacity style={[styles.footerBtn, { backgroundColor: '#4CB944' }]} onPress={this.onPressCallBtn}>
+						<Icon name='phone-call' type='Feather' style={{ color: 'white' }} />
+						<Text style={{ fontSize: 10, color: 'white' }}>Gọi Điện</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.footerBtn}>
 						<Icon name='ios-chatboxes' style={{ color: '#4CB944' }} />
 						<Text style={styles.footerBtnText}>Chat</Text>
-					</Button>
-					<Button vertical style={styles.footerBtn}>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.footerBtn}>
 						<Icon name='sms' type='FontAwesome5' style={{ color: '#4CB944' }} />
 						<Text style={styles.footerBtnText}>Gửi SMS</Text>
-					</Button>
+					</TouchableOpacity>
 				</View>
 			</View >
 		);
@@ -352,14 +359,17 @@ const styles = StyleSheet.create({
 	title: {
 		alignSelf: 'flex-start',
 		paddingVertical: 10,
-		paddingHorizontal: 15,
-		fontWeight: 'bold',
-		fontSize: 19,
+		paddingHorizontal: 10,
+		fontWeight: '500',
+		fontSize: 17,
 		backgroundColor: '#EDEFF0',
 		borderBottomRightRadius: 10,
 	},
 	footerBtn: {
 		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingVertical: 5,
 		backgroundColor: '#F1F2F3',
 		borderRadius: 0
 	},
@@ -382,13 +392,15 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		borderWidth: 2,
 		borderColor: '#FF5E5E',
-		padding: 5,
+		paddingVertical: 5,
+		paddingHorizontal: 10,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 
 	split: {
+		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		marginVertical: 10
@@ -398,7 +410,12 @@ const styles = StyleSheet.create({
 	},
 	price: {
 		color: '#FF2525',
-		fontSize: 19,
+		fontSize: 17,
+		fontWeight: 'bold',
+	},
+	priceFree: {
+		color: '#49A2A1',
+		fontSize: 17,
 		fontWeight: 'bold',
 	},
 	date: {
