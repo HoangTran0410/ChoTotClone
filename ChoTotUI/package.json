@@ -33,6 +33,7 @@
     "react-native-swiper": "^1.5.14",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.0",
+    "react-redux": "^7.1.1",
     "redux": "^4.0.4"
   },
   "devDependencies": {

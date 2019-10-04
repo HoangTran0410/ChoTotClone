@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import { Container, Text } from 'native-base';
+import { Text } from 'native-base';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 
 class MoreScreen extends Component {
   state = {}
   render() {
     return <View>
-      <Text>MoreScreen</Text>
+      <Text>{this.props.count}</Text>
     </View>;
   }
 }
 
-export default MoreScreen;
+export default connect(state => {
+  return {
+    count: state.count
+  }
+})(MoreScreen)

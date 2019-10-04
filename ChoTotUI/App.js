@@ -1,12 +1,14 @@
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
+import { Provider } from 'react-redux';
 
 import AppNavigator from './navigation/AppNavigator';
 import AppLoading from './screens/AppLoading';
+import store from './utils/store';
 
 // https://reactnavigation.org/docs/en/react-native-screens.html
 import { useScreens } from 'react-native-screens';
@@ -25,12 +27,11 @@ export default function App(props) {
     );
   } else {
     return (
-      <View style={styles.container}>
-        <StatusBar barStyle="default" />
-        {/* <Provider > */}
-        <AppNavigator />
-        {/* </Provider> */}
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <AppNavigator />
+        </View>
+      </Provider>
     );
   }
 }

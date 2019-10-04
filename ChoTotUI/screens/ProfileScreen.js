@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, ActivityIndicator, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 class ProfileScreen extends Component {
   state = {
@@ -8,7 +9,8 @@ class ProfileScreen extends Component {
   }
 
   componentDidMount = () => {
-    this.checkLogin();
+    // this.checkLogin();
+    // this.logOut()
   }
 
   checkLogin = async () => {
@@ -43,32 +45,39 @@ class ProfileScreen extends Component {
 
     const container = { flex: 1, justifyContent: 'center', alignItem: 'center' }
 
-    if (!this.state.userName) {
-      if (this.state.loggedIn)
-        return (
-          <View style={container}>
-            <ActivityIndicator />
-          </View>
-        )
+    // if (!this.state.userName) {
+    //   if (this.state.loggedIn)
+    //     return (
+    //       <View style={container}>
+    //         <ActivityIndicator />
+    //       </View>
+    //     )
 
-      return <View style={container}>
-        <Button
-          title="LogIn"
-          onPress={() => this.props.navigation.navigate('LogIn')}
-        />
-      </View>;
-    }
+    //   return <View style={container}>
+    //     <Button
+    //       title="LogIn"
+    //       onPress={() => this.props.navigation.navigate('LogIn')}
+    //     />
+    //   </View>;
+    // }
 
     const { userName, avatar } = this.state
 
     return (
       <View style={container}>
-        <Image source={{ uri: avatar }} style={{ width: 200, height: 200 }} />
-        <Text>{userName}</Text>
-        <Button title="Đăng xuất" onPress={() => this.logOut()} />
+        {/* <Image source={{ uri: avatar }} style={{ width: 200, height: 200 }} /> */}
+        <Text>Count: {this.props.count}</Text>
+        {/* <Button title="Đăng xuất" onPress={() => this.logOut()} /> */}
+        <Button title="Tăng" onPress={() => this.props.dispatch({ type: 'INCREMENT' })} />
+        <Button title="Giảm" onPress={() => this.props.dispatch({ type: 'DECREMENT' })} />
       </View>
     )
   }
 }
 
-export default ProfileScreen;
+// export default ProfileScreen;
+export default connect(state => {
+  return {
+    count: state.count
+  }
+})(ProfileScreen)
