@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Text } from 'native-base';
 
 import MySearchBar from '../components/MySearchBar';
+import DevModeNotify from '../components/DevModeNotify';
 
 class NotificationScreen extends Component {
   state = {}
@@ -21,6 +22,7 @@ class NotificationScreen extends Component {
         rightButton={'ios-log-out'}
         onPressRightButton={() => this.props.navigation.navigate('LogIn')}
       />
+      <DevModeNotify />
     </Container>;
   }
 }
