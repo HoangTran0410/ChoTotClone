@@ -22,7 +22,7 @@ import Rating from '../components/Rating';
 
 import { labelProductData } from '../utils/data';
 import { getDetailAd, getRecommends, getAccountInfo, sendEvent } from '../utils/callAPI'
-import { dialCall, calculateOnlineTime, responseTimeText } from '../utils/functions';
+import { dialCall, share, calculateOnlineTime, responseTimeText } from '../utils/functions';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -96,7 +96,10 @@ class DetailAdScreen extends Component {
 
 	renderImagesView = () => {
 		const { images } = this.state.adDetail.ad
-		if (!images) return
+		if (!images)
+			return (
+				<View style={{ height: 100 }}></View>
+			)
 
 		const listImages = images.map((uri, index) => {
 			return {
@@ -187,10 +190,7 @@ class DetailAdScreen extends Component {
 										<View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'green' }}></View>
 										<Text style={{ fontSize: 11, color: '#555' }}> Đang hoạt động</Text>
 									</View> :
-									<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-										<View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: 'gray' }}></View>
-										<Text style={{ fontSize: 11, color: '#555' }}> {calculateOnlineTime(accountDetail.chat.result.online_time)}</Text>
-									</View>
+									<Text style={{ fontSize: 11, color: '#555' }}> {calculateOnlineTime(accountDetail.chat.result.online_time)}</Text>
 							}
 						</View>
 					</View>
@@ -254,7 +254,7 @@ class DetailAdScreen extends Component {
 					}
 				</View>
 				<View style={[styles.shadow, styles.infoArea]}>
-					<Text style={[styles.titleOfInfoArea, styles.shadow]}>Địa chỉ</Text>
+					<Text style={[styles.titleOfInfoArea, styles.shadow]}>Khu vực</Text>
 					<Text style={{ justifyContent: 'center', fontSize: 15 }}>
 						<AntDesign name='enviromento' style={{ fontSize: 25 }} />
 						{' ' + ad_params.area.value + ', ' + ad_params.region.value}
@@ -316,10 +316,11 @@ class DetailAdScreen extends Component {
 					}
 
 					{/* Social icon */}
+					<Text style={{ padding: 10 }}>Chia sẻ lên mạng xã hội:</Text>
 					<View style={{ flexDirection: 'row' }}>
-						<SocialIcon type='facebook' />
-						<SocialIcon type='twitter' />
-						<SocialIcon type='google-plus-official' />
+						<SocialIcon type='facebook' onPress={() => share('fb', 'https://www.chotot.com/')} />
+						<SocialIcon type='twitter' onPress={() => share('twitter', 'https://www.chotot.com/')} />
+						<SocialIcon type='google-plus-official' onPress={() => share('G+', 'https://www.chotot.com/')} />
 					</View>
 
 					<Text style={{ margin: 15, fontSize: 14, fontStyle: 'italic' }}>

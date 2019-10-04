@@ -25,8 +25,31 @@ const dialCall = (phone) => {
         phoneNumber = 'telprompt:${' + phone + '}';
     }
     Linking.openURL(phoneNumber);
+
 }
 
+function share(type, link) {
+    switch (type) {
+        case 'fb':
+            Linking.openURL(`https://www.facebook.com/sharer/sharer.php?u=${link}`)
+            break;
+        case 'twitter':
+            Linking.openURL(`https://twitter.com/intent/tweet?url=${link}`)
+            break;
+        case 'G+':
+            Linking.openURL(`https://plus.google.com/share?url=${link}`)
+            break;
+    }
+
+}
+
+function getInitialURL() {
+    Linking.getInitialURL().then((url) => {
+        if (url) {
+            console.log('Initial url is: ' + url);
+        }
+    }).catch(err => console.error('An error occurred', err));
+}
 
 // ============================ DATE TIME FUNCTIONS =======================
 function appendLeadingZeroes(n) {
@@ -93,4 +116,4 @@ function calculateOnlineTime(online_time) {
     return 'Hoạt động vài giây trước';
 }
 
-export { change_alias, dialCall, responseTimeText, calculateOnlineTime };
+export { change_alias, dialCall, responseTimeText, calculateOnlineTime, share };

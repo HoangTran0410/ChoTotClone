@@ -70,31 +70,32 @@ export default class HomeScreen extends PureComponent {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Khám Phá Các Danh Mục</Text>
         </View>
+        <View style={{ padding: 5 }}>
+          {
+            list.big.map(item => {
+              return (
+                <Row key={item.name}>
+                  {this.renderCateButton(item)}
+                </Row>
+              )
+            })
+          }
 
-        {
-          list.big.map(item => {
-            return (
-              <Row key={item.name}>
-                {this.renderCateButton(item)}
-              </Row>
-            )
-          })
-        }
-
-        <View style={styles.splitContainer}>
-          <View style={styles.splitView}>
-            {
-              list.small.slice(0, centerImgData).map(item => {
-                return this.renderCateButton(item)
-              })
-            }
-          </View>
-          <View style={styles.splitView}>
-            {
-              list.small.slice(centerImgData).map(item => {
-                return this.renderCateButton(item)
-              })
-            }
+          <View style={styles.splitContainer}>
+            <View style={styles.splitView}>
+              {
+                list.small.slice(0, centerImgData).map(item => {
+                  return this.renderCateButton(item)
+                })
+              }
+            </View>
+            <View style={styles.splitView}>
+              {
+                list.small.slice(centerImgData).map(item => {
+                  return this.renderCateButton(item)
+                })
+              }
+            </View>
           </View>
         </View>
       </View>
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
     height: 36,
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 15,
     backgroundColor: Colors.choTotColor2,
   },
 
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 13.5,
+    fontSize: 15,
     borderRadius: 5,
     backgroundColor: '#fff',
     color: '#242A37',

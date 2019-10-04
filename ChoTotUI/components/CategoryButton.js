@@ -8,10 +8,7 @@ class CategoryButton extends PureComponent {
     super(props);
   }
 
-  state = {}
-
   render() {
-
     const { text, imgSource, buttonStyle, onPress } = this.props
 
     return (

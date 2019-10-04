@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Text, Image, ActivityIndicator } from 'react-native';
-import { MaterialIcons, FontAwesome, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 import { readableItem } from '../utils/callAPI'
 import { labelProductData } from '../utils/data';
@@ -49,8 +49,8 @@ export default class ProductItem extends PureComponent {
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
                                 {
                                     company_ad ?
-                                        <MaterialIcons name="store" size={13} color='#ffbf17' /> :
-                                        <FontAwesome name="user" size={13} color='#333' />
+                                        <AntDesign name='isv' size={13} color='#ffbf17' /> :
+                                        <AntDesign name="user" size={13} color='#333' />
                                 }
                                 <Text style={styles.small}>{` | ${date} | ${area_name}`}</Text>
                             </View>
