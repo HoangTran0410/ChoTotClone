@@ -1,57 +1,81 @@
-import React, { Component } from "react";
-import { Image, StyleSheet, View, TouchableHighlight, Text } from 'react-native';
+import React, { PureComponent } from "react";
+import { Image, StyleSheet, View, TouchableWithoutFeedback, Text, TouchableOpacity } from 'react-native';
 import { Container, Content, Row } from 'native-base';
 import Swiper from 'react-native-swiper';
 
 import Colors from '../constants/Colors';
-import SearchBar from "../components/SearchBar";
+import MySearchBar from "../components/MySearchBar";
 import CategoryButton from '../components/CategoryButton';
-import { danhMuc, ads } from '../utils/data';
+import { danhMuc, banners } from '../utils/data';
+import { getListBanners } from '../utils/callAPI';
 
-const centerImgData = Math.floor(danhMuc.small.length / 2);
+export default class HomeScreen extends PureComponent {
 
-export default class HomeScreen extends Component {
+  state = {
+    banners: banners
+  }
 
-  onPressAds = () => {
+  componentDidMount = async () => {
+    // const listBanners = await getListBanners();
+    // this.setState({
+    //   banners: listBanners.banners
+    // })
+    // console.log(listBanners)
+  }
+
+  onPressBanner = () => {
     alert('Quảng cáo');
   }
 
-  render() {
+  onSubmitEditingSearch = (text) => {
+    alert('Tìm kiếm ' + text);
+  }
+
+  renderAdsSwiper = () => {
     return (
-      <Container>
-        <SearchBar></SearchBar>
-        <Content>
+      <Swiper
+        // autoplay={true}
+        loop={false}
+        showsButtons={false}
+        loadMinimal={true}
+        containerStyle={styles.bannerWrapper}
+      >
+        {
+          this.state.banners.map(banner => {
+            return (
+              <TouchableWithoutFeedback key={banner} style={styles.bannerButton} onPress={this.onPressBanner}>
+                <Image style={styles.bannerImg} source={banner.mobileImage} />
+              </TouchableWithoutFeedback>
+            )
+          })
+        }
+      </Swiper>
+    )
+  }
 
-          <Swiper
-            autoplay={true}
-            showsButtons={false}
-            loadMinimal={true}
-            containerStyle={styles.adsWrapper}
-          >
-            {
-              ads.map(ad => {
-                return (
-                  <TouchableHighlight key={ad} style={styles.adsButton} onPress={this.onPressAds}>
-                    <Image style={styles.adsImg} source={ad.image} />
-                  </TouchableHighlight>
-                )
-              })
-            }
-          </Swiper>
+  renderCateButton = (item) => {
+    return <CategoryButton
+      key={item.name}
+      text={item.name}
+      imgSource={item.image}
+      onPress={() => { this.props.navigation.navigate('AdsList', { cg: item.cg, giveaway: item.giveaway }) }}
+      buttonStyle={styles.btnDanhMuc}
+    />
+  }
 
-
-          <Text style={styles.title}>Khám phá danh mục</Text>
-
+  renderListCategories = (list) => {
+    const centerImgData = Math.floor(list.small.length / 2);
+    return (
+      <View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Khám Phá Các Danh Mục</Text>
+        </View>
+        <View style={{ padding: 5 }}>
           {
-            danhMuc.big.map(item => {
+            list.big.map(item => {
               return (
                 <Row key={item.name}>
-                  <CategoryButton
-                    text={item.name}
-                    imgSource={item.image}
-                    onPress={() => { alert(item.name) }}
-                    buttonStyle={styles.btnDanhMuc}
-                  />
+                  {this.renderCateButton(item)}
                 </Row>
               )
             })
@@ -60,62 +84,62 @@ export default class HomeScreen extends Component {
           <View style={styles.splitContainer}>
             <View style={styles.splitView}>
               {
-                danhMuc.small.slice(0, centerImgData).map(item => {
-                  return (
-                    <CategoryButton
-                      key={item.name}
-                      text={item.name}
-                      imgSource={item.image}
-                      onPress={() => { alert(item.name) }}
-                      buttonStyle={styles.btnDanhMuc}
-                    />
-                  )
+                list.small.slice(0, centerImgData).map(item => {
+                  return this.renderCateButton(item)
                 })
               }
             </View>
             <View style={styles.splitView}>
               {
-                danhMuc.small.slice(centerImgData).map(item => {
-                  return (
-                    <CategoryButton
-                      key={item.name}
-                      text={item.name}
-                      imgSource={item.image}
-                      onPress={() => { alert(item.name) }}
-                      buttonStyle={styles.btnDanhMuc}
-                    />
-                  )
+                list.small.slice(centerImgData).map(item => {
+                  return this.renderCateButton(item)
                 })
               }
             </View>
           </View>
+        </View>
+      </View>
+    )
+  }
 
+  render() {
+    return (
+      <Container>
+        <MySearchBar
+          placeholder="Tìm kiếm trên Chợ Tốt"
+          onSubmitEditing={this.onSubmitEditingSearch}
+        // leftButton={'arrow-back'}
+        // onPressLeftButton={() => alert('back')}
+        // rightButton={'ios-log-out'}
+        // onPressRightButton={() => alert('login')}
+        />
+        <Content>
+          {this.renderAdsSwiper()}
+          {this.renderListCategories(danhMuc)}
         </Content>
       </Container >
     )
   }
 }
 
-HomeScreen.navigationOptions = {
-  header: null,
-};
-
 const styles = StyleSheet.create({
-  adsWrapper: {
+  bannerWrapper: {
     height: 130,
     backgroundColor: Colors.choTotColor2,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     paddingBottom: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
   },
-  adsButton: {
+  bannerButton: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  adsImg: {
+  bannerImg: {
     height: 120,
     width: '100%',
-    borderRadius: 10,
+    borderRadius: 5
   },
 
 
@@ -123,18 +147,36 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 5,
   },
+
+  titleContainer: {
+    height: 36,
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 15,
+    backgroundColor: Colors.choTotColor2,
+  },
+
   title: {
-    paddingVertical: 5,
-    marginHorizontal: 5,
-    marginTop: 20,
+    position: 'absolute',
+    top: 10,
+    width: '95%',
+    paddingVertical: 7,
+    textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 15,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    color: '#242A37',
 
-    borderBottomColor: Colors.choTotColor2,
-    borderBottomWidth: 7,
-    // borderRightWidth: 7,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 3,
 
-    // borderBottomRightRadius: 35
+    elevation: 4,
   },
 
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Platform, Text } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import { TabBarIcon, TabBarLabel } from '../components/TabBarItems';
@@ -9,10 +8,11 @@ import NotificationScreen from '../screens/NotificationScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MoreScreen from '../screens/MoreScreen';
 
-const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
-});
+const config = {
+  defaultNavigationOptions: {
+    header: null
+  },
+};
 
 // ============================== HOME ==================================
 const HomeStack = createStackNavigator(
@@ -63,7 +63,9 @@ NotificationStack.navigationOptions = {
 
 // ============================== Profile ==================================
 const ProfileStack = createStackNavigator(
-  { Profile: ProfileScreen },
+  {
+    Profile: ProfileScreen,
+  },
   config
 )
 
@@ -72,13 +74,15 @@ ProfileStack.navigationOptions = {
     <TabBarLabel focused={focused} text="Tôi bán" />
   ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name="user" type="FontAwesome5" />
+    <TabBarIcon badgeCount={2} focused={focused} name="user" type="FontAwesome5" />
   ),
 };
 
 // ============================== Thêm ==================================
 const MoreStack = createStackNavigator(
-  { More: MoreScreen },
+  {
+    More: MoreScreen,
+  },
   config
 )
 
@@ -87,7 +91,7 @@ MoreStack.navigationOptions = {
     <TabBarLabel focused={focused} text="Thêm" />
   ),
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name="ios-more" />
+    <TabBarIcon badgeCount={2} focused={focused} name="ios-more" />
   ),
 };
 

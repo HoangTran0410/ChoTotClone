@@ -1,18 +1,44 @@
 // import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
-import MainTabNavigator from './MainTabNavigator';
 import IntroScreen from "../screens/IntroScreen";
 import ChoiceCityScreen from "../screens/ChoiceCityScreen";
-import FacebookLogin from '../screens/FacebookLogin';
+import MainTabNavigator from './MainTabNavigator';
+import LoginScreen from '../screens/LogInScreen';
+import SignupScreen from '../screens/SignUpScreen';
+import AdsListScreen from '../screens/AdsListScreen';
+import DetailAdScreen from '../screens/DetailAdScreen';
 
-let screens = {
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
+const AuthStack = createStackNavigator(
+  {
+    LogIn: LoginScreen,
+    SignUp: SignupScreen
+  },
+  {
+    defaultNavigationOptions: {
+      header: null
+    },
+  }
+)
+
+const MainStack = createStackNavigator(
+  {
+    Main: MainTabNavigator,
+    AdsList: AdsListScreen,
+    DetailAd: DetailAdScreen,
+    AuthStack: AuthStack,
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none'
+  }
+)
+
+const screens = {
   // Intro: IntroScreen,
   // ChoiceCity: ChoiceCityScreen,
-  //Main: MainTabNavigator
-  Facebook: FacebookLogin
+  MainStack: MainStack,
+  // DetailAd: DetailAdScreen
 }
 
 export default createAppContainer(

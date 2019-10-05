@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
   AsyncStorage,
@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-export default class AuthLoadingScreen extends Component {
+export default class AuthLoadingScreen extends PureComponent {
   componentDidMount() {
     this._bootstrapAsync();
   }

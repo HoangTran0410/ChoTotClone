@@ -1,10 +1,31 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React, { PureComponent } from 'react';
+import { ImageBackground } from 'react-native';
 
-class AppLoading extends Component {
-  state = {}
+class AppLoading extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    const { startAsync, onError, onFinish } = this.props;
+
+    try {
+      startAsync().then(() => {
+        setTimeout(onFinish, 100)
+        // onFinish() 
+      });
+    } catch (err) {
+      onError(err);
+    }
+  }
+
   render() {
-    return (<View></View>);
+    return (
+      <ImageBackground
+        style={{ flex: 1 }}
+        source={require('../assets/images/screens/AppLoading.png')}
+      />
+    );
   }
 }
 

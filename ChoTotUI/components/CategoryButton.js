@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-class CategoryButton extends Component {
+class CategoryButton extends PureComponent {
 
   constructor(props) {
     super(props);
   }
 
-  state = {}
-
   render() {
-
     const { text, imgSource, buttonStyle, onPress } = this.props
 
     return (
@@ -39,7 +36,7 @@ const styles = StyleSheet.create({
   text: {
     padding: 5,
     color: 'white',
-    fontSize: 16,
+    fontSize: 14,
 
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 2, height: 2 },

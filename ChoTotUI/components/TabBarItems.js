@@ -1,17 +1,18 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Icon } from 'native-base';
 
 import Colors from '../constants/Colors';
+import IconWithBadge from './IconWithBadge';
 
 function TabBarIcon(props) {
   const color = props.focused ? Colors.choTotColor : Colors.tabIconDefault
 
   return (
-    <Icon
+    <IconWithBadge
       {...props}
-      size={26}
-      style={{ color }}
+      // badgeCount={0}
+      // size={10}
+      style={{ color, fontSize: 24 }}
     />
   );
 }
@@ -21,7 +22,7 @@ function TabBarLabel(props) {
   const fontWeight = (props.focused ? 'bold' : 'normal');
 
   return (
-    <Text style={{ alignSelf: 'center', fontSize: 12, color, fontWeight }}>{props.text}</Text>
+    <Text style={{ alignSelf: 'center', fontSize: 10, color, fontWeight }}>{props.text}</Text>
   );
 }
 
