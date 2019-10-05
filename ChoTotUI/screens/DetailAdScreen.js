@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
 	View,
 	ScrollView,
@@ -141,6 +142,9 @@ class DetailAdScreen extends Component {
 
 	renderBasicInfo = () => {
 		const { adDetail } = this.state
+
+		let saved = this.props.savedAds.indexOf(adDetail.ad.list_id) >= 0
+
 		return (
 			<View style={styles.basicInfoContainer}>
 				<View style={styles.split}>
@@ -157,10 +161,18 @@ class DetailAdScreen extends Component {
 						{/* <Text style={styles.region}>{adDetail.area_name + ', ' + adDetail.region_name}</Text> */}
 					</View>
 					<View>
-						<TouchableOpacity style={styles.saveBtn} >
-							<Text style={{ color: '#FF5E5E', fontSize: 13 }}>Lưu tin </Text>
-							<Icon name='heart' type='Feather' style={{ color: '#FF5E5E', fontSize: 15 }} />
-						</TouchableOpacity>
+						{
+							saved ?
+								<TouchableOpacity style={styles.saveBtn} onPress={() => this.props.toggleSavedAd(adDetail.ad.list_id)} >
+									<Text style={{ color: '#FF5E5E', fontSize: 13 }}>Đã lưu </Text>
+									<AntDesign name='heart' style={{ color: '#FF5E5E', fontSize: 15 }} />
+								</TouchableOpacity> :
+								<TouchableOpacity style={styles.saveBtn} onPress={() => this.props.toggleSavedAd(adDetail.ad.list_id)} >
+									<Text style={{ color: '#FF5E5E', fontSize: 13 }}>Lưu tin </Text>
+									<AntDesign name='hearto' style={{ color: '#FF5E5E', fontSize: 15 }} />
+								</TouchableOpacity>
+						}
+
 					</View>
 				</View>
 
@@ -272,13 +284,17 @@ class DetailAdScreen extends Component {
 
 				{/* ====== Top Fixed Buttons ========  */}
 				<Button style={[styles.fixedBtn, { left: 10 }]} onPress={() => this.props.navigation.goBack()}>
-					<Icon name='arrow-back' style={{ color: 'black' }} />
+					<AntDesign name='arrowleft' style={{ color: 'black', fontSize: 20 }} />
 				</Button>
-				<Button style={[styles.fixedBtn, { right: 10, left: null }]} onPress={() => alert('oke')}>
-					<Icon name='heart' type='Feather' style={{ color: 'black', padding: 0 }} />
+				<Button style={[styles.fixedBtn, { right: 80, left: null }]} onPress={() => alert('chia sẻ')}>
+					<AntDesign name='sharealt' style={{ color: 'black', fontSize: 20 }} />
 				</Button>
-				<Button style={[styles.fixedBtn, { right: 80, left: null }]} onPress={() => alert('oke')}>
-					<Icon name='share-2' type='Feather' style={{ color: 'black' }} />
+				<Button style={[styles.fixedBtn, { right: 10, left: null }]} onPress={() => this.props.toggleSavedAd(adDetail.ad.list_id)}>
+					{
+						this.props.savedAds.indexOf(adDetail.ad.list_id) >= 0 ?
+							<AntDesign name='heart' style={{ color: '#FF5E5E', fontSize: 20 }} /> :
+							<AntDesign name='hearto' style={{ color: 'black', fontSize: 20 }} />
+					}
 				</Button>
 
 				{/* ========== Body Screen ========== */}
@@ -486,4 +502,16 @@ const styles = StyleSheet.create({
 	},
 })
 
-export default DetailAdScreen;
+const mapStateToProps = (state) => {
+	return {
+		savedAds: state.UserReducer.savedAds
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		toggleSavedAd: (list_id) => dispatch({ type: 'toggleSavedAd', list_id })
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailAdScreen);

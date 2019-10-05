@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Text, Image, ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { connect } from 'react-redux'
 
 import { readableItem } from '../utils/callAPI'
 import { labelProductData } from '../utils/data';
 import ListTags from './ListTags';
 
-export default class ProductItem extends PureComponent {
+class ProductItem extends PureComponent {
     constructor(props) {
         super(props)
 
@@ -132,3 +133,16 @@ const styles = StyleSheet.create({
 });
 
 
+const mapStateToProps = (state) => {
+    return {
+        savedAds: state.UserReducer.savedAds
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleSavedAd: (list_id) => dispatch({ type: 'toggleSavedAd', list_id })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductItem);

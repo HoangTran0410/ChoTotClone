@@ -10,9 +10,28 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'saveUserData':
+    case 'loginFB': return {
+      ...state,
+      userData: action.userData
+    }
+
+    case 'logout': return {
+      ...state,
+      userData: initialState.userData
+    }
+
+    case 'toggleSavedAd':
+      let currentSaved = [...state.savedAds]
+      let id = action.list_id
+      let index = currentSaved.indexOf(id)
+      if (index < 0) {
+        currentSaved = [...currentSaved, id]
+      } else {
+        currentSaved.splice(index, 1)
+      }
       return {
-        userData: action.userData
+        ...state,
+        savedAds: currentSaved
       }
 
     default:
