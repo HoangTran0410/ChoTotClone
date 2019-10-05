@@ -6,14 +6,16 @@ import {
   Modal,
   View,
   Text,
+  AsyncStorage
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
+import { connect } from 'react-redux'
 
 import ModalPicker from '../components/ModalPicker'
+import { uuidv4 } from '../utils/functions'
 
-export default class ChoiceCityScreen extends React.PureComponent {
-
+class ChoiceCityScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -25,6 +27,18 @@ export default class ChoiceCityScreen extends React.PureComponent {
       cityText: defaultCityText,
     };
   };
+
+  componentDidMount = async () => {
+    const uuid = await AsyncStorage.getItem('uuid')
+    if (uuid) {
+      // this.props.setUuid(uuid)
+      this.props.navigation.navigate('Main')
+    } else {
+      let newUuid = uuidv4()
+      AsyncStorage.setItem('uuid', newUuid)
+      // this.props.setUuid(newUuid)
+    }
+  }
 
   changeModalVisibility = (visible) => {
     this.setState({
@@ -38,6 +52,7 @@ export default class ChoiceCityScreen extends React.PureComponent {
       cityText: city,
     });
 
+    this.props.setRegion(city)
     this.onPressContinueButton();
   };
 
@@ -127,3 +142,17 @@ const styles = StyleSheet.create({
     color: 'white',
   }
 });
+
+const mapStateToProps = (state) => {
+  return {
+    region: state.UserReducer.region,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setRegion: (regionCode) => dispatch({ type: 'setRegion', region: regionCode }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChoiceCityScreen);

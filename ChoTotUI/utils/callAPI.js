@@ -1,25 +1,5 @@
 import { Alert } from 'react-native';
-// const ApiUrl = 'http://10.0.3.2:5000/'
-
-// const ApiRoute = {
-//   'user-login': 'users/login',
-// }
-
-// const loginUser = async (data) => {
-
-//   const response = await fetch(ApiUrl + ApiRoute['user-login'], {
-//     method: 'POST',
-//     headers: {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(data),
-//   })
-
-//   console.log(response.json());
-
-//   // return response.json();
-// }
+import { AsyncStorage } from 'react-native'
 
 const apiUrl = 'https://gateway.chotot.com/v1/public/'
 const apiUrl_v2 = 'https://gateway.chotot.com/v2/public/'
@@ -133,8 +113,13 @@ const getRecommends = async (item, callBack) => {
 	return jsonData;
 }
 
+// Cách tạm bợ
+let uuid = null;
+
 const sendEvent = async (event_name, adDetail, callBack) => {
-	const data = { 'event_name': event_name, ...adDetail }
+	if (!uuid) uuid = await AsyncStorage.getItem('uuid')
+
+	const data = { 'unique_id': uuid, 'event_name': event_name, ...adDetail }
 	let jsonData;
 
 	try {

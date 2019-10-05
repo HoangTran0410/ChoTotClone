@@ -128,7 +128,7 @@ export default class AdsListScreen extends React.PureComponent {
                         data={this.state.productData}
                         renderItem={({ item }) => <ProductItem item={item} onPress={this.onPressItem} />}
                         keyExtractor={(item, index) => (index + '')}
-                        ListEmptyComponent={<Text style={{ alignSelf: 'center' }}>Đang tải...</Text>}
+                        // ListEmptyComponent={<Text style={{ alignSelf: 'center' }}>Đang tải...</Text>}
                         ListHeaderComponent={this.renderFilters}
                         numColumns={2}
                         onRefresh={this.onRefresh}

@@ -36,7 +36,7 @@ const MainStack = createStackNavigator(
 
 const screens = {
   // Intro: IntroScreen,
-  // ChoiceCity: ChoiceCityScreen,
+  ChoiceCity: ChoiceCityScreen,
   MainStack: MainStack,
   // DetailAd: DetailAdScreen
 }
