@@ -5,17 +5,19 @@ import * as Font from 'expo-font';
 import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import AppNavigator from './navigation/AppNavigator';
 import AppLoading from './screens/AppLoading';
-import store from './utils/store';
+import RootReducer from './reducers/RootReducer';
+
+const store = createStore(RootReducer)
 
 // https://reactnavigation.org/docs/en/react-native-screens.html
 // import { useScreens } from 'react-native-screens';
 // useScreens();
 
 export default class App extends React.Component {
-  // const[isLoadingComplete, setLoadingComplete] = useState(false);
   constructor(props) {
     super(props);
 

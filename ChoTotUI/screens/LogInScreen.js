@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TextInput, ImageBackground, AsyncStorage } from 'react-native';
+import { View, StyleSheet, TextInput, ImageBackground, AsyncStorage, Alert } from 'react-native';
 import { Button, Image } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import * as Facebook from 'expo-facebook';
 
@@ -15,24 +16,33 @@ class LogInScreen extends PureComponent {
 
   logInFB = async () => {
     try {
-      const {
-        type,
-        token,
-        expires,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync('3748133955278035', {
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync('3748133955278035', {
         permissions: ['public_profile']
       });
-      
+
       if (type === 'success') {
-        await AsyncStorage.setItem('@token', token)
+        console.log(token)
+        // await AsyncStorage.setItem('@token', token)
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=name,picture.type(large)`);
+        const data = await response.json();
+
+        console.log(data)
+
+        this.props.saveUserData({
+          id: data.id,
+          name: data.name,
+          avatar: data.picture.data.url,
+          token
+        });
+
+        this.props.navigation.navigate('More')
 
       } else {
         // type === 'cancel'
       }
     } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
+      alert(`Lỗi khi đăng nhập bằng Facebook: ${message}`);
     }
   };
 
@@ -126,4 +136,16 @@ const styles = StyleSheet.create({
   }
 })
 
-export default LogInScreen;
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userData
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveUserData: (userData) => dispatch({ type: 'saveUserData', userData })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogInScreen);
