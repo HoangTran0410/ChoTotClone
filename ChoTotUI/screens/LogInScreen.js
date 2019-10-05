@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TextInput, ImageBackground, AsyncStorage, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, ImageBackground, Alert } from 'react-native';
 import { Button, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
+
+import { Toast } from 'native-base'
 
 import * as Facebook from 'expo-facebook';
 
@@ -21,15 +23,23 @@ class LogInScreen extends PureComponent {
       });
 
       if (type === 'success') {
-        console.log(token)
+        Toast.show({
+          text: `Đăng nhập thành công`,
+          type: 'success',
+        })
+
         // await AsyncStorage.setItem('@token', token)
         // Get the user's name using Facebook's Graph API
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=name,picture.type(large)`);
         const data = await response.json();
 
-        console.log(data)
+        Toast.show({
+          text: `Xin chào ${data.name}`,
+          buttonText: 'Okay',
+          duration: 3000,
+        })
 
-        this.props.saveUserData({
+        this.props.loginFB({
           id: data.id,
           name: data.name,
           avatar: data.picture.data.url,
@@ -138,13 +148,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    userData: state.userData
+    // userData: state.UserReducer.userData
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveUserData: (userData) => dispatch({ type: 'saveUserData', userData })
+    loginFB: (userData) => dispatch({ type: 'loginFB', userData })
   }
 }
 

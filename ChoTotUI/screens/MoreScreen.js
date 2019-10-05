@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { ListItem } from 'react-native-elements';
 
 import MySearchBar from '../components/MySearchBar';
+import { Toast } from 'native-base';
 
 const list = [
   {
     name: 'Tin đăng đã lưu',
     image: require('../assets/images/icons/tinDangDaLuu.png'),
+    onPressEventName: 'showSavedAds'
   },
   {
     name: 'Tìm kiếm đã lưu',
@@ -58,10 +60,10 @@ const list = [
     name: 'Cài đặt thông tin',
     image: require('../assets/images/icons/caiDat.png')
   },
-  {
-    name: 'Đăng xuất',
-    image: require('../assets/images/icons/dangXuat.png')
-  }
+  // {
+  //   name: 'Đăng xuất',
+  //   image: require('../assets/images/icons/dangXuat.png')
+  // }
 ]
 
 class MoreScreen extends Component {
@@ -69,14 +71,32 @@ class MoreScreen extends Component {
     super(props)
   }
 
+  logout = () => {
+    Alert.alert(
+      'Đăng xuất',
+      `Bạn có chắc muốn đăng xuất khỏi tài khoản ${this.props.userData.name}?`,
+      [
+        {
+          text: 'Huỷ', style: 'cancel',
+        },
+        { text: 'Đồng ý', onPress: () => this.props.logout() },
+      ],
+    )
+  }
+
+  onPressListItems = (event_name) => {
+    switch (event_name) {
+      case 'showSavedAds': alert('showSavedAds'); break;
+      default: Toast.show({
+        text: 'Chức năng chưa khả dụng',
+        buttonText: 'OK',
+        type: 'danger'
+      })
+    }
+  }
+
   render() {
     const { token, avatar, name } = this.props.userData
-
-    if (!token) return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItem: 'center' }}>
-        <Button title="Đăng nhập" onPress={() => this.props.navigation.navigate('LogIn')} />
-      </View>
-    )
 
     return (
       <View style={{ flex: 1, backgroundColor: '#ddd' }}>
@@ -89,31 +109,48 @@ class MoreScreen extends Component {
         // onPressRightButton={() => alert('login')}
         />
         <ScrollView containerStyle={{ borderWidth: 0.5, borderColor: '#aaa' }}>
-          <ListItem
-            title={name}
-            titleStyle={{ fontSize: 17 }}
-            subtitle={
-              <TouchableOpacity
-                style={{ paddingVertical: 5 }}
-                onPress={() => Alert.alert('Xin lỗi', 'Chức năng đang trong quá trình phát triển')}
-              >
-                <Text style={{ color: '#aaa' }}>Xem trang cá nhân của bạn</Text>
-              </TouchableOpacity>
-            }
-            leftAvatar={{ source: { uri: avatar }, size: 'large' }}
-            bottomDivider
-          />
+          {
+            token ?
+              <ListItem
+                title={name}
+                titleStyle={{ fontSize: 17 }}
+                subtitle={
+                  <TouchableOpacity
+                    style={{ paddingVertical: 5 }}
+                    onPress={() => Alert.alert('Xin lỗi', 'Chức năng đang trong quá trình phát triển')}
+                  >
+                    <Text style={{ color: '#aaa' }}>Xem trang cá nhân của bạn</Text>
+                  </TouchableOpacity>
+                }
+                leftAvatar={{ source: { uri: avatar }, size: 'large' }}
+                bottomDivider
+              /> :
+              <View style={{ padding: 30, backgroundColor: '#eee' }}>
+                <Button title="Đăng nhập" onPress={() => this.props.navigation.navigate('LogIn')} />
+              </View>
+          }
+
           {
             list.map((l, i) => (
               <ListItem
                 key={i}
-                onPress={() => { }}
+                onPress={() => { this.onPressListItems(l.onPressEventName) }}
                 containerStyle={{ paddingVertical: 7 }}
                 leftAvatar={{ source: l.image, size: 'small' }}
                 title={l.name}
                 bottomDivider={l.bottomDivider}
               />
             ))
+          }
+
+          {
+            token &&
+            <ListItem
+              onPress={this.logout}
+              containerStyle={{ paddingVertical: 8 }}
+              leftAvatar={{ source: require('../assets/images/icons/dangXuat.png'), size: 'small' }}
+              title={'Đăng xuất'}
+            />
           }
         </ScrollView>
       </View>
@@ -127,5 +164,11 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch({ type: 'logout' })
+  }
+}
+
 // export default ProfileScreen;
-export default connect(mapStateToProps)(MoreScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(MoreScreen)

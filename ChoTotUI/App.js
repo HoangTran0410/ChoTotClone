@@ -1,9 +1,10 @@
 import React from 'react';
-import { AppState, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
+import { Root } from "native-base";
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
@@ -60,10 +61,14 @@ export default class App extends React.Component {
       );
     } else {
       return (
+        // Provider dùng cho store redux
         <Provider store={store}>
-          <View style={styles.container}>
-            <AppNavigator />
-          </View>
+          {/* Root dùng cho toast native base */}
+          <Root>
+            <View style={styles.container}>
+              <AppNavigator />
+            </View>
+          </Root>
         </Provider>
       );
     }
