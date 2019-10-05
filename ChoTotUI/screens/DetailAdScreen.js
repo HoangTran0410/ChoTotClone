@@ -333,16 +333,16 @@ class DetailAdScreen extends Component {
 				{/* ========== Contact Buttons ========== */}
 				<View style={{ flexDirection: 'row', width: '100%' }}>
 					<TouchableOpacity style={[styles.footerBtn, { backgroundColor: '#4CB944' }]} onPress={this.onPressCallBtn}>
-						<Icon name='phone-call' type='Feather' style={{ color: 'white' }} />
-						<Text style={{ fontSize: 10, color: 'white' }}>Gọi Điện</Text>
+						<Icon name='phone-call' type='Feather' style={{ color: '#fff' }} />
+						<Text style={{ fontSize: 10, color: '#fff' }}>Gọi Điện</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.footerBtn}>
 						<Icon name='ios-chatboxes' style={{ color: '#4CB944' }} />
-						<Text style={styles.footerBtnText}>Chat</Text>
+						<Text style={{ fontSize: 10, color: '#4CB944', }}>Chat</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.footerBtn}>
 						<Icon name='sms' type='FontAwesome5' style={{ color: '#4CB944' }} />
-						<Text style={styles.footerBtnText}>Gửi SMS</Text>
+						<Text style={{ fontSize: 10, color: '#4CB944', }}>Gửi SMS</Text>
 					</TouchableOpacity>
 				</View>
 			</View >
@@ -373,10 +373,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 5,
 		backgroundColor: '#F1F2F3',
 		borderRadius: 0
-	},
-	footerBtnText: {
-		fontSize: 10,
-		color: '#4CB944',
 	},
 	fixedBtn: {
 		position: 'absolute',
