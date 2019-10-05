@@ -2,21 +2,24 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { Container } from 'native-base';
+import { connect } from 'react-redux';
+import { NavigationEvents } from 'react-navigation';
 
 import MySearchBar from '../components/MySearchBar';
 import CategoryItem from '../components/CategoryItem';
 import LabelListItem from '../components/LabelListItem';
 import ProductItem from '../components/ProductItem';
 
-import { labelData, categoryData } from '../utils/data';
+import { labelData, categoryData, regionId } from '../utils/data';
 import { getListAds, getDetailAd, getAccountInfo, sendEvent } from '../utils/callAPI';
 
-export default class AdsListScreen extends React.PureComponent {
+class AdsListScreen extends React.PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            city: 'Tp Hồ Chí Minh',
+            //city: 'Tp Hồ Chí Minh',
+            //city: this.props.region,
             type: 'Điện thoại',
             filter: 'Lọc',
             productData: [],
@@ -26,6 +29,7 @@ export default class AdsListScreen extends React.PureComponent {
 
             isFetching: false,
         }
+        console.log(this.state.city);
     }
 
     componentDidMount() {
@@ -35,7 +39,8 @@ export default class AdsListScreen extends React.PureComponent {
     getData = async (page, isRefresh) => {
         page = page || this.state.pageNumber + 1
         const { cg, giveaway } = this.state;
-        getListAds({ page, cg, giveaway }, (jsonData) => {
+        region_v2 = regionId[this.props.region];
+        getListAds({ page, region_v2, cg, giveaway }, (jsonData) => {
             if (jsonData) {
                 const newProductData = jsonData.ads;
                 this.setState({
@@ -72,8 +77,10 @@ export default class AdsListScreen extends React.PureComponent {
         return (
             <View style={styles.filterContainer}>
                 <View style={styles.pickerContainer}>
-                    <TouchableOpacity style={[styles.shadow, styles.pickerItem]}>
-                        <Text style={{ fontSize: 12 }}>{city}</Text>
+                    <TouchableOpacity 
+                        onPress = {() => this.props.navigation.navigate('RegionFilter')}
+                        style={[styles.shadow, styles.pickerItem]}>
+                        <Text style={{ fontSize: 12 }}>{this.props.region}</Text>
                         <Ionicons name="md-arrow-dropdown" size={20} color="black" />
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.shadow, styles.pickerItem, { flex: 30 }]}>
@@ -110,6 +117,7 @@ export default class AdsListScreen extends React.PureComponent {
 
         return (
             <Container>
+                <NavigationEvents onWillFocus = {()=> this.onRefresh()}/>
                 <MySearchBar
                     placeholder="Tìm kiếm trên Chợ Tốt"
                     onSubmitEditing={() => { alert('search') }}
@@ -203,3 +211,18 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     }
 });
+
+const mapStateToProps = (state) => {
+    return {
+      // userData: state.UserReducer.userData
+      region: state.UserReducer.region,
+    }
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      //loginFB: (userData) => dispatch({ type: 'loginFB', userData })
+    }
+  }
+  
+export default connect(mapStateToProps, mapDispatchToProps)(AdsListScreen);

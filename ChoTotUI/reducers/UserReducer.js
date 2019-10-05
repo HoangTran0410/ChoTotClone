@@ -5,7 +5,8 @@ const initialState = {
     name: null,
     avatar: null
   },
-  savedAds: []
+  savedAds: [],
+  region: 'Tp Hồ Chí Minh',
 }
 
 const userReducer = (state = initialState, action) => {
@@ -33,6 +34,11 @@ const userReducer = (state = initialState, action) => {
         ...state,
         savedAds: currentSaved
       }
+
+    case 'changeRegion': return {
+      ...state,
+      region: action.region,
+    }
 
     default:
       return state
