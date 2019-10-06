@@ -7,7 +7,8 @@ const initialState = {
   },
   savedAds: [],
 
-  region: ''
+  region: '',
+  uuid: ''
 }
 
 const userReducer = (state = initialState, action) => {
@@ -42,11 +43,11 @@ const userReducer = (state = initialState, action) => {
         region: action.region
       }
 
-    // case 'setUuid':
-    //   return {
-    //     ...state,
-    //     uuid: action.uuid
-    //   }
+    case 'setUuid':
+      return {
+        ...state,
+        uuid: action.uuid
+      }
 
     default:
       return { ...state }

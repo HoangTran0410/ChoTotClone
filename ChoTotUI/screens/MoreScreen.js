@@ -86,7 +86,9 @@ class MoreScreen extends Component {
 
   onPressListItems = (event_name) => {
     switch (event_name) {
-      case 'showSavedAds': alert('showSavedAds'); break;
+      case 'showSavedAds':
+        this.props.navigation.navigate('SavedAds')
+        break;
       default: Toast.show({
         text: 'Chức năng chưa khả dụng',
         buttonText: 'OK',

@@ -58,14 +58,6 @@ export default class App extends React.Component {
     console.warn(error);
   }
 
-  renderLoadingStorage = () => {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" />
-      </View>
-    )
-  }
-
   render() {
     if (!this.state.isLoadingComplete) {
       return (
@@ -80,13 +72,28 @@ export default class App extends React.Component {
         // Provider dùng cho store redux
         <Provider store={store}>
           {/* PersistGate dùng cho đồng bộ redux và Asycn storage */}
-          <PersistGate persistor={persistor} loading={this.renderLoadingStorage()}>
-            {/* Root dùng cho toast native base */}
-            <Root>
-              <View style={styles.container}>
-                <AppNavigator />
-              </View>
-            </Root>
+          <PersistGate persistor={persistor} >
+            {(bootstrapped) => {
+
+              if (bootstrapped) {
+                {/* Root dùng cho toast native base */ }
+                return (
+                  <Root>
+                    <View style={styles.container}>
+                      <AppNavigator />
+                    </View>
+                  </Root>
+                )
+              }
+              else {
+                return (
+                  <View style={styles.container}>
+                    <ActivityIndicator size="large" />
+                  </View>
+                )
+              }
+            }}
+
           </PersistGate>
         </Provider>
       );

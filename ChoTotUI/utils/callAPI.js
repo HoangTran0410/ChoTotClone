@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native';
+import { uuidv4 } from '../utils/functions'
 
 const apiUrl = 'https://gateway.chotot.com/v1/public/'
 const apiUrl_v2 = 'https://gateway.chotot.com/v2/public/'
@@ -84,7 +85,7 @@ const getListBanners = async () => {
 }
 
 // =========================== API Backend =================================
-const host = 'http://192.168.1.97:5000'
+const host = 'http://192.168.1.78:5000'
 
 const getRecommends = async (item, callBack) => {
 
@@ -118,6 +119,10 @@ let uuid = null;
 
 const sendEvent = async (event_name, adDetail, callBack) => {
 	if (!uuid) uuid = await AsyncStorage.getItem('uuid')
+	if (!uuid) {
+		uuid = uuidv4()
+		await AsyncStorage.setItem('uuid', uuid)
+	}
 
 	const data = { 'unique_id': uuid, 'event_name': event_name, ...adDetail }
 	let jsonData;

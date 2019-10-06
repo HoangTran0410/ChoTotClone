@@ -8,6 +8,7 @@ import LoginScreen from '../screens/LogInScreen';
 import SignupScreen from '../screens/SignUpScreen';
 import AdsListScreen from '../screens/AdsListScreen';
 import DetailAdScreen from '../screens/DetailAdScreen';
+import SavedAdsScreen from '../screens/SavedAdsScreen'
 
 const AuthStack = createStackNavigator(
   {
@@ -26,6 +27,7 @@ const MainStack = createStackNavigator(
     Main: MainTabNavigator,
     AdsList: AdsListScreen,
     DetailAd: DetailAdScreen,
+    SavedAds: SavedAdsScreen,
     AuthStack: AuthStack,
   },
   {
