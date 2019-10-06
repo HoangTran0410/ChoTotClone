@@ -13,7 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 
 import ModalPicker from '../components/ModalPicker'
-import { uuidv4 } from '../utils/functions'
+// import { uuidv4 } from '../utils/functions'
 
 class ChoiceCityScreen extends React.PureComponent {
   constructor(props) {
@@ -29,15 +29,18 @@ class ChoiceCityScreen extends React.PureComponent {
   };
 
   componentDidMount = async () => {
-    const uuid = await AsyncStorage.getItem('uuid')
-    if (uuid) {
-      // this.props.setUuid(uuid)
-      this.props.navigation.navigate('Main')
-    } else {
-      let newUuid = uuidv4()
-      AsyncStorage.setItem('uuid', newUuid)
-      // this.props.setUuid(newUuid)
-    }
+    // console.log(this.props.uuid)
+
+    // // const uuid = await AsyncStorage.getItem('uuid')
+    // const { uuid } = this.props
+    // if (uuid) {
+    //   // this.props.setUuid(uuid)
+    //   this.props.navigation.navigate('Main')
+    // } else {
+    //   let newUuid = uuidv4()
+    //   // AsyncStorage.setItem('uuid', newUuid)
+    //   this.props.setUuid(newUuid)
+    // }
   }
 
   changeModalVisibility = (visible) => {
@@ -146,12 +149,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     region: state.UserReducer.region,
+    uuid: state.UserReducer.uuid
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setRegion: (regionCode) => dispatch({ type: 'setRegion', region: regionCode }),
+    setUuid: (uuid) => dispatch({ type: 'setUuid', uuid })
   }
 }
 
