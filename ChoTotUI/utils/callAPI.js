@@ -85,9 +85,18 @@ const getListBanners = async () => {
 }
 
 // =========================== API Backend =================================
-const host = 'http://192.168.1.78:5000'
+const host = 'http://192.168.1.43:5000'
+// Cách tạm bợ
+let uuid = null;
 
 const getRecommends = async (item, callBack) => {
+	if (!uuid) uuid = await AsyncStorage.getItem('uuid')
+	if (!uuid) {
+		uuid = uuidv4()
+		AsyncStorage.setItem('uuid', uuid)
+	}
+
+	const data = { 'unique_id': uuid, ...item }
 
 	let jsonData;
 
@@ -97,7 +106,7 @@ const getRecommends = async (item, callBack) => {
 				'Content-Type': 'application/json'
 			},
 			method: "POST",
-			body: JSON.stringify(item)
+			body: JSON.stringify(data)
 		})
 
 		jsonData = await response.json();
@@ -114,14 +123,11 @@ const getRecommends = async (item, callBack) => {
 	return jsonData;
 }
 
-// Cách tạm bợ
-let uuid = null;
-
 const sendEvent = async (event_name, adDetail, callBack) => {
 	if (!uuid) uuid = await AsyncStorage.getItem('uuid')
 	if (!uuid) {
 		uuid = uuidv4()
-		await AsyncStorage.setItem('uuid', uuid)
+		AsyncStorage.setItem('uuid', uuid)
 	}
 
 	const data = { 'unique_id': uuid, 'event_name': event_name, ...adDetail }
