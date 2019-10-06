@@ -11,7 +11,7 @@ class AppLoading extends PureComponent {
 
     try {
       startAsync().then(() => {
-        setTimeout(onFinish, 100)
+        setTimeout(onFinish, 1500)
         // onFinish() 
       });
     } catch (err) {
