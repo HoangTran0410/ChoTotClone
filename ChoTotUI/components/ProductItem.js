@@ -55,7 +55,7 @@ class ProductItem extends PureComponent {
                                 }
                                 <Text style={styles.small}>{` | ${date} | ${area_name}`}</Text>
                             </View>
-                            {/* <ListTags tags={labelProductData} limit={this.props.limitTags || 4} /> */}
+                            <ListTags tags={labelProductData} limit={this.props.limitTags || 4} />
                         </View>
                     </View>
                     {
